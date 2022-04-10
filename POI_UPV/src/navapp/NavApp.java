@@ -19,10 +19,10 @@ public class NavApp extends Application{
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("views/LoginScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/LoginScreenView.fxml"));
         
         Scene scene = new Scene(root);
-        stage.setTitle("Nav App - IPCLab 2022");
+        stage.setTitle("NavApp - IPCLab 2022");
         stage.setScene(scene);
         stage.show();
     }

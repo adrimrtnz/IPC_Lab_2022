@@ -1,0 +1,25 @@
+.tittle-bar {
+    -fx-background-color: #08203C;
+}
+
+.app-general-style {
+    -fx-background-color: #102743;
+}
+
+.large-button {
+    -fx-background-color: #102743;
+    -fx-text-fill: #42DA05;
+    -fx-border-color: #42DA05;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-width: 2 2 2 2;
+}
+
+.large-button:hover {
+    -fx-background-color: #15539C;
+    -fx-border-radius: 20;
+}
+
+.large-button:pressed {
+    -fx-background-color: #1761b5;
+}
