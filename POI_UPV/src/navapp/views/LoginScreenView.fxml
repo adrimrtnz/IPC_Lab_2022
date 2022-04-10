@@ -20,29 +20,17 @@
          <top>
             <ToolBar fx:id="toolBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="27.0" prefWidth="297.0" styleClass="tittle-bar" stylesheets="@../../resources/styles.css" BorderPane.alignment="CENTER">
               <items>
-                <Button fx:id="closeBtn" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" stylesheets="@../../resources/styles.css" text="X" textAlignment="CENTER">
-                     <styleClass>
-                        <String fx:value="tittle-bar-button" />
-                        <String fx:value="close-button" />
-                     </styleClass>
+                <Button fx:id="closeBtn" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" styleClass="tittle-bar-button" stylesheets="@../../resources/styles.css" text="X" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="9.0" />
                      </font>
                   </Button>
-                  <Button fx:id="maximizeButton" layoutX="34.0" layoutY="9.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" stylesheets="@../../resources/styles.css" text="⬜" textAlignment="CENTER">
-                     <styleClass>
-                        <String fx:value="tittle-bar-button" />
-                        <String fx:value="maximize-button" />
-                     </styleClass>
+                  <Button fx:id="maximizeButton" layoutX="34.0" layoutY="9.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" styleClass="tittle-bar-button" stylesheets="@../../resources/styles.css" text="⬜" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="9.0" />
                      </font>
                   </Button>
-                  <Button fx:id="minimizeBtn" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" stylesheets="@../../resources/styles.css" text="_" textAlignment="CENTER">
-                     <styleClass>
-                        <String fx:value="tittle-bar-button" />
-                        <String fx:value="minimize-button" />
-                     </styleClass>
+                  <Button fx:id="minimizeBtn" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" styleClass="tittle-bar-button" stylesheets="@../../resources/styles.css" text="_" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="9.0" />
                      </font>

@@ -14,8 +14,15 @@
 
 .tittle-bar-button {
     -fx-background-radius: 100%;
+    -fx-background-color: #08203C;
+    -fx-text-fill: #42DA05;
 }
 
+.tittle-bar-button:hover {
+    -fx-background-color: #15539C;
+}
+
+/*
 .minimize-button {
     -fx-background-color: #FFBD44;
 }
@@ -40,6 +47,7 @@
 .close-button:hover {
     -fx-background-color: #e44c4a;
 }
+*/
 
 .text-field {
     -fx-background-color: #102743;

@@ -6,8 +6,12 @@
 package navapp.controllers;
 
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,9 +21,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.*;
+import navapp.models.Utils;
+
 
 /**
  * FXML Controller class
@@ -39,9 +45,15 @@ public class LoginScreenController implements Initializable {
     @FXML private TextField userName;
     @FXML private PasswordField userPassword;
     
+    //properties to control valid fieds values. 
+    private BooleanProperty validPassword;
+    private BooleanProperty validUserName; 
+    
     private double xOffset;
     private double yOffset;
     private String errorTxtMsg;
+    
+    private Navegacion baseDatos;
     
  
     /**
@@ -54,6 +66,31 @@ public class LoginScreenController implements Initializable {
         errorTxtMsg = "";
         errorTxtField.textProperty().setValue(errorTxtMsg);
         errorTxtField.setDisable(true);
+        
+        // TODO : Da null pointer exception al cargar la BD, no se crea si no existe.
+        // CARGA la Base de Datos.
+        try {
+            baseDatos.getSingletonNavegacion();
+            System.out.println("Base de datos cargada correctamente.");
+            
+            if (baseDatos == null) {
+                errorTxtMsg = "Error al cargar la Base de Datos.";
+                errorTxtField.textProperty().setValue(errorTxtMsg);
+                errorTxtField.setDisable(false);
+            }
+        }
+        catch(Exception e) {
+            errorTxtMsg = "Ha ocurrido una excepción al cargar la Base de Datos.";
+            errorTxtField.textProperty().setValue(errorTxtMsg);
+            errorTxtField.setDisable(false);
+        }
+        
+        validPassword = new SimpleBooleanProperty();
+        validUserName = new SimpleBooleanProperty();
+        
+        validPassword.setValue(Boolean.FALSE);
+        validUserName.setValue(Boolean.FALSE);
+             
         
         toolBar.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -87,25 +124,32 @@ public class LoginScreenController implements Initializable {
 
     @FXML
     private void iniciarSesion(ActionEvent event) {
+        //validPassword.setValue(checkPassword());
+        
         
         // TODO cambiar los booleanos por booleanos con listeners sobre el estado de los TextFields
-        if (userName.textProperty().isEmpty().get() && userPassword.textProperty().isEmpty().get()) {
-            errorTxtMsg = "Debes introducir un Nombre de Usuario y Contraseña";
-            errorTxtField.textProperty().setValue(errorTxtMsg);
-            errorTxtField.setDisable(false);
-        } else if (userName.textProperty().isEmpty().get()) {
-            errorTxtMsg = "Debes introducir un Nombre de Usuario";
-            errorTxtField.textProperty().setValue(errorTxtMsg);
-            errorTxtField.setDisable(false);
-        } else if (userPassword.textProperty().isEmpty().get()) {
-            errorTxtMsg = "Debes introducir una Contraseña de Usuario";
+        if (userName.textProperty().isEmpty().get() || userPassword.textProperty().isEmpty().get()) {
+            errorTxtMsg = "Error: Se deben rellenar ambos campos.";
             errorTxtField.textProperty().setValue(errorTxtMsg);
             errorTxtField.setDisable(false);
         }
         else {
-            errorTxtField.setDisable(true);
+            User loggedUser = baseDatos.loginUser(userName.getText(), userPassword.getText());
+            
+            if (loggedUser == null) {
+                errorTxtMsg = "Credenciales Incorrectas.";
+                errorTxtField.textProperty().setValue(errorTxtMsg);
+                errorTxtField.setDisable(false);
+            }
+            else {
+                errorTxtField.setDisable(true);
+            }
         }
         
+    }
+    
+    private boolean checkPassword() {
+        return Utils.checkPassword(userPassword.textProperty().getValueSafe());
     }
 
     
