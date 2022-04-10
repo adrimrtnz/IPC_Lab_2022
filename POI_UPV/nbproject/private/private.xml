@@ -5,7 +5,9 @@
         <group name="IPC"/>
         <group>
             <file>file:/C:/Users/adri_/OneDrive/Documentos/IPC_Lab_2022/POI_UPV/src/navapp/NavApp.java</file>
+            <file>file:/C:/Users/adri_/OneDrive/Documentos/IPC_Lab_2022/POI_UPV/src/navapp/controllers/RegisterScreenController.java</file>
             <file>file:/C:/Users/adri_/OneDrive/Documentos/IPC_Lab_2022/POI_UPV/src/navapp/controllers/LoginScreenController.java</file>
+            <file>file:/C:/Users/adri_/OneDrive/Documentos/IPC_Lab_2022/POI_UPV/src/navapp/views/RegisterScreenView.fxml</file>
         </group>
     </open-files>
 </project-private>
