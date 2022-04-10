@@ -41,6 +41,16 @@
     -fx-background-color: #e44c4a;
 }
 
+.text-field {
+    -fx-background-color: #102743;
+    -fx-text-fill: #42DA05;
+    -fx-border-color: #42DA05;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 2 2 2 2;
+    -fx-alignmen: center;
+}
+
 .large-button {
     -fx-background-color: #102743;
     -fx-text-fill: #42DA05;

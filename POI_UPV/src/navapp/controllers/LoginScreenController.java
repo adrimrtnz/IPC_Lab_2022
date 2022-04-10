@@ -13,9 +13,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -27,18 +30,30 @@ public class LoginScreenController implements Initializable {
 
     @FXML private Button closeBtn;
     @FXML private Button minimizeBtn;
+    @FXML private Button maximizeButton;
+    @FXML private Text errorTxtField;
     @FXML private ToolBar toolBar;
+    
+    @FXML private Button loginBtn;
+    
+    @FXML private TextField userName;
+    @FXML private PasswordField userPassword;
     
     private double xOffset;
     private double yOffset;
+    private String errorTxtMsg;
     
-
+ 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        // Cambiamos el contenido del campo de mensaje de error y lo ocultamos
+        errorTxtMsg = "";
+        errorTxtField.textProperty().setValue(errorTxtMsg);
+        errorTxtField.setDisable(true);
         
         toolBar.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -69,6 +84,29 @@ public class LoginScreenController implements Initializable {
             ((Stage) minimizeBtn.getScene().getWindow()).setIconified(true);
         });
     }    
+
+    @FXML
+    private void iniciarSesion(ActionEvent event) {
+        
+        // TODO cambiar los booleanos por booleanos con listeners sobre el estado de los TextFields
+        if (userName.textProperty().isEmpty().get() && userPassword.textProperty().isEmpty().get()) {
+            errorTxtMsg = "Debes introducir un Nombre de Usuario y Contraseña";
+            errorTxtField.textProperty().setValue(errorTxtMsg);
+            errorTxtField.setDisable(false);
+        } else if (userName.textProperty().isEmpty().get()) {
+            errorTxtMsg = "Debes introducir un Nombre de Usuario";
+            errorTxtField.textProperty().setValue(errorTxtMsg);
+            errorTxtField.setDisable(false);
+        } else if (userPassword.textProperty().isEmpty().get()) {
+            errorTxtMsg = "Debes introducir una Contraseña de Usuario";
+            errorTxtField.textProperty().setValue(errorTxtMsg);
+            errorTxtField.setDisable(false);
+        }
+        else {
+            errorTxtField.setDisable(true);
+        }
+        
+    }
 
     
 }

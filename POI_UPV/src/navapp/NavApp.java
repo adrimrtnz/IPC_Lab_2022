@@ -30,7 +30,7 @@ public class NavApp extends Application{
         Scene scene = new Scene(root);
         scene.setFill(Color.TRANSPARENT);
         stage.initStyle(StageStyle.TRANSPARENT);
-        
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
