@@ -1,17 +1,52 @@
-.tittle-bar {
-    -fx-background-color: #08203C;
-}
-
 .app-general-style {
     -fx-background-color: #102743;
+    -fx-background-radius: 10 10 10 10;
+}
+
+.general-window {
+    -fx-border-radius: 0;
+}
+
+.tittle-bar {
+    -fx-background-color: #08203C;
+    -fx-background-radius: 20 20 0 0;
+}
+
+.tittle-bar-button {
+    -fx-background-radius: 100%;
+}
+
+.minimize-button {
+    -fx-background-color: #FFBD44;
+}
+
+.minimize-button:hover {
+    -fx-background-color: #e9ac3a;
+}
+
+.maximize-button {
+    -fx-background-color: #00CA4E;
+    
+}
+
+.maximize-button:hover {
+    -fx-background-color: #00b846;
+}
+
+.close-button {
+    -fx-background-color: #FF605C;
+}
+
+.close-button:hover {
+    -fx-background-color: #e44c4a;
 }
 
 .large-button {
     -fx-background-color: #102743;
     -fx-text-fill: #42DA05;
     -fx-border-color: #42DA05;
-    -fx-background-radius: 20;
-    -fx-border-radius: 20;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
     -fx-border-width: 2 2 2 2;
 }
 
