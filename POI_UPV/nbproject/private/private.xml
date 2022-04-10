@@ -4,7 +4,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="IPC"/>
         <group>
+            <file>file:/C:/Users/adri_/OneDrive/Documentos/IPC_Lab_2022/POI_UPV/src/poiupv/PoiUPVApp.java</file>
+            <file>file:/C:/Users/adri_/OneDrive/Documentos/IPC_Lab_2022/POI_UPV/src/poiupv/Poi.java</file>
+            <file>file:/C:/Users/adri_/OneDrive/Documentos/IPC_Lab_2022/POI_UPV/src/poiupv/FXMLMapViewController.java</file>
+            <file>file:/C:/Users/adri_/OneDrive/Documentos/IPC_Lab_2022/POI_UPV/src/navapp/NavApp.java</file>
+            <file>file:/C:/Users/adri_/OneDrive/Documentos/IPC_Lab_2022/POI_UPV/src/navapp/views/LoginScreen.fxml</file>
             <file>file:/C:/Users/adri_/OneDrive/Documentos/IPC_Lab_2022/POI_UPV/src/resources/carta_nautica.jpg</file>
+            <file>file:/C:/Users/adri_/OneDrive/Documentos/IPC_Lab_2022/POI_UPV/src/navapp/controllers/LoginScreenController.java</file>
         </group>
     </open-files>
 </project-private>

@@ -5,10 +5,32 @@
  */
 package navapp;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 /**
  *
  * @author Adrián Martínez
  */
-public class NavApp {
+public class NavApp extends Application{
     
+    @Override
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("views/LoginScreen.fxml"));
+        
+        Scene scene = new Scene(root);
+        stage.setTitle("Nav App - IPCLab 2022");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
