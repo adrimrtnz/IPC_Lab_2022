@@ -13,7 +13,7 @@ import javafx.geometry.Point2D;
 
 /**
  *
- * @author jose
+ * @author 
  */
 public class Poi {
     
