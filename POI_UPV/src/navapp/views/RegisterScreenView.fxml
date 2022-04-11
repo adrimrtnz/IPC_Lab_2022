@@ -13,59 +13,20 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="navapp.controllers.RegisterScreenController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="app-general-style" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.RegisterScreenController">
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0" styleClass="app-general-style" stylesheets="@../../resources/styles.css">
-         <center>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
-               <children>
-                  <TextField promptText="Nombre de Usuario">
-                     <VBox.margin>
-                        <Insets left="120.0" right="120.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <TextField promptText="correo@electronico.com">
-                     <VBox.margin>
-                        <Insets left="120.0" right="120.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <PasswordField promptText="Contraseña">
-                     <VBox.margin>
-                        <Insets left="120.0" right="120.0" />
-                     </VBox.margin>
-                  </PasswordField>
-                  <PasswordField promptText="Repetir Contraseña">
-                     <VBox.margin>
-                        <Insets left="120.0" right="120.0" />
-                     </VBox.margin>
-                  </PasswordField>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-                     <children>
-                        <DatePicker promptText="Fecha de Nacimiento" />
-                        <ImageView fitHeight="120.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../avatars/default.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-               </children>
-               <padding>
-                  <Insets bottom="25.0" top="20.0" />
-               </padding>
-            </VBox>
-         </center>
          <top>
             <ToolBar fx:id="toolBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="27.0" prefWidth="297.0" styleClass="tittle-bar" stylesheets="@../../resources/styles.css" BorderPane.alignment="CENTER">
                <items>
-                  <Button fx:id="closeBtn" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" styleClass="tittle-bar-button" stylesheets="@../../resources/styles.css" text="X" textAlignment="CENTER">
+                  <Button mnemonicParsing="false" onAction="#closeScene" prefHeight="17.0" prefWidth="20.0" styleClass="tittle-bar-button" stylesheets="@../../resources/styles.css" text="X" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="9.0" />
                      </font>
                   </Button>
-                  <Button fx:id="maximizeButton" layoutX="34.0" layoutY="9.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" styleClass="tittle-bar-button" stylesheets="@../../resources/styles.css" text="⬜" textAlignment="CENTER">
+                  <Button fx:id="maximizeButton" layoutX="34.0" layoutY="9.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" styleClass="tittle-bar-button-unabled" stylesheets="@../../resources/styles.css" text="⬜" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="9.0" />
                      </font>
@@ -84,11 +45,74 @@
          <bottom>
             <HBox alignment="CENTER" prefHeight="57.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Aceptar" />
-                  <Button mnemonicParsing="false" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Volver" />
+                  <Button mnemonicParsing="false" onAction="#registrarUsuario" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Aceptar" />
+                  <Button mnemonicParsing="false" onAction="#closeScene" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Volver" />
                </children>
             </HBox>
          </bottom>
+         <center>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fx:id="userAvatar" fitHeight="120.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../avatars/default.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="40.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <VBox prefHeight="312.0" prefWidth="497.0" spacing="20.0">
+                     <children>
+                        <TextField fx:id="userName" promptText="Nombre de Usuario" styleClass="text-fields" stylesheets="@../../resources/styles.css">
+                           <VBox.margin>
+                              <Insets left="40.0" right="120.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="userEmail" promptText="correo@electronico.com" styleClass="text-fields" stylesheets="@../../resources/styles.css">
+                           <VBox.margin>
+                              <Insets left="40.0" right="120.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <PasswordField fx:id="userPassword" promptText="Contraseña" styleClass="text-fields" stylesheets="@../../resources/styles.css">
+                           <VBox.margin>
+                              <Insets left="40.0" right="120.0" />
+                           </VBox.margin>
+                        </PasswordField>
+                        <PasswordField fx:id="userPasswordRep" promptText="Repetir Contraseña" styleClass="text-fields" stylesheets="@../../resources/styles.css">
+                           <VBox.margin>
+                              <Insets left="40.0" right="120.0" />
+                           </VBox.margin>
+                        </PasswordField>
+                        <DatePicker fx:id="userBirthDate" prefHeight="29.0" prefWidth="414.0" promptText="Fecha de Nacimiento" stylesheets="@../../resources/styles.css">
+                           <VBox.margin>
+                              <Insets left="40.0" right="120.0" />
+                           </VBox.margin>
+                        </DatePicker>
+                        <Text fx:id="exitoTxtMsg" disable="true" fill="#42da05" strokeType="OUTSIDE" strokeWidth="0.0" text="¡Se ha registrado un nuevo usuario!" textAlignment="CENTER" wrappingWidth="250.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Text>
+                        <Text fx:id="errorTxtMsg" disable="true" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Error: Mensaje de Error genérico" textAlignment="CENTER" wrappingWidth="250.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                     <padding>
+                        <Insets bottom="25.0" top="20.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>

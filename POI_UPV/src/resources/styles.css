@@ -1,6 +1,6 @@
 .app-general-style {
     -fx-background-color: #102743;
-    -fx-background-radius: 10 10 10 10;
+    -fx-background-radius: 5 5 5 5;
 }
 
 .general-window {
@@ -9,13 +9,19 @@
 
 .tittle-bar {
     -fx-background-color: #08203C;
-    -fx-background-radius: 20 20 0 0;
+    -fx-background-radius: 10 10 0 0;
 }
 
 .tittle-bar-button {
-    -fx-background-radius: 100%;
+    -fx-background-radius: 10%;
     -fx-background-color: #08203C;
     -fx-text-fill: #42DA05;
+}
+
+.tittle-bar-button-unabled {
+    -fx-background-radius: 10%;
+    -fx-background-color: #08203C;
+    -fx-text-fill: #6e6e6e;
 }
 
 .tittle-bar-button:hover {
@@ -49,7 +55,7 @@
 }
 */
 
-.text-field {
+.text-fields {
     -fx-background-color: #102743;
     -fx-text-fill: #42DA05;
     -fx-border-color: #42DA05;

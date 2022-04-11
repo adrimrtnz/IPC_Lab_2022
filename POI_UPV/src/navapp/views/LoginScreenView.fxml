@@ -25,7 +25,7 @@
                         <Font name="System Bold" size="9.0" />
                      </font>
                   </Button>
-                  <Button fx:id="maximizeButton" layoutX="34.0" layoutY="9.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" styleClass="tittle-bar-button" stylesheets="@../../resources/styles.css" text="⬜" textAlignment="CENTER">
+                  <Button fx:id="maximizeButton" layoutX="34.0" layoutY="9.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" styleClass="tittle-bar-button-unabled" stylesheets="@../../resources/styles.css" text="⬜" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="9.0" />
                      </font>
@@ -53,7 +53,7 @@
                      </VBox.margin>
                   </ImageView>
                   <Text fx:id="errorTxtField" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Error: Aquí irán los mensajes de error" />
-                  <TextField fx:id="userName" prefWidth="387.0" promptText="Usuario" styleClass="text-field" stylesheets="@../../resources/styles.css">
+                  <TextField fx:id="userName" prefWidth="387.0" promptText="Usuario" styleClass="text-fields" stylesheets="@../../resources/styles.css">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -61,13 +61,13 @@
                         <Insets left="120.0" right="120.0" />
                      </VBox.margin>
                   </TextField>
-                  <PasswordField fx:id="userPassword" promptText="Contraseña" styleClass="text-field" stylesheets="@../../resources/styles.css">
+                  <PasswordField fx:id="userPassword" promptText="Contraseña" styleClass="text-fields" stylesheets="@../../resources/styles.css">
                      <VBox.margin>
                         <Insets left="120.0" right="120.0" />
                      </VBox.margin>
                   </PasswordField>
                   <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#iniciarSesion" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Iniciar Sesión" />
-                  <Button mnemonicParsing="false" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Registrarse" />
+                  <Button fx:id="registerBtn" mnemonicParsing="false" onAction="#loadRegisterForm" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Registrarse" />
                </children>
                <opaqueInsets>
                   <Insets />

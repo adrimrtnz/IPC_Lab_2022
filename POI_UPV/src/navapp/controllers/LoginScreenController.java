@@ -15,14 +15,20 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import model.*;
 import navapp.models.Utils;
 
@@ -41,6 +47,7 @@ public class LoginScreenController implements Initializable {
     @FXML private ToolBar toolBar;
     
     @FXML private Button loginBtn;
+    @FXML private Button registerBtn;
     
     @FXML private TextField userName;
     @FXML private PasswordField userPassword;
@@ -55,7 +62,7 @@ public class LoginScreenController implements Initializable {
     
     private Navegacion baseDatos;
     
- 
+    
     /**
      * Initializes the controller class.
      */
@@ -70,7 +77,7 @@ public class LoginScreenController implements Initializable {
         // TODO : Da null pointer exception al cargar la BD, no se crea si no existe.
         // CARGA la Base de Datos.
         try {
-            baseDatos.getSingletonNavegacion();
+            baseDatos = Navegacion.getSingletonNavegacion();
             System.out.println("Base de datos cargada correctamente.");
             
             if (baseDatos == null) {
@@ -134,9 +141,11 @@ public class LoginScreenController implements Initializable {
             errorTxtField.setDisable(false);
         }
         else {
+            
+            validUserName.setValue(baseDatos.exitsNickName(userName.getText()));
             User loggedUser = baseDatos.loginUser(userName.getText(), userPassword.getText());
             
-            if (loggedUser == null) {
+            if (!validUserName.getValue() || loggedUser == null) {
                 errorTxtMsg = "Credenciales Incorrectas.";
                 errorTxtField.textProperty().setValue(errorTxtMsg);
                 errorTxtField.setDisable(false);
@@ -150,6 +159,26 @@ public class LoginScreenController implements Initializable {
     
     private boolean checkPassword() {
         return Utils.checkPassword(userPassword.textProperty().getValueSafe());
+    }
+
+    @FXML
+    private void loadRegisterForm(ActionEvent event) throws Exception {
+        FXMLLoader cargadorRegistro = new FXMLLoader(getClass().getResource("/navapp/views/RegisterScreenView.fxml"));
+        Parent root = cargadorRegistro.load();
+        
+        // Acceso al controlador de la Vista de Registro
+        RegisterScreenController controlador = cargadorRegistro.getController();
+        
+        Stage stage = new Stage();
+        stage.setTitle("Registro Nuevo Usuario");
+        stage.initStyle(StageStyle.UNDECORATED);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        scene.setFill(Color.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
     }
 
     
