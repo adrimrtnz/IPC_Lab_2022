@@ -6,6 +6,7 @@
 package navapp.controllers;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -85,6 +86,7 @@ public class LoginScreenController implements Initializable {
                 errorTxtField.textProperty().setValue(errorTxtMsg);
                 errorTxtField.setDisable(false);
             }
+            
         }
         catch(Exception e) {
             errorTxtMsg = "Ha ocurrido una excepción al cargar la Base de Datos.";
@@ -151,7 +153,9 @@ public class LoginScreenController implements Initializable {
                 errorTxtField.setDisable(false);
             }
             else {
-                errorTxtField.setDisable(true);
+                errorTxtMsg = "Usuario encontrado pero no hay más ventanas. Vuelve más tarde.";
+                errorTxtField.textProperty().setValue(errorTxtMsg);
+                errorTxtField.setDisable(false);
             }
         }
         
