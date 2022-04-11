@@ -31,7 +31,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.*;
-import navapp.models.Utils;
 
 
 /**
@@ -162,7 +161,7 @@ public class LoginScreenController implements Initializable {
     }
     
     private boolean checkPassword() {
-        return Utils.checkPassword(userPassword.textProperty().getValueSafe());
+        return User.checkPassword(userPassword.textProperty().getValueSafe());
     }
 
     @FXML

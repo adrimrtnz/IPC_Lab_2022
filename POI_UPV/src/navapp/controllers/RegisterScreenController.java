@@ -27,7 +27,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Navegacion;
-import navapp.models.Utils;
+import model.User;
 
 /**
  * FXML Controller class
@@ -169,7 +169,7 @@ public class RegisterScreenController implements Initializable {
             errorTxtField.setVisible(true);
             userNameCheck.setVisible(false);
         }
-        else if (userName.getText().isEmpty()) {
+        else if (!User.checkNickName(userName.getText())) {
             mensaje = "Debes introducir un nombre de usuario válido.";
             errorTxtField.textProperty().setValue(mensaje);
             errorTxtField.setVisible(true);
