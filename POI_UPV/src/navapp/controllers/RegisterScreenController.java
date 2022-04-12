@@ -24,6 +24,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -149,6 +150,20 @@ public class RegisterScreenController implements Initializable {
                     birthdate = userBirthDate.getValue();
                 }                
         });
+        
+        // ToolTips para los diferentes campos
+        final Tooltip nicknameToolTip = new Tooltip();
+        nicknameToolTip.setText("El nombre de usuario debe tener entre 6 y 15 caracteres\n"
+                + "al menos una mayúscula y minúscula, así como algún dígito\n"
+                + "y algún caracter especial(!@#$%&*()_-+=), SIN ESPACIOS.");
+        userName.setTooltip(nicknameToolTip);
+        
+        final Tooltip passToolTip = new Tooltip();
+        passToolTip.setText("Tu contraseña debe tener entre 8 y 20 caracteres,\n"
+                + "al menos una mayúscula y minúscula, así como algún dígito\n"
+                + "y algún caracter especial(!@#$%&*()-+=)");
+        userPassword.setTooltip(passToolTip);
+
         
         toolBar.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
