@@ -6,6 +6,8 @@
 package navapp.controllers;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -22,6 +24,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -63,7 +66,9 @@ public class RegisterScreenController implements Initializable {
     private BooleanProperty validEmail;
     private BooleanProperty equalPasswords;
     private BooleanProperty validFields;
-    private String mensaje;
+    
+    private Image avatar;
+    private LocalDate birthdate;
     
     private Navegacion baseDatos;
     
@@ -81,21 +86,19 @@ public class RegisterScreenController implements Initializable {
         userPassCheck.setVisible(false);
         userPassRepCheck.setVisible(false);
         
+        avatar = userAvatar.getImage();
+        birthdate = LocalDate.now();
         
         try {
             baseDatos = Navegacion.getSingletonNavegacion();
             System.out.println("Base de datos cargada correctamente.");
             
             if (baseDatos == null) {
-                mensaje = "Error al cargar la Base de Datos.";
-                errorTxtField.textProperty().setValue(mensaje);
-                errorTxtField.setVisible(false);
+                propmtErrorMsg("Error al cargar la Base de Datos");
             }
             
         } catch(Exception e) {
-            mensaje = "Ha ocurrido una excepción al cargar la Base de Datos.";
-            errorTxtField.textProperty().setValue(mensaje);
-            errorTxtField.setVisible(false);
+            propmtErrorMsg("Ha ocurrido una excepción al cargar la Base de Datos");
         }
         
         validUserName = new SimpleBooleanProperty();
@@ -107,11 +110,43 @@ public class RegisterScreenController implements Initializable {
         validPassword.setValue(Boolean.FALSE);
         validEmail.setValue(Boolean.FALSE);
         equalPasswords.setValue(Boolean.FALSE);
-               
+              
+        
+        // Binding de los diferentes booleanos con los checks de los diferentes campos
+        validUserName.bind(userNameCheck.visibleProperty());
+        validEmail.bind(userEmailCheck.visibleProperty());
+        validPassword.bind(userPassCheck.visibleProperty());
+        equalPasswords.bind(userPassRepCheck.visibleProperty());
          
+        
+        // Se comprueba si los datos introducidos son válidos cada vez que se pierde el foco del campo
         userName.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
                     checkUserName();
+                }                
+        });
+        
+        userEmail.focusedProperty().addListener((ob,oldValue,newValue) -> {
+                if(!newValue) {
+                    checkUserEmail();
+                }                
+        });
+        
+        userPassword.focusedProperty().addListener((ob,oldValue,newValue) -> {
+                if(!newValue) {
+                    checkUserPassword();
+                }                
+        });
+        
+        userPasswordRep.focusedProperty().addListener((ob,oldValue,newValue) -> {
+                if(!newValue) {
+                    checkRepeatedPassword();
+                }                
+        });
+        
+        userBirthDate.focusedProperty().addListener((ob,oldValue,newValue) -> {
+                if(!newValue) {
+                    birthdate = userBirthDate.getValue();
                 }                
         });
         
@@ -152,32 +187,97 @@ public class RegisterScreenController implements Initializable {
         BooleanBinding validFields = validUserName.and(validEmail.and(validPassword.and(equalPasswords)));        
         
         if(!validFields.get()){
-            errorTxtField.setVisible(true);
+            propmtErrorMsg("Todos los campos deben ser correctos");
         }
         else {
-            exitoTxtField.setVisible(true);
-            errorTxtField.setVisible(false);
+            try {
+                // Versión comentada es con imagen, por ahora da == null
+                //baseDatos.registerUser(userName.getText(), userEmail.getText(), userPassword.getText(), avatar, birthdate);
+                
+                baseDatos.registerUser(userName.getText(), userEmail.getText(), userPassword.getText(), birthdate);
+                exitoTxtField.setVisible(true);
+                errorTxtField.setVisible(false);
+                deleteTextFieldsContent();
+                resetFieldChecks();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                propmtErrorMsg("Error en el registro del nuevo usuario.");
+            }
         }
 
         System.out.println("Botón de ACEPTAR pulsado.");
     }
     
+    private void propmtErrorMsg(String errorMsg) {
+        exitoTxtField.setVisible(false);
+        errorTxtField.textProperty().setValue(errorMsg);
+        errorTxtField.setVisible(true);
+    }
+    
     public void checkUserName() {
+        userNameCheck.setVisible(false);
+        
         if (baseDatos.exitsNickName(userName.getText())) {
-            mensaje = "Nombre de usuario en uso.";
-            errorTxtField.textProperty().setValue(mensaje);
-            errorTxtField.setVisible(true);
-            userNameCheck.setVisible(false);
+            propmtErrorMsg("Nombre de usuario en uso");
         }
         else if (!User.checkNickName(userName.getText())) {
-            mensaje = "Debes introducir un nombre de usuario válido.";
-            errorTxtField.textProperty().setValue(mensaje);
-            errorTxtField.setVisible(true);
+            propmtErrorMsg("Debes introducir un nombre de usuario válido.");
         }
         else {
-           errorTxtField.setVisible(false); 
+           errorTxtField.setVisible(false);
            userNameCheck.setVisible(true);
         }
+    }
+    
+    public void checkUserEmail() {
+        userEmailCheck.setVisible(false);
+        
+        if (!User.checkEmail(userEmail.getText())) {
+            propmtErrorMsg("Debes introducir un email válido.");
+        }
+        else {
+           errorTxtField.setVisible(false);
+           userEmailCheck.setVisible(true);
+        }
+    }
+    
+    public void checkUserPassword() {
+        userPassCheck.setVisible(false);
+        
+        if (!User.checkPassword(userPassword.getText())) {
+            propmtErrorMsg("Debes introducir una contraseña válida.");
+        }
+        else {
+           errorTxtField.setVisible(false);
+           userPassCheck.setVisible(true);
+        }
+    }
+    
+    public void checkRepeatedPassword() {
+        userPassRepCheck.setVisible(false);
+        
+        if (!userPasswordRep.getText().equals(userPassword.getText())) {
+            propmtErrorMsg("Las contraseñas deben coincidir.");
+        }
+        else {
+           errorTxtField.setVisible(false);
+           userPassRepCheck.setVisible(true);
+        }
+    }
+    
+    private void deleteTextFieldsContent() {
+        userName.setText("");
+        userEmail.setText("");
+        userPassword.setText("");
+        userPasswordRep.setText("");
+    }
+    
+    private void resetFieldChecks() {
+        errorTxtField.setVisible(false);
+        userNameCheck.setVisible(false);
+        userEmailCheck.setVisible(false);
+        userPassCheck.setVisible(false);
+        userPassRepCheck.setVisible(false);
     }
     
 }
