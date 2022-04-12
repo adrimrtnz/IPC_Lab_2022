@@ -5,10 +5,13 @@
  */
 package navapp.controllers;
 
+import java.awt.Window;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -30,6 +33,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.Navegacion;
 import model.User;
 
@@ -72,7 +76,9 @@ public class RegisterScreenController implements Initializable {
     private LocalDate birthdate;
     
     private Navegacion baseDatos;
-    
+   
+    private Tooltip passToolTip;
+    private Tooltip userNameToolTip;
     
     /**
      * Initializes the controller class.
@@ -120,10 +126,31 @@ public class RegisterScreenController implements Initializable {
         equalPasswords.bind(userPassRepCheck.visibleProperty());
          
         
+        // ToolTips para los diferentes campos
+        userNameToolTip = new Tooltip();
+        userNameToolTip.setText("El nombre de usuario debe tener entre 6 y 15 caracteres\n"
+                + "al menos una mayúscula y minúscula, así como algún dígito\n"
+                + "y algún caracter especial(!@#$%&*()_-+=), SIN ESPACIOS.");
+        userName.setTooltip(userNameToolTip);
+        
+        passToolTip = new Tooltip();
+        passToolTip.setText("Tu contraseña debe tener entre 8 y 20 caracteres,\n"
+                + "al menos una mayúscula y minúscula, así como algún dígito\n"
+                + "y algún caracter especial(!@#$%&*()-+=)");
+        userPassword.setTooltip(passToolTip);
+        
+        
+        
         // Se comprueba si los datos introducidos son válidos cada vez que se pierde el foco del campo
         userName.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
                     checkUserName();
+                }                
+        });
+        
+        userName.focusedProperty().addListener((ob,oldValue,newValue) -> {
+                if(newValue) {
+                    userNameToolTip.hide();
                 }                
         });
         
@@ -139,6 +166,12 @@ public class RegisterScreenController implements Initializable {
                 }                
         });
         
+        userPassword.focusedProperty().addListener((ob,oldValue,newValue) -> {
+                if(newValue) {
+                    passToolTip.hide();
+                }                
+        });
+        
         userPasswordRep.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
                     checkRepeatedPassword();
@@ -151,18 +184,7 @@ public class RegisterScreenController implements Initializable {
                 }                
         });
         
-        // ToolTips para los diferentes campos
-        final Tooltip nicknameToolTip = new Tooltip();
-        nicknameToolTip.setText("El nombre de usuario debe tener entre 6 y 15 caracteres\n"
-                + "al menos una mayúscula y minúscula, así como algún dígito\n"
-                + "y algún caracter especial(!@#$%&*()_-+=), SIN ESPACIOS.");
-        userName.setTooltip(nicknameToolTip);
         
-        final Tooltip passToolTip = new Tooltip();
-        passToolTip.setText("Tu contraseña debe tener entre 8 y 20 caracteres,\n"
-                + "al menos una mayúscula y minúscula, así como algún dígito\n"
-                + "y algún caracter especial(!@#$%&*()-+=)");
-        userPassword.setTooltip(passToolTip);
 
         
         toolBar.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -232,11 +254,16 @@ public class RegisterScreenController implements Initializable {
     public void checkUserName() {
         userNameCheck.setVisible(false);
         
+        Stage stage = (Stage) userName.getScene().getWindow();
+        double offsetX = 500;
+        double offsetY = 40;
+        
         if (baseDatos.exitsNickName(userName.getText())) {
             propmtErrorMsg("Nombre de usuario en uso");
         }
         else if (!User.checkNickName(userName.getText())) {
             propmtErrorMsg("Debes introducir un nombre de usuario válido.");
+            userNameToolTip.show((Node)userName, stage.getX() + offsetX ,stage.getY() + offsetY);
         }
         else {
            errorTxtField.setVisible(false);
@@ -259,8 +286,13 @@ public class RegisterScreenController implements Initializable {
     public void checkUserPassword() {
         userPassCheck.setVisible(false);
         
+        Stage stage = (Stage) userPassword.getScene().getWindow();
+        double offsetX = 500;
+        double offsetY = 140;
+        
         if (!User.checkPassword(userPassword.getText())) {
             propmtErrorMsg("Debes introducir una contraseña válida.");
+            passToolTip.show((Node)userPassword, stage.getX() + offsetX ,stage.getY() + offsetY);
         }
         else {
            errorTxtField.setVisible(false);
@@ -270,6 +302,7 @@ public class RegisterScreenController implements Initializable {
     
     public void checkRepeatedPassword() {
         userPassRepCheck.setVisible(false);
+        if (userPasswordRep.getText().isEmpty()) { return; }
         
         if (!userPasswordRep.getText().equals(userPassword.getText())) {
             propmtErrorMsg("Las contraseñas deben coincidir.");
