@@ -1,6 +1,7 @@
 .app-general-style {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 5 5 5 5;
+    -fx-effect: innershadow(gaussian, #F4F5F9, 1, 1, 0.0, 0.0);
 }
 
 .general-window {
@@ -89,6 +90,4 @@
     -fx-border-radius: 10px;
     -fx-border-width: 2 2 2 2;
 }   
-
-.avatar-img {
     
