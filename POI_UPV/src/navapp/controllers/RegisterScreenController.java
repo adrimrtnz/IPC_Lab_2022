@@ -124,13 +124,12 @@ public class RegisterScreenController implements Initializable {
         validEmail.bind(userEmailCheck.visibleProperty());
         validPassword.bind(userPassCheck.visibleProperty());
         equalPasswords.bind(userPassRepCheck.visibleProperty());
-         
+        
         
         // ToolTips para los diferentes campos
         userNameToolTip = new Tooltip();
-        userNameToolTip.setText("El nombre de usuario debe tener entre 6 y 15 caracteres\n"
-                + "al menos una mayúscula y minúscula, así como algún dígito\n"
-                + "y algún caracter especial(!@#$%&*()_-+=), SIN ESPACIOS.");
+        userNameToolTip.setText("El nombre de usuario debe tener entre 6 y 15\n"
+                + "caracteres o dígitos, y sin espacios\n");
         userName.setTooltip(userNameToolTip);
         
         passToolTip = new Tooltip();
@@ -229,9 +228,9 @@ public class RegisterScreenController implements Initializable {
         else {
             try {
                 // Versión comentada es con imagen, por ahora da == null
-                //baseDatos.registerUser(userName.getText(), userEmail.getText(), userPassword.getText(), avatar, birthdate);
+                baseDatos.registerUser(userName.getText(), userEmail.getText(), userPassword.getText(), avatar, birthdate);
+                //baseDatos.registerUser(userName.getText(), userEmail.getText(), userPassword.getText(), birthdate);
                 
-                baseDatos.registerUser(userName.getText(), userEmail.getText(), userPassword.getText(), birthdate);
                 exitoTxtField.setVisible(true);
                 errorTxtField.setVisible(false);
                 deleteTextFieldsContent();
@@ -302,7 +301,7 @@ public class RegisterScreenController implements Initializable {
     
     public void checkRepeatedPassword() {
         userPassRepCheck.setVisible(false);
-        if (userPasswordRep.getText().isEmpty()) { return; }
+        if (userPasswordRep.getText().isEmpty() || !validPassword.get()) { return; }
         
         if (!userPasswordRep.getText().equals(userPassword.getText())) {
             propmtErrorMsg("Las contraseñas deben coincidir.");

@@ -1,6 +1,6 @@
 .app-general-style {
-    -fx-background-color: #FFFFFF;
-    -fx-background-radius: 10 10 5 5;
+    -fx-background-color: #102743;
+    -fx-background-radius: 5 5 5 5;
 }
 
 .general-window {
@@ -8,24 +8,24 @@
 }
 
 .tittle-bar {
-    -fx-background-color: #C3BAF5;
+    -fx-background-color: #08203C;
     -fx-background-radius: 10 10 0 0;
 }
 
 .tittle-bar-button {
     -fx-background-radius: 10%;
-    -fx-background-color: #C3BAF5;
-    -fx-text-fill: #000000;
+    -fx-background-color: #08203C;
+    -fx-text-fill: #42DA05;
 }
 
 .tittle-bar-button-unabled {
     -fx-background-radius: 10%;
-    -fx-background-color: #C3BAF5;
+    -fx-background-color: #08203C;
     -fx-text-fill: #6e6e6e;
 }
 
 .tittle-bar-button:hover {
-    -fx-background-color: #dfdbf5;
+    -fx-background-color: #15539C;
 }
 
 /*
@@ -56,9 +56,9 @@
 */
 
 .text-fields {
-    -fx-background-color: #F4F5F9;
-    -fx-text-fill: #000000;
-    -fx-border-color: #C3BAF5;
+    -fx-background-color: #102743;
+    -fx-text-fill: #42DA05;
+    -fx-border-color: #42DA05;
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
     -fx-border-width: 2 2 2 2;
@@ -66,29 +66,19 @@
 }
 
 .large-button {
-    -fx-background-color: #F4F5F9;
-    -fx-text-fill: #000000;
-    -fx-border-color: #C3BAF5;
+    -fx-background-color: #102743;
+    -fx-text-fill: #42DA05;
+    -fx-border-color: #42DA05;
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
     -fx-border-width: 2 2 2 2;
 }
 
 .large-button:hover {
-    -fx-background-color: #ababab;
+    -fx-background-color: #15539C;
     -fx-border-radius: 20;
 }
 
 .large-button:pressed {
-    -fx-background-color: #7d7d7d;
+    -fx-background-color: #1761b5;
 }
-
-.avatar-button {
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #dddddd;
-    -fx-border-radius: 10px;
-    -fx-border-width: 2 2 2 2;
-}   
-
-.avatar-img {
-    
