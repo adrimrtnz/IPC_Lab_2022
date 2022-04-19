@@ -249,7 +249,6 @@ public class RegisterScreenController implements Initializable {
             }
         }
 
-        System.out.println("Botón de ACEPTAR pulsado.");
     }
     
     private void propmtErrorMsg(String errorMsg) {
@@ -330,8 +329,6 @@ public class RegisterScreenController implements Initializable {
                       timeLived = timeLived.minusDays(userBirthDay.getDayOfMonth() - 1);
 
             int yearsOld = timeLived.getYear();
-            System.out.println(timeLived.toString());
-            System.out.println("The user has " + yearsOld + " years old.");
 
             if (yearsOld < 16) {
                 propmtErrorMsg("Debes ser mayor de 16 años.");
