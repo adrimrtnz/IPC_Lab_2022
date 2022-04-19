@@ -62,6 +62,7 @@ public class RegisterScreenController implements Initializable {
     @FXML private ImageView userEmailCheck;
     @FXML private ImageView userPassCheck;
     @FXML private ImageView userPassRepCheck;
+    @FXML private ImageView birthDateCheck;
     
     private double xOffset;
     private double yOffset;
@@ -70,15 +71,18 @@ public class RegisterScreenController implements Initializable {
     private BooleanProperty validPassword;
     private BooleanProperty validEmail;
     private BooleanProperty equalPasswords;
+    private BooleanProperty validBirthDate;
     private BooleanProperty validFields;
     
     private Image avatar;
     private LocalDate birthdate;
+    private LocalDate currentDate;
     
     private Navegacion baseDatos;
    
     private Tooltip passToolTip;
     private Tooltip userNameToolTip;
+    
     
     /**
      * Initializes the controller class.
@@ -92,9 +96,10 @@ public class RegisterScreenController implements Initializable {
         userEmailCheck.setVisible(false);
         userPassCheck.setVisible(false);
         userPassRepCheck.setVisible(false);
+        birthDateCheck.setVisible(false);
         
         avatar = userAvatar.getImage();
-        birthdate = LocalDate.now();
+        currentDate = LocalDate.now();
         
         try {
             baseDatos = Navegacion.getSingletonNavegacion();
@@ -112,11 +117,13 @@ public class RegisterScreenController implements Initializable {
         validEmail = new SimpleBooleanProperty();
         validPassword = new SimpleBooleanProperty();   
         equalPasswords = new SimpleBooleanProperty();
+        validBirthDate = new SimpleBooleanProperty();
         
         validUserName.setValue(Boolean.FALSE);
         validPassword.setValue(Boolean.FALSE);
         validEmail.setValue(Boolean.FALSE);
         equalPasswords.setValue(Boolean.FALSE);
+        validBirthDate.setValue(Boolean.FALSE);
               
         
         // Binding de los diferentes booleanos con los checks de los diferentes campos
@@ -124,6 +131,7 @@ public class RegisterScreenController implements Initializable {
         validEmail.bind(userEmailCheck.visibleProperty());
         validPassword.bind(userPassCheck.visibleProperty());
         equalPasswords.bind(userPassRepCheck.visibleProperty());
+        validBirthDate.bind(birthDateCheck.visibleProperty());
         
         
         // ToolTips para los diferentes campos
@@ -179,7 +187,7 @@ public class RegisterScreenController implements Initializable {
         
         userBirthDate.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
-                    birthdate = userBirthDate.getValue();
+                    checkBirthDate();
                 }                
         });
         
@@ -220,7 +228,7 @@ public class RegisterScreenController implements Initializable {
 
     @FXML
     private void registrarUsuario(ActionEvent event) {
-        BooleanBinding validFields = validUserName.and(validEmail.and(validPassword.and(equalPasswords)));        
+        BooleanBinding validFields = validUserName.and(validEmail.and(validPassword.and(equalPasswords.and(validBirthDate))));        
         
         if(!validFields.get()){
             propmtErrorMsg("Todos los campos deben ser correctos");
@@ -312,11 +320,39 @@ public class RegisterScreenController implements Initializable {
         }
     }
     
+    public void checkBirthDate() {
+        
+        try {
+            LocalDate userBirthDay = userBirthDate.getValue();
+
+            LocalDate timeLived = currentDate.minusYears(userBirthDay.getYear());
+                      timeLived = timeLived.minusMonths(userBirthDay.getMonthValue() - 1);
+                      timeLived = timeLived.minusDays(userBirthDay.getDayOfMonth() - 1);
+
+            int yearsOld = timeLived.getYear();
+            System.out.println(timeLived.toString());
+            System.out.println("The user has " + yearsOld + " years old.");
+
+            if (yearsOld < 16) {
+                propmtErrorMsg("Debes ser mayor de 16 años.");
+            }
+            else {
+                errorTxtField.setVisible(false);
+                birthDateCheck.setVisible(true);
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Ha ocurrido una excepción: " + e.getMessage());
+            propmtErrorMsg("Seleccione una fecha de nacimiento.");
+        }
+    }
+    
     private void deleteTextFieldsContent() {
         userName.setText("");
         userEmail.setText("");
         userPassword.setText("");
         userPasswordRep.setText("");
+        userBirthDate.setValue(null);
     }
     
     private void resetFieldChecks() {
@@ -325,6 +361,7 @@ public class RegisterScreenController implements Initializable {
         userEmailCheck.setVisible(false);
         userPassCheck.setVisible(false);
         userPassRepCheck.setVisible(false);
+        birthDateCheck.setVisible(false);
     }
     
 }

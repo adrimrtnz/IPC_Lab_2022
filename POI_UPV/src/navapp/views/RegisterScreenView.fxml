@@ -136,6 +136,11 @@
                               <Image url="@../../resources/Check_gray.png" />
                            </image>
                         </ImageView>
+                        <ImageView fx:id="birthDateCheck" fitHeight="23.0" fitWidth="150.0" layoutX="10.0" layoutY="183.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/Check_gray.png" />
+                           </image>
+                        </ImageView>
                      </children>
                      <opaqueInsets>
                         <Insets />
