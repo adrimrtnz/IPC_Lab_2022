@@ -1,3 +1,7 @@
+.root {
+    -fx-background-color: rgba(0,0,0,0);
+}
+
 .app-general-style {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 5 5 5 5;
@@ -69,7 +73,7 @@
 .large-button {
     -fx-background-color: #F4F5F9;
     -fx-text-fill: #000000;
-    -fx-border-color: #7d7d7d;
+    -fx-border-color: #dddddd;
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
     -fx-border-width: 2 2 2 2;
