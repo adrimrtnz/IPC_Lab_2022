@@ -152,9 +152,16 @@ public class LoginScreenController implements Initializable {
                 errorTxtField.setDisable(false);
             }
             else {
-                errorTxtMsg = "Usuario encontrado pero no hay más ventanas. Vuelve más tarde.";
-                errorTxtField.textProperty().setValue(errorTxtMsg);
+                //errorTxtMsg = "Usuario encontrado pero no hay más ventanas. Vuelve más tarde.";
+                //errorTxtField.textProperty().setValue(errorTxtMsg);
                 errorTxtField.setDisable(false);
+                try {
+                    loadExercisesScreen();
+                } catch(Exception e) {
+                    System.out.println("No se ha podido cargar la pantalla de ejercicios.");
+                    errorTxtMsg = "No se ha podido cargar la pantalla de ejercicios.";
+                    errorTxtField.textProperty().setValue(errorTxtMsg);
+                }
             }
         }
         
@@ -170,7 +177,7 @@ public class LoginScreenController implements Initializable {
         Parent root = cargadorRegistro.load();
         
         // Acceso al controlador de la Vista de Registro
-        RegisterScreenController controlador = cargadorRegistro.getController();
+        // RegisterScreenController controlador = cargadorRegistro.getController();
         
         Stage stage = new Stage();
         stage.setTitle("Registro Nuevo Usuario");
@@ -184,5 +191,26 @@ public class LoginScreenController implements Initializable {
         stage.showAndWait();
     }
 
+    private void loadExercisesScreen() throws Exception {
+        FXMLLoader cargadorEjercicios = new FXMLLoader(getClass().getResource("/navapp/views/ExercisesScreenView.fxml"));
+        Parent root = cargadorEjercicios.load();
+        
+        // Acceso al controlador de la Vista de Registro
+        // RegisterScreenController controlador = cargadorRegistro.getController();
+        
+        Stage stage = new Stage();
+        stage.setTitle("Vista Principal -TÍTULO PROVISIONAL");
+        //stage.initStyle(StageStyle.UNDECORATED);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        // stage.initModality(Modality.APPLICATION_MODAL);
+        closeLoginScreen();
+        
+        stage.show();
+    }
     
+    private void closeLoginScreen() {
+        Stage stage = (Stage) toolBar.getScene().getWindow();
+        stage.close();
+    }
 }
