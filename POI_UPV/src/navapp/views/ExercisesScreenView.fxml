@@ -7,16 +7,19 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minHeight="220.0" minWidth="520.0" prefHeight="400.0" prefWidth="985.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.ExercisesScreenController">
    <children>
       <MenuBar>
          <menus>
@@ -39,7 +42,7 @@
             </Menu>
          </menus>
       </MenuBar>
-      <SplitPane dividerPositions="0.30859375000000006">
+      <SplitPane dividerPositions="0.20895522388059704, 0.7310040705563094">
          <items>
             <VBox spacing="10.0">
                <children>
@@ -86,6 +89,30 @@
                   </ImageView>
                </content>
             </ScrollPane>
+            <VBox prefHeight="373.0" prefWidth="249.0" spacing="10.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aquí puede ir el texto del problema. Es solo una idea. Se aceptan sugerencias. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vehicula lectus sit amet neque laoreet vehicula. Phasellus in blandit leo. Sed id hendrerit mi, ut vehicula tortor. Suspendisse quis pellentesque." wrappingWidth="262.8033962249756">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin></Text>
+                  <Separator prefWidth="200.0" />
+                  <RadioButton mnemonicParsing="false" text="A: ">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="opciones" />
+                     </toggleGroup></RadioButton>
+                  <RadioButton mnemonicParsing="false" text="B: " toggleGroup="$opciones" />
+                  <RadioButton mnemonicParsing="false" text="C: " toggleGroup="$opciones" />
+                  <RadioButton mnemonicParsing="false" text="D: " toggleGroup="$opciones" />
+                  <Separator prefWidth="200.0" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Button mnemonicParsing="false" text="Aceptar" />
+                        <Button mnemonicParsing="false" text="Limpiar" />
+                        <Button mnemonicParsing="false" text="Siguiente" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
          </items>
       </SplitPane>
    </children>

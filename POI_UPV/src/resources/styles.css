@@ -11,7 +11,6 @@
 .app-general-style {
     -fx-background-color: #4C566A;
     -fx-background-radius: 10 10 5 5;
-    
 }
 
 .general-window {
@@ -125,6 +124,15 @@
 
 .large-button:pressed {
     -fx-background-color: #4C566A;
+}
+
+.menu-bar {
+    -fx-background-color: #3B4252;
+    -fx-background-radius: 0 10 0 0;
+}
+
+.menu-bar .label {
+    -fx-text-fill: #D8DEE9;
 }
 
 .avatar-button {
