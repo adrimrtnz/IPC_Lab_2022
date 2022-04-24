@@ -48,21 +48,20 @@
             <VBox spacing="10.0">
                <children>
                   <Label text="Herramientas:" />
-                  <ToggleButton mnemonicParsing="false" onAction="#setDragTool" prefWidth="90.0" selected="true" text="Arrastrar">
+                  <ToggleButton fx:id="dragBtn" mnemonicParsing="false" onAction="#setDragTool" prefWidth="90.0" selected="true" text="Arrastrar">
                      <toggleGroup>
                         <ToggleGroup fx:id="tools" />
                      </toggleGroup>
                   </ToggleButton>
                   <ToggleButton mnemonicParsing="false" prefWidth="90.0" text="Marcar Punto" toggleGroup="$tools" />
-                  <ToggleButton mnemonicParsing="false" prefWidth="90.0" text="Trazar Linea" toggleGroup="$tools" />
+                  <ToggleButton fx:id="drawLineBtn" mnemonicParsing="false" prefWidth="90.0" text="Trazar Linea" toggleGroup="$tools" />
                   <ToggleButton mnemonicParsing="false" prefWidth="90.0" text="Trazar Arco" toggleGroup="$tools" />
                   <ToggleButton mnemonicParsing="false" prefWidth="90.0" text="Anotar Texto" toggleGroup="$tools" />
                   <Separator prefWidth="200.0" />
-                  <VBox prefHeight="129.0" prefWidth="171.0" spacing="10.0">
+                  <VBox prefHeight="99.0" prefWidth="191.0" spacing="10.0">
                      <children>
                         <Label text="Opciones sobre marcas:" />
-                        <ColorPicker minHeight="25.0" prefHeight="25.0" prefWidth="90.0" />
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Eliminar" />
+                        <ColorPicker fx:id="colorPicker" minHeight="25.0" prefHeight="25.0" prefWidth="90.0" />
                         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Limpiar Carta" />
                      </children>
                      <VBox.margin>
@@ -75,9 +74,9 @@
                         <Label text="Zoom" />
                         <HBox alignment="CENTER" prefHeight="40.0" prefWidth="165.0">
                            <children>
-                              <Button mnemonicParsing="false" text="-" />
-                              <Slider prefHeight="14.0" prefWidth="107.0" />
-                              <Button mnemonicParsing="false" text="+" />
+                              <Button mnemonicParsing="false" onAction="#zoomOut" text="-" />
+                              <Slider fx:id="zoomSlider" prefHeight="14.0" prefWidth="107.0" />
+                              <Button mnemonicParsing="false" onAction="#zoomIn" text="+" />
                            </children>
                         </HBox>
                      </children>
@@ -87,9 +86,9 @@
                   <Insets left="10.0" top="10.0" />
                </padding>
             </VBox>
-            <ScrollPane prefWidth="482.0">
+            <ScrollPane fx:id="mapScrollpane" prefWidth="482.0">
                <content>
-                  <ImageView fx:id="mapImg" fitHeight="594.0" fitWidth="925.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="mapImg" fitHeight="594.0" fitWidth="925.0" onMouseClicked="#drawLine" onMouseDragged="#modLine" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../resources/carta_nautica.jpg" />
                      </image>
