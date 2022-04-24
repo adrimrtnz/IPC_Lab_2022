@@ -49,7 +49,7 @@
             <VBox spacing="10.0">
                <children>
                   <Label text="Herramientas:" />
-                  <ToggleButton fx:id="dragBtn" mnemonicParsing="false" prefWidth="90.0" selected="true" text="Arrastrar">
+                  <ToggleButton fx:id="dragBtn" mnemonicParsing="false" onAction="#setDragTool" prefWidth="90.0" selected="true" text="Arrastrar">
                      <toggleGroup>
                         <ToggleGroup fx:id="tools" />
                      </toggleGroup>
