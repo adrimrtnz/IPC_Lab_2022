@@ -142,7 +142,7 @@ public class ExercisesScreenController implements Initializable {
     }
 
     
-    @FXML private void drawLine(MouseEvent event) {
+    @FXML private void manageAction(MouseEvent event) {
         if (!drawLineBtn.selectedProperty().get()) { return; }
         linePainting = new Line(event.getX(), event.getY(), event.getX(), event.getY());
         linePainting.setStrokeWidth(linesStroke);
@@ -163,7 +163,7 @@ public class ExercisesScreenController implements Initializable {
         });
     }
     
-    @FXML private void modLine(MouseEvent event) {
+    @FXML private void modAction(MouseEvent event) {
         if (!drawLineBtn.selectedProperty().get() || linePainting == null) { return; }
         linePainting.setEndX(event.getX());
         linePainting.setEndY(event.getY());
