@@ -12,6 +12,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -19,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox minHeight="220.0" minWidth="520.0" prefHeight="400.0" prefWidth="985.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.ExercisesScreenController">
+<VBox minHeight="220.0" minWidth="520.0" prefHeight="469.0" prefWidth="985.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.ExercisesScreenController">
    <children>
       <MenuBar>
          <menus>
@@ -46,10 +47,16 @@
          <items>
             <VBox spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Marcar Punto" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Trazar Linea" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Trazar Arco" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Anotar Texto" />
+                  <Label text="Herramientas:" />
+                  <ToggleButton mnemonicParsing="false" onAction="#setDragTool" prefWidth="90.0" selected="true" text="Arrastrar">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="tools" />
+                     </toggleGroup>
+                  </ToggleButton>
+                  <ToggleButton mnemonicParsing="false" prefWidth="90.0" text="Marcar Punto" toggleGroup="$tools" />
+                  <ToggleButton mnemonicParsing="false" prefWidth="90.0" text="Trazar Linea" toggleGroup="$tools" />
+                  <ToggleButton mnemonicParsing="false" prefWidth="90.0" text="Trazar Arco" toggleGroup="$tools" />
+                  <ToggleButton mnemonicParsing="false" prefWidth="90.0" text="Anotar Texto" toggleGroup="$tools" />
                   <Separator prefWidth="200.0" />
                   <VBox prefHeight="129.0" prefWidth="171.0" spacing="10.0">
                      <children>
@@ -82,7 +89,7 @@
             </VBox>
             <ScrollPane prefWidth="482.0">
                <content>
-                  <ImageView fitHeight="594.0" fitWidth="925.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="mapImg" fitHeight="594.0" fitWidth="925.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../resources/carta_nautica.jpg" />
                      </image>
