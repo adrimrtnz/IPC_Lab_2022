@@ -11,6 +11,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -49,7 +50,7 @@
             <VBox spacing="10.0">
                <children>
                   <Label text="Herramientas:" />
-                  <ToggleButton fx:id="dragBtn" mnemonicParsing="false" onAction="#setDragTool" prefWidth="90.0" selected="true" text="Arrastrar">
+                  <ToggleButton fx:id="dragBtn" mnemonicParsing="false" prefWidth="90.0" selected="true" text="Arrastrar">
                      <toggleGroup>
                         <ToggleGroup fx:id="tools" />
                      </toggleGroup>
@@ -66,6 +67,12 @@
                            <value>
                               <Color />
                            </value></ColorPicker>
+                        <HBox alignment="CENTER_LEFT" maxWidth="90.0" prefHeight="25.0" prefWidth="90.0" spacing="2.0">
+                           <children>
+                              <Spinner fx:id="strokeSize" editable="true" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grosor" />
+                           </children>
+                        </HBox>
                         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Limpiar Carta" />
                      </children>
                      <VBox.margin>
@@ -92,7 +99,7 @@
             </VBox>
             <ScrollPane fx:id="mapScrollpane" prefWidth="482.0">
                <content>
-                  <ImageView fx:id="mapImg" fitHeight="594.0" fitWidth="925.0" onMouseClicked="#manageAction" onMouseDragged="#modAction" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="mapImg" fitHeight="594.0" fitWidth="925.0" onMouseDragged="#modAction" onMousePressed="#manageAction" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../resources/carta_nautica.jpg" />
                      </image>

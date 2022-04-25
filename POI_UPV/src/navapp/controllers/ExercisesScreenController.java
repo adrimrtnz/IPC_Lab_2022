@@ -20,6 +20,8 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
@@ -38,6 +40,7 @@ public class ExercisesScreenController implements Initializable {
     
     @FXML private ToggleGroup tools;
     @FXML private ToggleGroup opciones;
+    @FXML private Spinner<Integer> strokeSize;
     @FXML private ImageView mapImg;
     @FXML private ToggleButton dragBtn;
     @FXML private ToggleButton drawLineBtn;
@@ -56,7 +59,7 @@ public class ExercisesScreenController implements Initializable {
     private Group zoomGroup;
     
     private Line linePainting;  
-    private double linesStroke = 3.0;
+    
     
     
     @Override
@@ -64,6 +67,7 @@ public class ExercisesScreenController implements Initializable {
         dragActive = new SimpleBooleanProperty();
         dragActive.bind(dragBtn.selectedProperty());
         
+        strokeSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 3));
         
         // inicializamos el slider y enlazamos con el zoom
         zoomSlider.setMin(0.5);
@@ -76,40 +80,12 @@ public class ExercisesScreenController implements Initializable {
         contentGroup.getChildren().add(zoomGroup);
         zoomGroup.getChildren().add(mapScrollpane.getContent());
         mapScrollpane.setContent(contentGroup);
-        
-        setDragTool();
     }
 
 
     public void initializeUser(User user) {
         loggedUser = user;
         System.out.println("Usuario: " + loggedUser.getNickName());
-    }
-    
-    @FXML public void setDragTool() {
-        contentGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (!dragActive.get()) { return; }      // Only drags the map when the appropiate Button is selected
-                initialXTrans = event.getSceneX();
-                initialYTrans = event.getSceneY();
-                baseX = contentGroup.getTranslateX();
-                baseY = contentGroup.getTranslateY();
-            }
-        });
-        
-        
-        contentGroup.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (!dragActive.get()) { return; }      // Only drags the map when the appropiate Button is selected
-                double despX = event.getSceneX() - initialXTrans;
-                double despY = event.getSceneY() - initialYTrans;
-                contentGroup.setTranslateX(baseX + despX);
-                contentGroup.setTranslateY(baseY + despY);
-                event.consume();
-            }
-        });
     }
     
     
@@ -143,30 +119,45 @@ public class ExercisesScreenController implements Initializable {
 
     
     @FXML private void manageAction(MouseEvent event) {
-        if (!drawLineBtn.selectedProperty().get()) { return; }
-        linePainting = new Line(event.getX(), event.getY(), event.getX(), event.getY());
-        linePainting.setStrokeWidth(linesStroke);
-        linePainting.setStroke(colorPicker.getValue());
-        zoomGroup.getChildren().add(linePainting);
-        
-        linePainting.setOnContextMenuRequested(e -> {
-            ContextMenu menuContext = new ContextMenu();
-            MenuItem deleteItem = new MenuItem("Eliminar");
-            
-            menuContext.getItems().add(deleteItem);
-            deleteItem.setOnAction(ev -> {
-                zoomGroup.getChildren().remove((Node) e.getSource());
-                ev.consume();
+        if (drawLineBtn.selectedProperty().get()) {
+            linePainting = new Line(event.getX(), event.getY(), event.getX(), event.getY());
+            linePainting.setStrokeWidth(strokeSize.getValue());
+            linePainting.setStroke(colorPicker.getValue());
+            zoomGroup.getChildren().add(linePainting);
+
+            linePainting.setOnContextMenuRequested(e -> {
+                ContextMenu menuContext = new ContextMenu();
+                MenuItem deleteItem = new MenuItem("Eliminar");
+
+                menuContext.getItems().add(deleteItem);
+                deleteItem.setOnAction(ev -> {
+                    zoomGroup.getChildren().remove((Node) e.getSource());
+                    ev.consume();
+                });
+                menuContext.show(linePainting, e.getSceneX(), e.getSceneY());
+                e.consume();
             });
-            menuContext.show(linePainting, e.getSceneX(), e.getSceneY());
-            e.consume();
-        });
+        }
+        
+        if (dragActive.get()) {
+            initialXTrans = event.getSceneX();
+            initialYTrans = event.getSceneY();
+            baseX = contentGroup.getTranslateX();
+            baseY = contentGroup.getTranslateY();
+        }
     }
     
     @FXML private void modAction(MouseEvent event) {
-        if (!drawLineBtn.selectedProperty().get() || linePainting == null) { return; }
-        linePainting.setEndX(event.getX());
-        linePainting.setEndY(event.getY());
+        if (drawLineBtn.selectedProperty().get() && linePainting != null) {
+            linePainting.setEndX(event.getX());
+            linePainting.setEndY(event.getY());
+        }
+        if (dragActive.get()) {
+            double despX = event.getSceneX() - initialXTrans;
+            double despY = event.getSceneY() - initialYTrans;
+            contentGroup.setTranslateX(baseX + despX);
+            contentGroup.setTranslateY(baseY + despY);
+        }
         event.consume();
     } 
 }
