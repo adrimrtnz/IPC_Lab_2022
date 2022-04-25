@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -160,4 +161,12 @@ public class ExercisesScreenController implements Initializable {
         }
         event.consume();
     } 
+
+    @FXML private void cleanMap(ActionEvent event) {
+
+        while (zoomGroup.getChildren().size() > 1) {
+            zoomGroup.getChildren().remove(zoomGroup.getChildren().size() - 1);
+        }
+        event.consume();
+    }
 }
