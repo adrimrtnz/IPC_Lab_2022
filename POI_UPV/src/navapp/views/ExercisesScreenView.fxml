@@ -136,9 +136,9 @@
                   <Separator prefWidth="200.0" />
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Aceptar" />
-                        <Button mnemonicParsing="false" text="Limpiar" />
-                        <Button mnemonicParsing="false" text="Siguiente" />
+                        <Button fx:id="submitAnsBtn" disable="true" mnemonicParsing="false" onAction="#checkAnswer" text="Aceptar" />
+                        <Button fx:id="clearBtn" mnemonicParsing="false" text="Limpiar" />
+                        <Button fx:id="nextStatementBtn" mnemonicParsing="false" text="Siguiente" />
                      </children>
                   </HBox>
                </children>

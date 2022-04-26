@@ -6,6 +6,7 @@
 package navapp.controllers;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import java.util.List;
 import java.util.LinkedList;
@@ -19,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -36,10 +38,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import javax.crypto.SealedObject;
 import model.Navegacion;
 import model.User;
 import model.Problem;
 import model.Answer;
+import model.Session;
 
 /**
  * FXML Controller class
@@ -66,6 +70,9 @@ public class ExercisesScreenController implements Initializable {
     @FXML private RadioButton ansBBtn;
     @FXML private RadioButton ansCBtn;
     @FXML private RadioButton ansDBtn;
+    @FXML private Button submitAnsBtn;
+    @FXML private Button clearBtn;
+    @FXML private Button nextStatementBtn;
     
     private User loggedUser;
     private BooleanProperty dragActive;
@@ -83,6 +90,8 @@ public class ExercisesScreenController implements Initializable {
     
     private Navegacion baseDatos;
     private Problem activeProblem;
+    
+    private int hits, fails;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -294,8 +303,28 @@ public class ExercisesScreenController implements Initializable {
         }
         
         ansABtn.textProperty().set(ansTemp.get(order.get(0)).getText());
+        ansABtn.setUserData(ansTemp.get(order.get(0)).getValidity());
         ansBBtn.textProperty().set(ansTemp.get(order.get(1)).getText());
+        ansBBtn.setUserData(ansTemp.get(order.get(1)).getValidity());
         ansCBtn.textProperty().set(ansTemp.get(order.get(2)).getText());
+        ansCBtn.setUserData(ansTemp.get(order.get(2)).getValidity());
         ansDBtn.textProperty().set(ansTemp.get(order.get(3)).getText());
+        ansDBtn.setUserData(ansTemp.get(order.get(3)).getValidity());
+        
+        submitAnsBtn.setDisable(false);
+    }
+
+    @FXML
+    private void checkAnswer(ActionEvent event) {
+        if(opciones.getSelectedToggle() != null) {
+            if((boolean)opciones.getSelectedToggle().getUserData()){
+                hits++;
+            } else {
+                fails++;
+            }
+            submitAnsBtn.setDisable(true);
+        } else {
+            System.out.println("Error al evaluar respuesta");
+        }
     }
 }
