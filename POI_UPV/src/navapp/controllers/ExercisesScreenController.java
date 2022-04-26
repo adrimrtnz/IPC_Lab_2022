@@ -7,6 +7,9 @@ package navapp.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Random;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
@@ -19,6 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
@@ -32,7 +36,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import model.Navegacion;
 import model.User;
+import model.Problem;
+import model.Answer;
 
 /**
  * FXML Controller class
@@ -53,6 +60,12 @@ public class ExercisesScreenController implements Initializable {
     @FXML private ColorPicker colorPicker;
     @FXML private Slider zoomSlider;
     @FXML private ScrollPane mapScrollpane;
+    @FXML private MenuItem newRandBtn;
+    @FXML private Text probStatement;
+    @FXML private RadioButton ansABtn;
+    @FXML private RadioButton ansBBtn;
+    @FXML private RadioButton ansCBtn;
+    @FXML private RadioButton ansDBtn;
     
     private User loggedUser;
     private BooleanProperty dragActive;
@@ -68,8 +81,8 @@ public class ExercisesScreenController implements Initializable {
     private Line linePainting; 
     private Circle circlePainting;
     
-    
-    
+    private Navegacion baseDatos;
+    private Problem activeProblem;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -89,6 +102,14 @@ public class ExercisesScreenController implements Initializable {
         contentGroup.getChildren().add(zoomGroup);
         zoomGroup.getChildren().add(mapScrollpane.getContent());
         mapScrollpane.setContent(contentGroup);
+        
+        try{
+            baseDatos = Navegacion.getSingletonNavegacion();
+        }
+        catch (Exception e) {
+            System.out.print("Error al cargar la base de datos: ");
+            System.out.println(e.toString());
+        }
     }
 
 
@@ -247,5 +268,34 @@ public class ExercisesScreenController implements Initializable {
             zoomGroup.getChildren().remove(zoomGroup.getChildren().size() - 1);
         }
         event.consume();
+    }
+
+    @FXML
+    private void newRandomExercise(ActionEvent event) {
+        List<Problem> probDisp = baseDatos.getProblems();
+        Random rd = new Random();
+        
+        activeProblem = probDisp.get(rd.nextInt(probDisp.size()));
+        updateProblem();
+    }
+    
+    private void updateProblem() {
+        probStatement.textProperty().set(activeProblem.getText());
+        List<Answer> ansTemp = activeProblem.getAnswers();
+        List<Integer> order = new LinkedList<Integer>();
+        Random rd = new Random();
+        /*No es la forma más eficiente para aleatorizar las respuestas
+        pero para generar 4 valores solamente no es crítico y es simple*/
+        while(order.size() < 4) {
+            Integer n = rd.nextInt(4);
+            if(!order.contains(n)){
+                order.add(n);
+            }
+        }
+        
+        ansABtn.textProperty().set(ansTemp.get(order.get(0)).getText());
+        ansBBtn.textProperty().set(ansTemp.get(order.get(1)).getText());
+        ansCBtn.textProperty().set(ansTemp.get(order.get(2)).getText());
+        ansDBtn.textProperty().set(ansTemp.get(order.get(3)).getText());
     }
 }
