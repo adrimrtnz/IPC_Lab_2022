@@ -334,6 +334,7 @@ public class RegisterScreenController implements Initializable {
                 propmtErrorMsg("Debes ser mayor de 16 años.");
             }
             else {
+                birthdate = userBirthDay;
                 errorTxtField.setVisible(false);
                 birthDateCheck.setVisible(true);
             }
