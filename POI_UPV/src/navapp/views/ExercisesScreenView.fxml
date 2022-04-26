@@ -28,6 +28,7 @@
          <menus>
             <Menu text="_Problemas">
                <items>
+                  <MenuItem mnemonicParsing="false" text="Lista de Problemas" />
                   <MenuItem mnemonicParsing="false" text="Nuevo Problema Aleatorio" />
                </items>
             </Menu>
@@ -55,10 +56,10 @@
                         <ToggleGroup fx:id="tools" />
                      </toggleGroup>
                   </ToggleButton>
-                  <ToggleButton mnemonicParsing="false" prefWidth="90.0" text="Marcar Punto" toggleGroup="$tools" />
+                  <ToggleButton fx:id="drawPointBtn" mnemonicParsing="false" prefWidth="90.0" text="Marcar Punto" toggleGroup="$tools" />
                   <ToggleButton fx:id="drawLineBtn" mnemonicParsing="false" prefWidth="90.0" text="Trazar Linea" toggleGroup="$tools" />
-                  <ToggleButton mnemonicParsing="false" prefWidth="90.0" text="Trazar Arco" toggleGroup="$tools" />
-                  <ToggleButton mnemonicParsing="false" prefWidth="90.0" text="Anotar Texto" toggleGroup="$tools" />
+                  <ToggleButton fx:id="drawArcBtn" mnemonicParsing="false" prefWidth="90.0" text="Trazar Arco" toggleGroup="$tools" />
+                  <ToggleButton fx:id="addTextBtn" mnemonicParsing="false" prefWidth="90.0" text="Anotar Texto" toggleGroup="$tools" />
                   <Separator prefWidth="200.0" />
                   <VBox prefHeight="99.0" prefWidth="191.0" spacing="10.0">
                      <children>
@@ -108,7 +109,7 @@
             </ScrollPane>
             <VBox prefHeight="443.0" prefWidth="226.0" spacing="10.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Selección Nuevo Problema en el Menú &quot;Problemas&quot;." wrappingWidth="238.13669395446777">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Selecciona &quot;Nuevo Problema Aleatoria&quot; en el Menú &quot;Problemas&quot;, o accede a la &quot;Lista de Problemas&quot;." wrappingWidth="238.13669395446777">
                      <VBox.margin>
                         <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
                      </VBox.margin></Text>
