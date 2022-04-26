@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Text?>
+
+<VBox minHeight="220.0" minWidth="520.0" prefHeight="469.0" prefWidth="985.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.ExercisesScreenController">
+   <children>
+      <MenuBar>
+         <menus>
+            <Menu text="_Problemas">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Lista de Problemas" />
+                  <MenuItem mnemonicParsing="false" text="Nuevo Problema Aleatorio" />
+               </items>
+            </Menu>
+            <Menu text="_Usuario">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Perfil" />
+                  <MenuItem mnemonicParsing="false" text="Estadísticas" />
+                  <MenuItem mnemonicParsing="false" text="Cerrar Sesión" />
+               </items>
+            </Menu>
+            <Menu text="_Ayuda">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <SplitPane dividerPositions="0.20895522388059704, 0.7310040705563094">
+         <items>
+            <VBox spacing="10.0">
+               <children>
+                  <Label text="Herramientas:" />
+                  <ToggleButton fx:id="dragBtn" mnemonicParsing="false" prefWidth="90.0" selected="true" text="Arrastrar">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="tools" />
+                     </toggleGroup>
+                  </ToggleButton>
+                  <ToggleButton fx:id="drawPointBtn" mnemonicParsing="false" prefWidth="90.0" text="Marcar Punto" toggleGroup="$tools" />
+                  <ToggleButton fx:id="drawLineBtn" mnemonicParsing="false" prefWidth="90.0" text="Trazar Linea" toggleGroup="$tools" />
+                  <ToggleButton fx:id="drawArcBtn" mnemonicParsing="false" prefWidth="90.0" text="Trazar Arco" toggleGroup="$tools" />
+                  <ToggleButton fx:id="addTextBtn" mnemonicParsing="false" prefWidth="90.0" text="Anotar Texto" toggleGroup="$tools" />
+                  <Separator prefWidth="200.0" />
+                  <VBox prefHeight="99.0" prefWidth="191.0" spacing="10.0">
+                     <children>
+                        <Label text="Opciones sobre marcas:" />
+                        <ColorPicker fx:id="colorPicker" minHeight="25.0" prefHeight="25.0" prefWidth="90.0">
+                           <value>
+                              <Color />
+                           </value></ColorPicker>
+                        <HBox alignment="CENTER_LEFT" maxWidth="90.0" prefHeight="25.0" prefWidth="90.0" spacing="2.0">
+                           <children>
+                              <Spinner fx:id="strokeSize" editable="true" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grosor" />
+                           </children>
+                        </HBox>
+                        <Button mnemonicParsing="false" onAction="#cleanMap" prefHeight="25.0" prefWidth="90.0" text="Limpiar Carta" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </VBox>
+                  <Separator prefWidth="200.0" />
+                  <VBox alignment="CENTER" prefHeight="59.0" prefWidth="165.0">
+                     <children>
+                        <Label text="Zoom" />
+                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="165.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#zoomOut" text="-" />
+                              <Slider fx:id="zoomSlider" prefHeight="14.0" prefWidth="107.0" />
+                              <Button mnemonicParsing="false" onAction="#zoomIn" text="+" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets left="10.0" top="10.0" />
+               </padding>
+            </VBox>
+            <ScrollPane fx:id="mapScrollpane" prefWidth="482.0">
+               <content>
+                  <ImageView fx:id="mapImg" fitHeight="594.0" fitWidth="925.0" onMouseDragged="#modAction" onMousePressed="#manageAction" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/carta_nautica.jpg" />
+                     </image>
+                  </ImageView>
+               </content>
+            </ScrollPane>
+            <VBox prefHeight="443.0" prefWidth="226.0" spacing="10.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Selecciona &quot;Nuevo Problema Aleatoria&quot; en el Menú &quot;Problemas&quot;, o accede a la &quot;Lista de Problemas&quot;." wrappingWidth="238.13669395446777">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin></Text>
+                  <Separator prefWidth="200.0" />
+                  <RadioButton mnemonicParsing="false" text="A: ">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="opciones" />
+                     </toggleGroup>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin></RadioButton>
+                  <RadioButton mnemonicParsing="false" text="B: " toggleGroup="$opciones">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin></RadioButton>
+                  <RadioButton mnemonicParsing="false" text="C: " toggleGroup="$opciones">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin></RadioButton>
+                  <RadioButton mnemonicParsing="false" text="D: " toggleGroup="$opciones">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin></RadioButton>
+                  <Separator prefWidth="200.0" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Button mnemonicParsing="false" text="Aceptar" />
+                        <Button mnemonicParsing="false" text="Limpiar" />
+                        <Button mnemonicParsing="false" text="Siguiente" />
+                     </children>
+                  </HBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </VBox>
+         </items>
+      </SplitPane>
+   </children>
+</VBox>

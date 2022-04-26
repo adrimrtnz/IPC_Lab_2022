@@ -61,6 +61,7 @@ public class LoginScreenController implements Initializable {
     private String errorTxtMsg;
     
     private Navegacion baseDatos;
+    private User loggedUser;
     
     
     /**
@@ -79,6 +80,7 @@ public class LoginScreenController implements Initializable {
         try {
             baseDatos = Navegacion.getSingletonNavegacion();
             System.out.println("Base de datos cargada correctamente.");
+            loggedUser = null;
             
             if (baseDatos == null) {
                 errorTxtMsg = "Error al cargar la Base de Datos.";
@@ -144,7 +146,7 @@ public class LoginScreenController implements Initializable {
         else {
             
             validUserName.setValue(baseDatos.exitsNickName(userName.getText()));
-            User loggedUser = baseDatos.loginUser(userName.getText(), userPassword.getText());
+            loggedUser = baseDatos.loginUser(userName.getText(), userPassword.getText());
             
             if (!validUserName.getValue() || loggedUser == null) {
                 errorTxtMsg = "Credenciales Incorrectas.";
@@ -152,9 +154,16 @@ public class LoginScreenController implements Initializable {
                 errorTxtField.setDisable(false);
             }
             else {
-                errorTxtMsg = "Usuario encontrado pero no hay más ventanas. Vuelve más tarde.";
-                errorTxtField.textProperty().setValue(errorTxtMsg);
+                //errorTxtMsg = "Usuario encontrado pero no hay más ventanas. Vuelve más tarde.";
+                //errorTxtField.textProperty().setValue(errorTxtMsg);
                 errorTxtField.setDisable(false);
+                try {
+                    loadExercisesScreen(loggedUser);
+                } catch(Exception e) {
+                    System.out.println("No se ha podido cargar la pantalla de ejercicios.");
+                    errorTxtMsg = "No se ha podido cargar la pantalla de ejercicios.";
+                    errorTxtField.textProperty().setValue(errorTxtMsg);
+                }
             }
         }
         
@@ -170,7 +179,7 @@ public class LoginScreenController implements Initializable {
         Parent root = cargadorRegistro.load();
         
         // Acceso al controlador de la Vista de Registro
-        RegisterScreenController controlador = cargadorRegistro.getController();
+        // RegisterScreenController controlador = cargadorRegistro.getController();
         
         Stage stage = new Stage();
         stage.setTitle("Registro Nuevo Usuario");
@@ -184,5 +193,25 @@ public class LoginScreenController implements Initializable {
         stage.showAndWait();
     }
 
+    private void loadExercisesScreen(User loggedUser) throws Exception {
+        FXMLLoader cargadorEjercicios = new FXMLLoader(getClass().getResource("/navapp/views/ExercisesScreenView.fxml"));
+        Parent root = cargadorEjercicios.load();
+        
+        // Acceso al controlador de la Vista de Registro
+        ExercisesScreenController controlador = cargadorEjercicios.getController();
+        controlador.initializeUser(loggedUser);
+        
+        Stage stage = new Stage();
+        stage.setTitle("Vista Principal -TÍTULO PROVISIONAL");
+        //stage.initStyle(StageStyle.UNDECORATED);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        closeLoginScreen();
+        stage.show();
+    }
     
+    private void closeLoginScreen() {
+        Stage stage = (Stage) toolBar.getScene().getWindow();
+        stage.close();
+    }
 }

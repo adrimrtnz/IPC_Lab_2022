@@ -1,0 +1,92 @@
+.app-general-style {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10 10 5 5;
+    -fx-effect: innershadow(gaussian, #C3BAF5, 1, 1, 0.0, 0.0);
+}
+
+.general-window {
+    -fx-border-radius: 0;
+}
+
+.tittle-bar {
+    -fx-background-color: #C3BAF5;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.tittle-bar-button {
+    -fx-background-radius: 10%;
+    -fx-background-color: #C3BAF5;
+    -fx-text-fill: #000000;
+}
+
+.tittle-bar-button-unabled {
+    -fx-background-radius: 10%;
+    -fx-background-color: #C3BAF5;
+    -fx-text-fill: #6e6e6e;
+}
+
+.tittle-bar-button:hover {
+    -fx-background-color: #dfdbf5;
+}
+
+/*
+.minimize-button {
+    -fx-background-color: #FFBD44;
+}
+
+.minimize-button:hover {
+    -fx-background-color: #e9ac3a;
+}
+
+.maximize-button {
+    -fx-background-color: #00CA4E;
+    
+}
+
+.maximize-button:hover {
+    -fx-background-color: #00b846;
+}
+
+.close-button {
+    -fx-background-color: #FF605C;
+}
+
+.close-button:hover {
+    -fx-background-color: #e44c4a;
+}
+*/
+
+.text-fields {
+    -fx-background-color: #F4F5F9;
+    -fx-text-fill: #000000;
+    -fx-border-color: #C3BAF5;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 2 2 2 2;
+    -fx-alignmen: center;
+}
+
+.large-button {
+    -fx-background-color: #F4F5F9;
+    -fx-text-fill: #000000;
+    -fx-border-color: #C3BAF5;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 2 2 2 2;
+}
+
+.large-button:hover {
+    -fx-background-color: #dbdfef;
+    -fx-border-radius: 20;
+}
+
+.large-button:pressed {
+    -fx-background-color: #c0c9ed;
+}
+
+.avatar-button {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #dddddd;
+    -fx-border-radius: 10px;
+    -fx-border-width: 2 2 2 2;
+} 
