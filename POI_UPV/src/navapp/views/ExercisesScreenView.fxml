@@ -68,10 +68,14 @@
                            <value>
                               <Color />
                            </value></ColorPicker>
-                        <HBox alignment="CENTER_LEFT" maxWidth="90.0" prefHeight="25.0" prefWidth="90.0" spacing="2.0">
+                        <HBox alignment="CENTER_LEFT" maxWidth="90.0" prefHeight="25.0" prefWidth="90.0" spacing="8.0">
                            <children>
                               <Spinner fx:id="strokeSize" editable="true" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grosor" />
+                              <ImageView fitHeight="21.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../resources/icons/line.png" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </HBox>
                         <Button mnemonicParsing="false" onAction="#cleanMap" prefHeight="25.0" prefWidth="90.0" text="Limpiar Carta" />

@@ -179,6 +179,7 @@ public class ExercisesScreenController implements Initializable {
         if (drawArcBtn.selectedProperty().get()) {
             circlePainting = new Circle(1);
             circlePainting.setStroke(colorPicker.getValue());
+            circlePainting.setStrokeWidth(strokeSize.getValue());
             circlePainting.setFill(Color.TRANSPARENT);
             circlePainting.setCenterX(event.getX());
             circlePainting.setCenterY(event.getY());
