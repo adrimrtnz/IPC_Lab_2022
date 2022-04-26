@@ -45,6 +45,9 @@ public class ExercisesScreenController implements Initializable {
     @FXML private ImageView mapImg;
     @FXML private ToggleButton dragBtn;
     @FXML private ToggleButton drawLineBtn;
+    @FXML private ToggleButton drawPointBtn;
+    @FXML private ToggleButton drawArcBtn;
+    @FXML private ToggleButton addTextBtn;
     @FXML private ColorPicker colorPicker;
     @FXML private Slider zoomSlider;
     @FXML private ScrollPane mapScrollpane;
@@ -60,6 +63,7 @@ public class ExercisesScreenController implements Initializable {
     private Group zoomGroup;
     
     private Line linePainting;  
+    
     
     
     
@@ -120,6 +124,13 @@ public class ExercisesScreenController implements Initializable {
 
     
     @FXML private void manageAction(MouseEvent event) {
+        if (dragActive.get()) {
+            initialXTrans = event.getSceneX();
+            initialYTrans = event.getSceneY();
+            baseX = contentGroup.getTranslateX();
+            baseY = contentGroup.getTranslateY();
+        }
+        
         if (drawLineBtn.selectedProperty().get()) {
             linePainting = new Line(event.getX(), event.getY(), event.getX(), event.getY());
             linePainting.setStrokeWidth(strokeSize.getValue());
@@ -140,25 +151,47 @@ public class ExercisesScreenController implements Initializable {
             });
         }
         
-        if (dragActive.get()) {
-            initialXTrans = event.getSceneX();
-            initialYTrans = event.getSceneY();
-            baseX = contentGroup.getTranslateX();
-            baseY = contentGroup.getTranslateY();
+        if (drawPointBtn.selectedProperty().get()) {
+            Circle circle = new Circle(event.getX(), event.getY(), strokeSize.getValue(), colorPicker.getValue());
+            zoomGroup.getChildren().add(circle);
+            
+            circle.setOnContextMenuRequested(e -> {
+                ContextMenu menuContext = new ContextMenu();
+                MenuItem deleteItem = new MenuItem("Eliminar");
+
+                menuContext.getItems().add(deleteItem);
+                deleteItem.setOnAction(ev -> {
+                    zoomGroup.getChildren().remove((Node) e.getSource());
+                    ev.consume();
+                });
+                menuContext.show(circle, e.getSceneX(), e.getSceneY());
+                e.consume();
+            });
         }
+        
+        if (drawArcBtn.selectedProperty().get()) {
+            // TODO
+        }        
+        
+        if (addTextBtn.selectedProperty().get()) {
+            // TODO
+        }
+        
     }
     
     @FXML private void modAction(MouseEvent event) {
-        if (drawLineBtn.selectedProperty().get() && linePainting != null) {
-            linePainting.setEndX(event.getX());
-            linePainting.setEndY(event.getY());
-        }
         if (dragActive.get()) {
             double despX = event.getSceneX() - initialXTrans;
             double despY = event.getSceneY() - initialYTrans;
             contentGroup.setTranslateX(baseX + despX);
             contentGroup.setTranslateY(baseY + despY);
         }
+        
+        if (drawLineBtn.selectedProperty().get() && linePainting != null) {
+            linePainting.setEndX(event.getX());
+            linePainting.setEndY(event.getY());
+        }
+        
         event.consume();
     } 
 
