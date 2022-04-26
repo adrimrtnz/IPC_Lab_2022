@@ -23,6 +23,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
@@ -30,6 +31,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import model.User;
 
 /**
@@ -126,6 +128,9 @@ public class ExercisesScreenController implements Initializable {
 
     
     @FXML private void manageAction(MouseEvent event) {
+        
+        // TODO: Refactorizar lo que hace cada botón
+        
         if (dragActive.get()) {
             initialXTrans = event.getSceneX();
             initialYTrans = event.getSceneY();
@@ -195,7 +200,22 @@ public class ExercisesScreenController implements Initializable {
         }        
         
         if (addTextBtn.selectedProperty().get()) {
-            // TODO
+            TextField textF = new TextField();
+            zoomGroup.getChildren().add(textF);
+            textF.setLayoutX(event.getX());
+            textF.setLayoutY(event.getY());
+            textF.requestFocus();
+            
+            textF.setOnAction(e -> {
+                Text textT = new Text (textF.getText());
+                textT.setLayoutX(textF.getLayoutX());
+                textT.setLayoutY(textF.getLayoutY());
+                textT.setStyle("-fx-font-family: Gafata; -fx-font-size: 30;");
+                zoomGroup.getChildren().add(textT);
+                zoomGroup.getChildren().remove(textF);
+                e.consume();
+            });
+            
         }
         
     }
