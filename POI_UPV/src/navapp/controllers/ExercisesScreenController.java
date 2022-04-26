@@ -57,12 +57,14 @@ public class ExercisesScreenController implements Initializable {
     
     private double initialXTrans;
     private double initialYTrans;
+    private double initialXArc;
     private double baseX;
     private double baseY;
     private Group contentGroup;
     private Group zoomGroup;
     
-    private Line linePainting;  
+    private Line linePainting; 
+    private Circle circlePainting;
     
     
     
@@ -170,7 +172,26 @@ public class ExercisesScreenController implements Initializable {
         }
         
         if (drawArcBtn.selectedProperty().get()) {
-            // TODO
+            circlePainting = new Circle(1);
+            circlePainting.setStroke(colorPicker.getValue());
+            circlePainting.setFill(Color.TRANSPARENT);
+            circlePainting.setCenterX(event.getX());
+            circlePainting.setCenterY(event.getY());
+            initialXArc = event.getX();
+            zoomGroup.getChildren().add(circlePainting);
+            
+            circlePainting.setOnContextMenuRequested(e -> {
+                ContextMenu menuContext = new ContextMenu();
+                MenuItem deleteItem = new MenuItem("Eliminar");
+
+                menuContext.getItems().add(deleteItem);
+                deleteItem.setOnAction(ev -> {
+                    zoomGroup.getChildren().remove((Node) e.getSource());
+                    ev.consume();
+                });
+                menuContext.show(circlePainting, e.getSceneX(), e.getSceneY());
+                e.consume();
+            });
         }        
         
         if (addTextBtn.selectedProperty().get()) {
@@ -191,6 +212,11 @@ public class ExercisesScreenController implements Initializable {
             linePainting.setEndX(event.getX());
             linePainting.setEndY(event.getY());
         }
+        
+        if (drawArcBtn.selectedProperty().get()) {
+            double radio = Math.abs(event.getX() - initialXArc);
+            circlePainting.setRadius(radio);
+        }   
         
         event.consume();
     } 
