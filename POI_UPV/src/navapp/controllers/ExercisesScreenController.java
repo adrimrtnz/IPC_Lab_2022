@@ -30,6 +30,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
@@ -66,10 +67,6 @@ public class ExercisesScreenController implements Initializable {
     @FXML private ScrollPane mapScrollpane;
     @FXML private MenuItem newRandBtn;
     @FXML private Text probStatement;
-    @FXML private RadioButton ansABtn;
-    @FXML private RadioButton ansBBtn;
-    @FXML private RadioButton ansCBtn;
-    @FXML private RadioButton ansDBtn;
     @FXML private Button submitAnsBtn;
     @FXML private Button clearBtn;
     @FXML private Button nextStatementBtn;
@@ -290,7 +287,7 @@ public class ExercisesScreenController implements Initializable {
     
     private void updateProblem() {
         probStatement.textProperty().set(activeProblem.getText());
-        List<Answer> ansTemp = activeProblem.getAnswers();
+        List<Answer> ansListTemp = activeProblem.getAnswers();
         List<Integer> order = new LinkedList<Integer>();
         Random rd = new Random();
         /*No es la forma más eficiente para aleatorizar las respuestas
@@ -302,14 +299,11 @@ public class ExercisesScreenController implements Initializable {
             }
         }
         
-        ansABtn.textProperty().set(ansTemp.get(order.get(0)).getText());
-        ansABtn.setUserData(ansTemp.get(order.get(0)).getValidity());
-        ansBBtn.textProperty().set(ansTemp.get(order.get(1)).getText());
-        ansBBtn.setUserData(ansTemp.get(order.get(1)).getValidity());
-        ansCBtn.textProperty().set(ansTemp.get(order.get(2)).getText());
-        ansCBtn.setUserData(ansTemp.get(order.get(2)).getValidity());
-        ansDBtn.textProperty().set(ansTemp.get(order.get(3)).getText());
-        ansDBtn.setUserData(ansTemp.get(order.get(3)).getValidity());
+        for(Toggle t: opciones.getToggles()){
+            Answer ans = ansListTemp.get(order.remove(0));
+            ((RadioButton)t).textProperty().set(ans.getText());
+            ((RadioButton)t).setUserData(ans.getValidity());
+        }
         
         submitAnsBtn.setDisable(false);
     }
@@ -317,12 +311,19 @@ public class ExercisesScreenController implements Initializable {
     @FXML
     private void checkAnswer(ActionEvent event) {
         if(opciones.getSelectedToggle() != null) {
-            if((boolean)opciones.getSelectedToggle().getUserData()){
-                hits++;
-            } else {
-                fails++;
+            for(Toggle t: opciones.getToggles()){
+                if(((RadioButton)t).isSelected() && (boolean)((RadioButton)t).getUserData()){
+                    hits++;
+                    ((RadioButton)t).textFillProperty().set(Color.GREEN);
+                }
+                else if (((RadioButton)t).isSelected() && !(boolean)((RadioButton)t).getUserData()) {
+                    fails++;
+                    ((RadioButton)t).textFillProperty().set(Color.RED);
+                }
+                else if (!((RadioButton)t).isSelected() && (boolean)((RadioButton)t).getUserData()) {
+                    ((RadioButton)t).textFillProperty().set(Color.GREEN);
+                }
             }
-            submitAnsBtn.setDisable(true);
         } else {
             System.out.println("Error al evaluar respuesta");
         }
