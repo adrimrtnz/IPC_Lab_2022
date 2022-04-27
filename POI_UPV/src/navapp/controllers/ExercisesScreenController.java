@@ -174,11 +174,13 @@ public class ExercisesScreenController implements Initializable {
         // slider y del resultado esperado
         double sliderVal = zoomSlider.getValue();
         zoomSlider.setValue(sliderVal += 0.1);
+        event.consume();
     }
 
     @FXML void zoomOut(ActionEvent event) {
         double sliderVal = zoomSlider.getValue();
         zoomSlider.setValue(sliderVal + -0.1);
+        event.consume();
     }
 
     
