@@ -7,6 +7,7 @@ package navapp.controllers;
 
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.List;
 import java.util.LinkedList;
@@ -318,7 +319,7 @@ public class ExercisesScreenController implements Initializable {
             ((RadioButton)t).setUserData(ans.getValidity());
         }
         
-        submitAnsBtn.setDisable(false);
+        clearAnswers();
     }
 
     @FXML
@@ -340,5 +341,16 @@ public class ExercisesScreenController implements Initializable {
         } else {
             System.out.println("Error al evaluar respuesta");
         }
+        
+        submitAnsBtn.setDisable(true);
+    }
+    
+    private void clearAnswers() {
+        for(Toggle t: opciones.getToggles()){
+            ((RadioButton)t).textFillProperty().setValue(Color.BLACK);
+            ((RadioButton)t).setSelected(false);
+        }
+        
+        submitAnsBtn.setDisable(false);
     }
 }
