@@ -107,9 +107,7 @@ public class ExercisesScreenController implements Initializable {
     
     private int hits, fails;
     
-    
-    
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dragActive = new SimpleBooleanProperty();
@@ -130,12 +128,6 @@ public class ExercisesScreenController implements Initializable {
         zoomGroup.getChildren().add(mapScrollpane.getContent());
         mapScrollpane.setContent(contentGroup);
         
-        /*
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        
-        stage.setOnCloseRequest(ev -> {
-            closeSession();
-        });*/
         
         try{
             baseDatos = Navegacion.getSingletonNavegacion();
@@ -145,8 +137,6 @@ public class ExercisesScreenController implements Initializable {
             System.out.print("Error al cargar la base de datos: ");
             System.out.println(e.toString());
         }
-        
-        
     }
 
 
@@ -445,7 +435,7 @@ public class ExercisesScreenController implements Initializable {
     }
     
     @FXML
-    private void closeSession(ActionEvent event) throws Exception {
+    public void closeSession(ActionEvent event) throws Exception {
         FXMLLoader confirmationWindow = new FXMLLoader(getClass().getResource("/navapp/views/ConfirmationScreenView.fxml"));
         Parent root = confirmationWindow.load();
         
@@ -460,6 +450,7 @@ public class ExercisesScreenController implements Initializable {
         scene.setFill(Color.TRANSPARENT);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
+        controlador.setCancelFocus();
         stage.showAndWait();
         
         if (controlador.isClosing()) {

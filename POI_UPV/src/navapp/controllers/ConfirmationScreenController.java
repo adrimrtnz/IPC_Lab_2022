@@ -101,6 +101,10 @@ public class ConfirmationScreenController implements Initializable {
         loggedUser = user;
     }
     
+    public void setCancelFocus() {
+        cancelBtn.requestFocus();
+    }
+    
     public boolean isClosing() { return closeSession; }
     
 }

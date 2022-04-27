@@ -11,9 +11,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="187.0" prefWidth="364.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.ConfirmationScreenController">
+<AnchorPane id="AnchorPane" prefHeight="124.0" prefWidth="364.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.ConfirmationScreenController">
    <children>
-      <BorderPane prefHeight="191.0" prefWidth="364.0" stylesheets="@../../resources/styles.css">
+      <BorderPane prefHeight="121.0" prefWidth="364.0">
          <top>
             <ToolBar fx:id="toolBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="27.0" prefWidth="297.0" styleClass="tittle-bar" stylesheets="@../../resources/styles.css" BorderPane.alignment="CENTER">
                <items>
@@ -43,10 +43,10 @@
             </ToolBar>
          </top>
          <center>
-            <VBox alignment="CENTER" prefHeight="198.0" prefWidth="364.0" styleClass="root" stylesheets="@../../resources/styles.css" BorderPane.alignment="CENTER">
+            <VBox alignment="BOTTOM_CENTER" prefHeight="102.0" prefWidth="364.0" stylesheets="@../../resources/styles.css" BorderPane.alignment="CENTER">
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="¿Confirma que quiere salir?" textAlignment="CENTER" />
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="¿Confirma que quiere salir?" textAlignment="CENTER" wrappingWidth="143.947265625" />
+                  <HBox alignment="CENTER" prefHeight="57.0" prefWidth="364.0" spacing="20.0">
                      <children>
                         <Button fx:id="acceptBtn" mnemonicParsing="false" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Aceptar" />
                         <Button fx:id="cancelBtn" defaultButton="true" mnemonicParsing="false" styleClass="large-button" text="Cancelar" />
