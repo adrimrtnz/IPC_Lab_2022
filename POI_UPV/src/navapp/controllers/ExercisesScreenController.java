@@ -403,14 +403,14 @@ public class ExercisesScreenController implements Initializable {
             for(Toggle t: opciones.getToggles()){
                 if(((RadioButton)t).isSelected() && (boolean)((RadioButton)t).getUserData()){
                     hits++;
-                    ((RadioButton)t).textFillProperty().set(Color.GREEN);
+                    ((RadioButton)t).textFillProperty().set(Color.LIGHTGREEN);
                 }
                 else if (((RadioButton)t).isSelected() && !(boolean)((RadioButton)t).getUserData()) {
                     fails++;
                     ((RadioButton)t).textFillProperty().set(Color.RED);
                 }
                 else if (!((RadioButton)t).isSelected() && (boolean)((RadioButton)t).getUserData()) {
-                    ((RadioButton)t).textFillProperty().set(Color.GREEN);
+                    ((RadioButton)t).textFillProperty().set(Color.LIGHTGREEN);
                 }
             }
         } else {

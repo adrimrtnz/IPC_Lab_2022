@@ -46,7 +46,7 @@
          <bottom>
             <HBox alignment="CENTER" prefHeight="57.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" onAction="#registrarUsuario" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Aceptar" />
+                  <Button mnemonicParsing="false" onAction="#registrarUsuario" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Registrar" />
                   <Button mnemonicParsing="false" onAction="#closeScene" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Volver" />
                </children>
             </HBox>
