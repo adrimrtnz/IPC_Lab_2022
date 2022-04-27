@@ -92,7 +92,7 @@ public class ExercisesScreenController implements Initializable {
     
     private double initialXTrans;
     private double initialYTrans;
-    private double initialXArc;
+    private double initialArc[];
     private double baseX;
     private double baseY;
     private Group contentGroup;
@@ -267,7 +267,7 @@ public class ExercisesScreenController implements Initializable {
             circlePainting.setFill(Color.TRANSPARENT);
             circlePainting.setCenterX(event.getX());
             circlePainting.setCenterY(event.getY());
-            initialXArc = event.getX();
+            initialArc = new double[]{event.getX(), event.getY()};
             //zoomGroup.getChildren().add(circlePainting);
             mapPane.getChildren().add(circlePainting);
             
@@ -350,7 +350,8 @@ public class ExercisesScreenController implements Initializable {
         }
         
         if (drawArcBtn.selectedProperty().get()) {
-            double radio = Math.abs(event.getX() - initialXArc);
+            double dif[] = new double[]{ Math.abs(event.getX() - initialArc[0]), Math.abs(event.getY() - initialArc[1])};
+            double radio = Math.sqrt((dif[0]*dif[0])+(dif[1]*dif[1]));
             circlePainting.setRadius(radio);
         }   
         
