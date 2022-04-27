@@ -49,7 +49,7 @@
       </MenuBar>
       <SplitPane dividerPositions="0.20895522388059704, 0.7310040705563094">
          <items>
-            <VBox minWidth="165.0" prefWidth="167.0" spacing="10.0">
+            <VBox maxWidth="160.0" minWidth="160.0" prefHeight="646.0" prefWidth="160.0" spacing="10.0">
                <children>
                   <Label text="Herramientas:" />
                   <ToggleButton fx:id="dragBtn" mnemonicParsing="false" prefWidth="90.0" selected="true" text="Arrastrar">
@@ -99,10 +99,10 @@
                   <VBox alignment="CENTER" prefHeight="59.0" prefWidth="165.0">
                      <children>
                         <Label text="Zoom" />
-                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="165.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="165.0">
                            <children>
                               <Button mnemonicParsing="false" onAction="#zoomOut" text="-" />
-                              <Slider fx:id="zoomSlider" prefHeight="14.0" prefWidth="107.0" />
+                              <Slider fx:id="zoomSlider" prefHeight="14.0" prefWidth="95.0" />
                               <Button mnemonicParsing="false" onAction="#zoomIn" text="+" />
                            </children>
                         </HBox>
@@ -126,7 +126,7 @@
                   </Pane>
                </content>
             </ScrollPane>
-            <VBox prefHeight="443.0" prefWidth="226.0" spacing="10.0">
+            <VBox maxWidth="500.0" spacing="10.0">
                <children>
                   <Text fx:id="probStatement" strokeType="OUTSIDE" strokeWidth="0.0" text="Selecciona &quot;Nuevo Problema Aleatoria&quot; en el Menú &quot;Problemas&quot;, o accede a la &quot;Lista de Problemas&quot;." wrappingWidth="238.13669395446777">
                      <VBox.margin>
