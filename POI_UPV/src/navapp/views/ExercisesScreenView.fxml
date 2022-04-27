@@ -138,7 +138,7 @@
                      <children>
                         <Button fx:id="submitAnsBtn" disable="true" mnemonicParsing="false" onAction="#checkAnswer" text="Aceptar" />
                         <Button fx:id="clearBtn" mnemonicParsing="false" text="Limpiar" />
-                        <Button fx:id="nextStatementBtn" mnemonicParsing="false" text="Siguiente" />
+                        <Button fx:id="nextStatementBtn" mnemonicParsing="false" onAction="#nextExercise" text="Siguiente" />
                      </children>
                   </HBox>
                </children>

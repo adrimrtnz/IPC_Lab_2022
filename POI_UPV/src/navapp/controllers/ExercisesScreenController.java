@@ -86,6 +86,7 @@ public class ExercisesScreenController implements Initializable {
     private Circle circlePainting;
     
     private Navegacion baseDatos;
+    private List<Problem> probDisp;
     private Problem activeProblem;
     
     private int hits, fails;
@@ -111,11 +112,14 @@ public class ExercisesScreenController implements Initializable {
         
         try{
             baseDatos = Navegacion.getSingletonNavegacion();
+            probDisp = baseDatos.getProblems();
         }
         catch (Exception e) {
             System.out.print("Error al cargar la base de datos: ");
             System.out.println(e.toString());
         }
+        
+        
     }
 
 
@@ -277,8 +281,17 @@ public class ExercisesScreenController implements Initializable {
     }
 
     @FXML
+    private void nextExercise(ActionEvent event) {
+        if(activeProblem == null || probDisp.indexOf(activeProblem) + 1 == probDisp.size()) {
+            activeProblem = probDisp.get(0);
+        } else {
+            activeProblem = probDisp.get(probDisp.indexOf(activeProblem) + 1);
+        }
+        updateProblem();
+    }
+    
+    @FXML
     private void newRandomExercise(ActionEvent event) {
-        List<Problem> probDisp = baseDatos.getProblems();
         Random rd = new Random();
         
         activeProblem = probDisp.get(rd.nextInt(probDisp.size()));
