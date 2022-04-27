@@ -62,6 +62,7 @@
                   <ToggleButton fx:id="drawArcBtn" mnemonicParsing="false" prefWidth="105.0" text="Trazar Arco" toggleGroup="$tools" />
                   <ToggleButton fx:id="addTextBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Anotar Texto" toggleGroup="$tools" />
                   <ToggleButton fx:id="marcarExtremBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Marcar extremos" toggleGroup="$tools" />
+                  <ToggleButton fx:id="transportBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Transportador" toggleGroup="$tools" />
                   <Separator prefWidth="200.0" />
                   <VBox prefHeight="99.0" prefWidth="191.0" spacing="10.0">
                      <children>
@@ -121,6 +122,11 @@
                         <ImageView fx:id="mapImg" fitHeight="594.0" fitWidth="925.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resources/carta_nautica.jpg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="transportImg" fitHeight="243.0" fitWidth="284.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/transportador.png" />
                            </image>
                         </ImageView>
                      </children>
