@@ -202,12 +202,21 @@ public class ExercisesScreenController implements Initializable {
             linePainting.setOnContextMenuRequested(e -> {
                 ContextMenu menuContext = new ContextMenu();
                 MenuItem deleteItem = new MenuItem("Eliminar");
+                MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
 
                 menuContext.getItems().add(deleteItem);
+                menuContext.getItems().add(applyColorItem);
+                
                 deleteItem.setOnAction(ev -> {
                     mapPane.getChildren().remove((Node) e.getSource());
                     ev.consume();
                 });
+                
+                applyColorItem.setOnAction(ev -> {
+                    ((Line) e.getSource()).setStroke(colorPicker.getValue());
+                    ev.consume();
+                });
+                
                 menuContext.show(linePainting, e.getSceneX(), e.getSceneY());
                 e.consume();
             });
@@ -220,12 +229,22 @@ public class ExercisesScreenController implements Initializable {
             circle.setOnContextMenuRequested(e -> {
                 ContextMenu menuContext = new ContextMenu();
                 MenuItem deleteItem = new MenuItem("Eliminar");
+                MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
 
                 menuContext.getItems().add(deleteItem);
+                menuContext.getItems().add(applyColorItem);
+                
                 deleteItem.setOnAction(ev -> {
                     mapPane.getChildren().remove((Node) e.getSource());
                     ev.consume();
                 });
+                
+                applyColorItem.setOnAction(ev -> {
+                    ((Circle) e.getSource()).setStroke(colorPicker.getValue());
+                    ev.consume();
+                });
+                
+                
                 menuContext.show(circle, e.getSceneX(), e.getSceneY());
                 e.consume();
             });
@@ -246,12 +265,21 @@ public class ExercisesScreenController implements Initializable {
             circlePainting.setOnContextMenuRequested(e -> {
                 ContextMenu menuContext = new ContextMenu();
                 MenuItem deleteItem = new MenuItem("Eliminar");
+                MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
 
                 menuContext.getItems().add(deleteItem);
+                menuContext.getItems().add(applyColorItem);
+                
                 deleteItem.setOnAction(ev -> {
                     mapPane.getChildren().remove((Node) e.getSource());
                     ev.consume();
                 });
+                
+                applyColorItem.setOnAction(ev -> {
+                    ((Circle) e.getSource()).setStroke(colorPicker.getValue());
+                    ev.consume();
+                });
+                
                 menuContext.show(circlePainting, e.getSceneX(), e.getSceneY());
                 e.consume();
             });
@@ -293,6 +321,12 @@ public class ExercisesScreenController implements Initializable {
     }
     
     @FXML private void modAction(MouseEvent event) {
+        if (!event.isPrimaryButtonDown()) { 
+            // Si no está apretado el botón derecho del ratón no hace nada
+            // Así no dibuja cuando intentas eliminar un Node
+            return; 
+        } 
+        
         if (dragActive.get()) {
             double despX = event.getSceneX() - initialXTrans;
             double despY = event.getSceneY() - initialYTrans;
