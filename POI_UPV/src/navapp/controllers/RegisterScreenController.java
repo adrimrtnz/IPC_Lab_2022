@@ -11,7 +11,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.Set;  
+import java.io.File;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -33,6 +34,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
 import model.Navegacion;
 import model.User;
@@ -45,8 +48,10 @@ import model.User;
 public class RegisterScreenController implements Initializable {
 
     @FXML private ToolBar toolBar;
+    
     @FXML private Button maximizeButton;
     @FXML private Button minimizeBtn;
+    @FXML private Button changeAvatarBtn;
     
     @FXML private Text exitoTxtField;
     @FXML private Text errorTxtField;
@@ -361,5 +366,22 @@ public class RegisterScreenController implements Initializable {
         userPassRepCheck.setVisible(false);
         birthDateCheck.setVisible(false);
     }
+
+    @FXML
+    private void selectAvatarImage(MouseEvent event) {
+        Stage stage = (Stage) userName.getScene().getWindow();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Image");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Images", "*.jpg", "*.jpeg", "*.png"));
+        File file = fileChooser.showOpenDialog(stage);
+        
+        if(file == null) {
+            System.out.println("Null Image File");
+        } else {
+            avatar = new Image(file.toURI().toString());
+            userAvatar.imageProperty().set(avatar);
+        }
+    }
+
     
 }

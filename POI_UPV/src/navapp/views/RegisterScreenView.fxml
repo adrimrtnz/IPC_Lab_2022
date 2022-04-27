@@ -54,7 +54,7 @@
          <center>
             <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button maxHeight="124.0" maxWidth="102.0" minHeight="124.0" minWidth="102.0" mnemonicParsing="false" prefHeight="124.0" prefWidth="102.0" styleClass="avatar-button" stylesheets="@../../resources/styles.css">
+                  <Button fx:id="changeAvatarBtn" maxHeight="124.0" maxWidth="102.0" minHeight="124.0" minWidth="102.0" mnemonicParsing="false" onMouseClicked="#selectAvatarImage" prefHeight="124.0" prefWidth="102.0" styleClass="avatar-button" stylesheets="@../../resources/styles.css">
                      <graphic>
                         <ImageView fx:id="userAvatar" fitHeight="112.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" styleClass="avatar-img">
                            <image>
