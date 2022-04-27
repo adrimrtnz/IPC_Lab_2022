@@ -12,6 +12,8 @@ import java.util.ResourceBundle;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
@@ -46,6 +48,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.crypto.SealedObject;
@@ -126,6 +129,13 @@ public class ExercisesScreenController implements Initializable {
         contentGroup.getChildren().add(zoomGroup);
         zoomGroup.getChildren().add(mapScrollpane.getContent());
         mapScrollpane.setContent(contentGroup);
+        
+        /*
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        
+        stage.setOnCloseRequest(ev -> {
+            closeSession();
+        });*/
         
         try{
             baseDatos = Navegacion.getSingletonNavegacion();
@@ -435,20 +445,40 @@ public class ExercisesScreenController implements Initializable {
     
     @FXML
     private void closeSession(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/navapp/views/LoginScreenView.fxml"));
+        FXMLLoader confirmationWindow = new FXMLLoader(getClass().getResource("/navapp/views/ConfirmationScreenView.fxml"));
+        Parent root = confirmationWindow.load();
         
-        loggedUser.addSession(generateSessionInfo());
+        ConfirmationScreenController controlador = confirmationWindow.getController();
         
         Stage stage = new Stage();
-        stage.setTitle("NavApp - IPCLab 2022");
+        stage.setTitle("Registro Nuevo Usuario");
         stage.initStyle(StageStyle.UNDECORATED);
         Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
         scene.setFill(Color.TRANSPARENT);
         stage.initStyle(StageStyle.TRANSPARENT);
-        stage.setResizable(false);
-        stage.setScene(scene);
-        closeExercisesScreen();
-        stage.show();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
+        
+        if (controlador.isClosing()) {
+        
+            Parent rootIni = FXMLLoader.load(getClass().getResource("/navapp/views/LoginScreenView.fxml"));
+
+            loggedUser.addSession(generateSessionInfo());
+
+            Stage stageIni = new Stage();
+            stageIni.setTitle("NavApp - IPCLab 2022");
+            stageIni.initStyle(StageStyle.UNDECORATED);
+            Scene sceneIni = new Scene(rootIni);
+            sceneIni.setFill(Color.TRANSPARENT);
+            stageIni.initStyle(StageStyle.TRANSPARENT);
+            stageIni.setResizable(false);
+            stageIni.setScene(sceneIni);
+            closeExercisesScreen();
+            stageIni.show();
+        }
+        
     }
     
     private void closeExercisesScreen() {
