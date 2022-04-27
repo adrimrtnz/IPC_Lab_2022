@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -74,6 +76,7 @@ public class LoginScreenController implements Initializable {
         errorTxtMsg = "";
         errorTxtField.textProperty().setValue(errorTxtMsg);
         errorTxtField.setDisable(true);
+        
         
         // TODO : Da null pointer exception al cargar la BD, no se crea si no existe.
         // CARGA la Base de Datos.

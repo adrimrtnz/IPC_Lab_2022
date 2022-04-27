@@ -126,6 +126,11 @@
     -fx-background-color: #4C566A;
 }
 
+.large-button:focused {
+    -fx-background-color: #5E81AC;
+    -fx-border-radius: 20;
+}
+
 .menu-bar {
     -fx-background-color: #3B4252;
     -fx-background-radius: 0 10 0 0;

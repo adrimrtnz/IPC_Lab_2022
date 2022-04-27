@@ -20,7 +20,7 @@
          <top>
             <ToolBar fx:id="toolBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="27.0" prefWidth="297.0" styleClass="tittle-bar" stylesheets="@../../resources/styles.css" BorderPane.alignment="CENTER">
               <items>
-                <Button fx:id="closeBtn" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" styleClass="tittle-bar-button" stylesheets="@../../resources/styles.css" text="X" textAlignment="CENTER">
+                <Button fx:id="closeBtn" cancelButton="true" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" styleClass="tittle-bar-button" stylesheets="@../../resources/styles.css" text="X" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="9.0" />
                      </font>

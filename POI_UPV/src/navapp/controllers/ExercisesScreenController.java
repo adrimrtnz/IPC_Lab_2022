@@ -70,11 +70,14 @@ public class ExercisesScreenController implements Initializable {
     @FXML private Spinner<Integer> strokeSize;
     @FXML private Spinner<Integer> textSize;
     @FXML private ImageView mapImg;
+    @FXML private ImageView transportImg;
     @FXML private ToggleButton dragBtn;
     @FXML private ToggleButton drawLineBtn;
     @FXML private ToggleButton drawPointBtn;
     @FXML private ToggleButton drawArcBtn;
     @FXML private ToggleButton addTextBtn;
+    @FXML private ToggleButton marcarExtremBtn;
+    @FXML private ToggleButton transportBtn;
     @FXML private ColorPicker colorPicker;
     @FXML private Slider zoomSlider;
     @FXML private ScrollPane mapScrollpane;
@@ -92,13 +95,14 @@ public class ExercisesScreenController implements Initializable {
     
     private double initialXTrans;
     private double initialYTrans;
-    private double initialXArc;
+    private double initialArc[];
     private double baseX;
     private double baseY;
     private Group contentGroup;
     private Group zoomGroup;
     
     private Line linePainting; 
+    private Line markerLines[];
     private Circle circlePainting;
     
     private Navegacion baseDatos;
@@ -106,14 +110,15 @@ public class ExercisesScreenController implements Initializable {
     private Problem activeProblem;
     
     private int hits, fails;
+
     
     
-    
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dragActive = new SimpleBooleanProperty();
         dragActive.bind(dragBtn.selectedProperty());
+        transportImg.visibleProperty().bind(transportBtn.selectedProperty());
         
         strokeSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 3));
         textSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 40, 20));
@@ -130,12 +135,6 @@ public class ExercisesScreenController implements Initializable {
         zoomGroup.getChildren().add(mapScrollpane.getContent());
         mapScrollpane.setContent(contentGroup);
         
-        /*
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        
-        stage.setOnCloseRequest(ev -> {
-            closeSession();
-        });*/
         
         try{
             baseDatos = Navegacion.getSingletonNavegacion();
@@ -145,8 +144,6 @@ public class ExercisesScreenController implements Initializable {
             System.out.print("Error al cargar la base de datos: ");
             System.out.println(e.toString());
         }
-        
-        
     }
 
 
@@ -196,138 +193,36 @@ public class ExercisesScreenController implements Initializable {
             return; 
         } 
         
-        if (dragActive.get()) {
+        else if (dragActive.get()) {
             initialXTrans = event.getSceneX();
             initialYTrans = event.getSceneY();
             baseX = contentGroup.getTranslateX();
             baseY = contentGroup.getTranslateY();
         }
         
-        if (drawLineBtn.selectedProperty().get()) {
-            linePainting = new Line(event.getX(), event.getY(), event.getX(), event.getY());
-            linePainting.setStrokeWidth(strokeSize.getValue());
-            linePainting.setStroke(colorPicker.getValue());
-            mapPane.getChildren().add(linePainting);
-
-            linePainting.setOnContextMenuRequested(e -> {
-                ContextMenu menuContext = new ContextMenu();
-                MenuItem deleteItem = new MenuItem("Eliminar");
-                MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
-
-                menuContext.getItems().add(deleteItem);
-                menuContext.getItems().add(applyColorItem);
-                
-                deleteItem.setOnAction(ev -> {
-                    mapPane.getChildren().remove((Node) e.getSource());
-                    ev.consume();
-                });
-                
-                applyColorItem.setOnAction(ev -> {
-                    ((Line) e.getSource()).setStroke(colorPicker.getValue());
-                    ev.consume();
-                });
-                
-                menuContext.show(linePainting, e.getSceneX(), e.getSceneY());
-                e.consume();
-            });
+        else if (drawLineBtn.selectedProperty().get()) {
+            drawLine(event);
         }
         
-        if (drawPointBtn.selectedProperty().get()) {
-            Circle circle = new Circle(event.getX(), event.getY(), strokeSize.getValue(), colorPicker.getValue());
-            mapPane.getChildren().add(circle);
-            
-            circle.setOnContextMenuRequested(e -> {
-                ContextMenu menuContext = new ContextMenu();
-                MenuItem deleteItem = new MenuItem("Eliminar");
-                MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
-
-                menuContext.getItems().add(deleteItem);
-                menuContext.getItems().add(applyColorItem);
-                
-                deleteItem.setOnAction(ev -> {
-                    mapPane.getChildren().remove((Node) e.getSource());
-                    ev.consume();
-                });
-                
-                applyColorItem.setOnAction(ev -> {
-                    ((Circle) e.getSource()).setStroke(colorPicker.getValue());
-                    ev.consume();
-                });
-                
-                
-                menuContext.show(circle, e.getSceneX(), e.getSceneY());
-                e.consume();
-            });
+        else if (drawPointBtn.selectedProperty().get()) {
+            drawPoint(event);
         }
         
-        if (drawArcBtn.selectedProperty().get()) {
-            circlePainting = new Circle(1);
-            circlePainting.setStroke(colorPicker.getValue());
-            circlePainting.setStrokeWidth(strokeSize.getValue());
-            circlePainting.setFill(Color.TRANSPARENT);
-            circlePainting.setCenterX(event.getX());
-            circlePainting.setCenterY(event.getY());
-            initialXArc = event.getX();
-            //zoomGroup.getChildren().add(circlePainting);
-            mapPane.getChildren().add(circlePainting);
-            
-            
-            circlePainting.setOnContextMenuRequested(e -> {
-                ContextMenu menuContext = new ContextMenu();
-                MenuItem deleteItem = new MenuItem("Eliminar");
-                MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
-
-                menuContext.getItems().add(deleteItem);
-                menuContext.getItems().add(applyColorItem);
-                
-                deleteItem.setOnAction(ev -> {
-                    mapPane.getChildren().remove((Node) e.getSource());
-                    ev.consume();
-                });
-                
-                applyColorItem.setOnAction(ev -> {
-                    ((Circle) e.getSource()).setStroke(colorPicker.getValue());
-                    ev.consume();
-                });
-                
-                menuContext.show(circlePainting, e.getSceneX(), e.getSceneY());
-                e.consume();
-            });
+        else if (drawArcBtn.selectedProperty().get()) {
+            drawArc(event);
         }        
         
-        if (addTextBtn.selectedProperty().get()) {
-            TextField textF = new TextField();
-            mapPane.getChildren().add(textF);
-            textF.setLayoutX(event.getX());
-            textF.setLayoutY(event.getY());
-            textF.requestFocus();
-            
-            textF.setOnAction(e -> {
-                Text textT = new Text (textF.getText());
-                textT.setLayoutX(textF.getLayoutX());
-                textT.setLayoutY(textF.getLayoutY());
-                textT.setFont(Font.font("Gafata", textSize.getValue()));
-                textT.setFill(colorPicker.getValue());
-                mapPane.getChildren().add(textT);
-                mapPane.getChildren().remove(textF);
-                
-                textT.setOnContextMenuRequested(ev -> {
-                    ContextMenu menuContext = new ContextMenu();
-                    MenuItem deleteItem = new MenuItem("Eliminar");
-                    menuContext.getItems().add(deleteItem);
-                    deleteItem.setOnAction(eve -> {
-                        mapPane.getChildren().remove((Node) ev.getSource());
-                        eve.consume();
-                    });
-                    menuContext.show(textT, ev.getSceneX(), ev.getSceneY());
-                    ev.consume();
-                });
-                                
-                e.consume();
-            });
-            
+        else if (addTextBtn.selectedProperty().get()) {
+            addText(event);
         }
         
+        else if(transportBtn.selectedProperty().get()) {
+            initialXTrans = event.getSceneX();
+            initialYTrans = event.getSceneY();
+            baseX = transportImg.getTranslateX();
+            baseY = transportImg.getTranslateY();
+        }
+        event.consume();
     }
     
     @FXML private void modAction(MouseEvent event) {
@@ -344,22 +239,30 @@ public class ExercisesScreenController implements Initializable {
             contentGroup.setTranslateY(baseY + despY);
         }
         
-        if (drawLineBtn.selectedProperty().get() && linePainting != null) {
+        else if (drawLineBtn.selectedProperty().get() && linePainting != null) {
             linePainting.setEndX(event.getX());
             linePainting.setEndY(event.getY());
         }
         
-        if (drawArcBtn.selectedProperty().get()) {
-            double radio = Math.abs(event.getX() - initialXArc);
+        else if (drawArcBtn.selectedProperty().get()) {
+            double dif[] = new double[]{ Math.abs(event.getX() - initialArc[0]), Math.abs(event.getY() - initialArc[1])};
+            double radio = Math.sqrt((dif[0]*dif[0])+(dif[1]*dif[1]));
             circlePainting.setRadius(radio);
-        }   
-        
+        }
+         
+        else if(transportBtn.selectedProperty().get()) {
+            double despX = event.getSceneX() - initialXTrans;
+            double despY = event.getSceneY() - initialYTrans;
+            transportImg.setTranslateX(baseX + despX);
+            transportImg.setTranslateY(baseY + despY);
+        }
+       
         event.consume();
     } 
 
     @FXML private void cleanMap(ActionEvent event) {
 
-        while (mapPane.getChildren().size() > 1) {
+        while (mapPane.getChildren().size() > 2) {
             mapPane.getChildren().remove(mapPane.getChildren().size() - 1);
         }
         event.consume();
@@ -412,14 +315,14 @@ public class ExercisesScreenController implements Initializable {
             for(Toggle t: opciones.getToggles()){
                 if(((RadioButton)t).isSelected() && (boolean)((RadioButton)t).getUserData()){
                     hits++;
-                    ((RadioButton)t).textFillProperty().set(Color.GREEN);
+                    ((RadioButton)t).textFillProperty().set(Color.LIGHTGREEN);
                 }
                 else if (((RadioButton)t).isSelected() && !(boolean)((RadioButton)t).getUserData()) {
                     fails++;
                     ((RadioButton)t).textFillProperty().set(Color.RED);
                 }
                 else if (!((RadioButton)t).isSelected() && (boolean)((RadioButton)t).getUserData()) {
-                    ((RadioButton)t).textFillProperty().set(Color.GREEN);
+                    ((RadioButton)t).textFillProperty().set(Color.LIGHTGREEN);
                 }
             }
         } else {
@@ -444,7 +347,7 @@ public class ExercisesScreenController implements Initializable {
     }
     
     @FXML
-    private void closeSession(ActionEvent event) throws Exception {
+    public void closeSession(ActionEvent event) throws Exception {
         FXMLLoader confirmationWindow = new FXMLLoader(getClass().getResource("/navapp/views/ConfirmationScreenView.fxml"));
         Parent root = confirmationWindow.load();
         
@@ -459,6 +362,7 @@ public class ExercisesScreenController implements Initializable {
         scene.setFill(Color.TRANSPARENT);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
+        controlador.setCancelFocus();
         stage.showAndWait();
         
         if (controlador.isClosing()) {
@@ -484,5 +388,165 @@ public class ExercisesScreenController implements Initializable {
     private void closeExercisesScreen() {
         Stage stage = (Stage) menuBar.getScene().getWindow();
         stage.close();
+    }
+    
+    ////////////////////////////////////////
+    // IMPLEMENTACIÓN DE LAS HERRAMIENTAS //
+    ///////////////////////////////////////
+    
+    private void drawLine(MouseEvent event) {
+        linePainting = new Line(event.getX(), event.getY(), event.getX(), event.getY());
+            linePainting.setStrokeWidth(strokeSize.getValue());
+            linePainting.setStroke(colorPicker.getValue());
+            mapPane.getChildren().add(linePainting);
+
+            linePainting.setOnContextMenuRequested(e -> {
+                ContextMenu menuContext = new ContextMenu();
+                MenuItem deleteItem = new MenuItem("Eliminar");
+                MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
+
+                menuContext.getItems().add(deleteItem);
+                menuContext.getItems().add(applyColorItem);
+                
+                deleteItem.setOnAction(ev -> {
+                    mapPane.getChildren().remove((Node) e.getSource());
+                    ev.consume();
+                });
+                
+                applyColorItem.setOnAction(ev -> {
+                    ((Line) e.getSource()).setStroke(colorPicker.getValue());
+                    ev.consume();
+                });
+                
+                menuContext.show(linePainting, e.getSceneX(), e.getSceneY());
+                e.consume();
+            });
+    }
+    
+    private void addText(MouseEvent event) {
+        TextField textF = new TextField();
+        mapPane.getChildren().add(textF);
+        textF.setLayoutX(event.getX());
+        textF.setLayoutY(event.getY());
+        textF.requestFocus();
+            
+        textF.setOnAction(e -> {
+            Text textT = new Text (textF.getText());
+            textT.setLayoutX(textF.getLayoutX());
+            textT.setLayoutY(textF.getLayoutY());
+            textT.setFont(Font.font("Gafata", textSize.getValue()));
+            textT.setFill(colorPicker.getValue());
+            mapPane.getChildren().add(textT);
+            mapPane.getChildren().remove(textF);
+              
+            textT.setOnContextMenuRequested(ev -> {
+                ContextMenu menuContext = new ContextMenu();
+                MenuItem deleteItem = new MenuItem("Eliminar");
+                menuContext.getItems().add(deleteItem);
+                deleteItem.setOnAction(eve -> {
+                    mapPane.getChildren().remove((Node) ev.getSource());
+                    eve.consume();
+                });
+                menuContext.show(textT, ev.getSceneX(), ev.getSceneY());
+                ev.consume();
+            });
+                                
+            e.consume();
+        });
+    }
+    
+    private void drawArc(MouseEvent event) {
+        circlePainting = new Circle(1);
+        circlePainting.setStroke(colorPicker.getValue());
+        circlePainting.setStrokeWidth(strokeSize.getValue());
+        circlePainting.setFill(Color.TRANSPARENT);
+        circlePainting.setCenterX(event.getX());
+        circlePainting.setCenterY(event.getY());
+        initialArc = new double[]{event.getX(), event.getY()};
+        //zoomGroup.getChildren().add(circlePainting);
+        mapPane.getChildren().add(circlePainting);
+            
+            
+        circlePainting.setOnContextMenuRequested(e -> {
+            ContextMenu menuContext = new ContextMenu();
+            MenuItem deleteItem = new MenuItem("Eliminar");
+            MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
+
+            menuContext.getItems().add(deleteItem);
+            menuContext.getItems().add(applyColorItem);
+                
+            deleteItem.setOnAction(ev -> {
+                mapPane.getChildren().remove((Node) e.getSource());
+                ev.consume();
+            });
+                
+            applyColorItem.setOnAction(ev -> {
+                ((Circle) e.getSource()).setStroke(colorPicker.getValue());
+                ev.consume();
+            });
+                
+            menuContext.show(circlePainting, e.getSceneX(), e.getSceneY());
+                e.consume();
+            });
+    
+    }
+    
+    private void drawPoint(MouseEvent event) {
+    
+        Circle circle = new Circle(event.getX(), event.getY(), strokeSize.getValue(), colorPicker.getValue());
+            mapPane.getChildren().add(circle);
+            
+            Runnable drawMarks = () -> {
+                if(markerLines != null) {
+                    mapPane.getChildren().remove(markerLines[0]);
+                    mapPane.getChildren().remove(markerLines[1]);
+                }
+                markerLines = new Line[2];
+                    
+                markerLines[0] = new Line(circle.getCenterX(), 0, circle.getCenterX(), mapImg.getFitHeight());
+                markerLines[0].setStrokeWidth(strokeSize.getValue());
+                markerLines[0].setStroke(colorPicker.getValue());
+                    
+                markerLines[1] = new Line(0, circle.getCenterY(), mapImg.getFitWidth(), circle.getCenterY());
+                markerLines[1].setStrokeWidth(strokeSize.getValue());
+                markerLines[1].setStroke(colorPicker.getValue());
+                    
+                mapPane.getChildren().add(markerLines[0]);
+                mapPane.getChildren().add(markerLines[1]);
+            };
+            
+            circle.setOnContextMenuRequested(e -> {
+                ContextMenu menuContext = new ContextMenu();
+                MenuItem deleteItem = new MenuItem("Eliminar");
+                MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
+                MenuItem drawMarksItem = new MenuItem("Marcar extremos");
+
+                menuContext.getItems().add(deleteItem);
+                menuContext.getItems().add(applyColorItem);
+                menuContext.getItems().add(drawMarksItem);
+                
+                deleteItem.setOnAction(ev -> {
+                    mapPane.getChildren().remove((Node) e.getSource());
+                    ev.consume();
+                });
+                
+                applyColorItem.setOnAction(ev -> {
+                    ((Circle) e.getSource()).setStroke(colorPicker.getValue());
+                    ev.consume();
+                });
+                
+                drawMarksItem.setOnAction(ev -> {
+                    drawMarks.run();
+                    ev.consume();
+                });
+                
+                menuContext.show(circle, e.getSceneX(), e.getSceneY());
+                e.consume();
+            });
+            
+            circle.setOnMousePressed(e -> {
+                if(marcarExtremBtn.selectedProperty().get() && e.isPrimaryButtonDown()) { drawMarks.run(); }
+                e.consume();
+            });
     }
 }
