@@ -18,12 +18,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
@@ -40,6 +44,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javax.crypto.SealedObject;
 import model.Navegacion;
 import model.User;
@@ -71,6 +77,8 @@ public class ExercisesScreenController implements Initializable {
     @FXML private Button submitAnsBtn;
     @FXML private Button clearBtn;
     @FXML private Button nextStatementBtn;
+    @FXML private MenuItem closeSessionBtn;
+    @FXML private MenuBar menuBar;
     
     private User loggedUser;
     private BooleanProperty dragActive;
@@ -352,5 +360,33 @@ public class ExercisesScreenController implements Initializable {
         }
         
         submitAnsBtn.setDisable(false);
+    }
+
+    private Session generateSessionInfo() {
+        LocalDateTime lt = LocalDateTime.now();
+        return new Session(lt,hits,fails);
+    }
+    
+    @FXML
+    private void closeSession(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/navapp/views/LoginScreenView.fxml"));
+        
+        loggedUser.addSession(generateSessionInfo());
+        
+        Stage stage = new Stage();
+        stage.setTitle("NavApp - IPCLab 2022");
+        stage.initStyle(StageStyle.UNDECORATED);
+        Scene scene = new Scene(root);
+        scene.setFill(Color.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        closeExercisesScreen();
+        stage.show();
+    }
+    
+    private void closeExercisesScreen() {
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        stage.close();
     }
 }

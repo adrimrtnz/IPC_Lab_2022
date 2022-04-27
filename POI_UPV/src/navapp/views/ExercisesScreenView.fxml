@@ -24,7 +24,7 @@
 
 <VBox minHeight="220.0" minWidth="520.0" prefHeight="469.0" prefWidth="985.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.ExercisesScreenController">
    <children>
-      <MenuBar>
+      <MenuBar fx:id="menuBar">
          <menus>
             <Menu text="_Problemas">
                <items>
@@ -36,7 +36,7 @@
                <items>
                   <MenuItem mnemonicParsing="false" text="Perfil" />
                   <MenuItem mnemonicParsing="false" text="Estadísticas" />
-                  <MenuItem mnemonicParsing="false" text="Cerrar Sesión" />
+                  <MenuItem fx:id="closeSessionBtn" mnemonicParsing="false" onAction="#closeSession" text="Cerrar Sesión" />
                </items>
             </Menu>
             <Menu text="_Ayuda">
