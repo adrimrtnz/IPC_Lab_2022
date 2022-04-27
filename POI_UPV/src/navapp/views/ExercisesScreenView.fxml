@@ -24,19 +24,19 @@
 
 <VBox minHeight="220.0" minWidth="520.0" prefHeight="469.0" prefWidth="985.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.ExercisesScreenController">
    <children>
-      <MenuBar>
+      <MenuBar fx:id="menuBar">
          <menus>
             <Menu text="_Problemas">
                <items>
                   <MenuItem mnemonicParsing="false" text="Lista de Problemas" />
-                  <MenuItem mnemonicParsing="false" text="Nuevo Problema Aleatorio" />
+                  <MenuItem fx:id="newRandBtn" mnemonicParsing="false" onAction="#newRandomExercise" text="Nuevo Problema Aleatorio" />
                </items>
             </Menu>
             <Menu text="_Usuario">
                <items>
                   <MenuItem mnemonicParsing="false" text="Perfil" />
                   <MenuItem mnemonicParsing="false" text="Estadísticas" />
-                  <MenuItem mnemonicParsing="false" text="Cerrar Sesión" />
+                  <MenuItem fx:id="closeSessionBtn" mnemonicParsing="false" onAction="#closeSession" text="Cerrar Sesión" />
                </items>
             </Menu>
             <Menu text="_Ayuda">
@@ -109,7 +109,7 @@
             </ScrollPane>
             <VBox prefHeight="443.0" prefWidth="226.0" spacing="10.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Selecciona &quot;Nuevo Problema Aleatoria&quot; en el Menú &quot;Problemas&quot;, o accede a la &quot;Lista de Problemas&quot;." wrappingWidth="238.13669395446777">
+                  <Text fx:id="probStatement" strokeType="OUTSIDE" strokeWidth="0.0" text="Selecciona &quot;Nuevo Problema Aleatoria&quot; en el Menú &quot;Problemas&quot;, o accede a la &quot;Lista de Problemas&quot;." wrappingWidth="238.13669395446777">
                      <VBox.margin>
                         <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
                      </VBox.margin></Text>
@@ -136,9 +136,9 @@
                   <Separator prefWidth="200.0" />
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Aceptar" />
-                        <Button mnemonicParsing="false" text="Limpiar" />
-                        <Button mnemonicParsing="false" text="Siguiente" />
+                        <Button fx:id="submitAnsBtn" disable="true" mnemonicParsing="false" onAction="#checkAnswer" text="Aceptar" />
+                        <Button fx:id="clearBtn" mnemonicParsing="false" text="Limpiar" />
+                        <Button fx:id="nextStatementBtn" mnemonicParsing="false" onAction="#nextExercise" text="Siguiente" />
                      </children>
                   </HBox>
                </children>

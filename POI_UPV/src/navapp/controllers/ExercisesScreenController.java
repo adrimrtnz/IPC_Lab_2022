@@ -6,24 +6,36 @@
 package navapp.controllers;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Random;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
@@ -32,7 +44,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javax.crypto.SealedObject;
+import model.Navegacion;
 import model.User;
+import model.Problem;
+import model.Answer;
+import model.Session;
 
 /**
  * FXML Controller class
@@ -53,6 +72,13 @@ public class ExercisesScreenController implements Initializable {
     @FXML private ColorPicker colorPicker;
     @FXML private Slider zoomSlider;
     @FXML private ScrollPane mapScrollpane;
+    @FXML private MenuItem newRandBtn;
+    @FXML private Text probStatement;
+    @FXML private Button submitAnsBtn;
+    @FXML private Button clearBtn;
+    @FXML private Button nextStatementBtn;
+    @FXML private MenuItem closeSessionBtn;
+    @FXML private MenuBar menuBar;
     
     private User loggedUser;
     private BooleanProperty dragActive;
@@ -68,8 +94,11 @@ public class ExercisesScreenController implements Initializable {
     private Line linePainting; 
     private Circle circlePainting;
     
+    private Navegacion baseDatos;
+    private List<Problem> probDisp;
+    private Problem activeProblem;
     
-    
+    private int hits, fails;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -89,6 +118,17 @@ public class ExercisesScreenController implements Initializable {
         contentGroup.getChildren().add(zoomGroup);
         zoomGroup.getChildren().add(mapScrollpane.getContent());
         mapScrollpane.setContent(contentGroup);
+        
+        try{
+            baseDatos = Navegacion.getSingletonNavegacion();
+            probDisp = baseDatos.getProblems();
+        }
+        catch (Exception e) {
+            System.out.print("Error al cargar la base de datos: ");
+            System.out.println(e.toString());
+        }
+        
+        
     }
 
 
@@ -247,5 +287,106 @@ public class ExercisesScreenController implements Initializable {
             zoomGroup.getChildren().remove(zoomGroup.getChildren().size() - 1);
         }
         event.consume();
+    }
+
+    @FXML
+    private void nextExercise(ActionEvent event) {
+        if(activeProblem == null || probDisp.indexOf(activeProblem) + 1 == probDisp.size()) {
+            activeProblem = probDisp.get(0);
+        } else {
+            activeProblem = probDisp.get(probDisp.indexOf(activeProblem) + 1);
+        }
+        updateProblem();
+    }
+    
+    @FXML
+    private void newRandomExercise(ActionEvent event) {
+        Random rd = new Random();
+        
+        activeProblem = probDisp.get(rd.nextInt(probDisp.size()));
+        updateProblem();
+    }
+    
+    private void updateProblem() {
+        probStatement.textProperty().set(activeProblem.getText());
+        List<Answer> ansListTemp = activeProblem.getAnswers();
+        List<Integer> order = new LinkedList<Integer>();
+        Random rd = new Random();
+        /*No es la forma más eficiente para aleatorizar las respuestas
+        pero para generar 4 valores solamente no es crítico y es simple*/
+        while(order.size() < 4) {
+            Integer n = rd.nextInt(4);
+            if(!order.contains(n)){
+                order.add(n);
+            }
+        }
+        
+        for(Toggle t: opciones.getToggles()){
+            Answer ans = ansListTemp.get(order.remove(0));
+            ((RadioButton)t).textProperty().set(ans.getText());
+            ((RadioButton)t).setUserData(ans.getValidity());
+        }
+        
+        clearAnswers();
+    }
+
+    @FXML
+    private void checkAnswer(ActionEvent event) {
+        if(opciones.getSelectedToggle() != null) {
+            for(Toggle t: opciones.getToggles()){
+                if(((RadioButton)t).isSelected() && (boolean)((RadioButton)t).getUserData()){
+                    hits++;
+                    ((RadioButton)t).textFillProperty().set(Color.GREEN);
+                }
+                else if (((RadioButton)t).isSelected() && !(boolean)((RadioButton)t).getUserData()) {
+                    fails++;
+                    ((RadioButton)t).textFillProperty().set(Color.RED);
+                }
+                else if (!((RadioButton)t).isSelected() && (boolean)((RadioButton)t).getUserData()) {
+                    ((RadioButton)t).textFillProperty().set(Color.GREEN);
+                }
+            }
+        } else {
+            System.out.println("Error al evaluar respuesta");
+        }
+        
+        submitAnsBtn.setDisable(true);
+    }
+    
+    private void clearAnswers() {
+        for(Toggle t: opciones.getToggles()){
+            ((RadioButton)t).textFillProperty().setValue(Color.BLACK);
+            ((RadioButton)t).setSelected(false);
+        }
+        
+        submitAnsBtn.setDisable(false);
+    }
+
+    private Session generateSessionInfo() {
+        LocalDateTime lt = LocalDateTime.now();
+        return new Session(lt,hits,fails);
+    }
+    
+    @FXML
+    private void closeSession(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/navapp/views/LoginScreenView.fxml"));
+        
+        loggedUser.addSession(generateSessionInfo());
+        
+        Stage stage = new Stage();
+        stage.setTitle("NavApp - IPCLab 2022");
+        stage.initStyle(StageStyle.UNDECORATED);
+        Scene scene = new Scene(root);
+        scene.setFill(Color.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        closeExercisesScreen();
+        stage.show();
+    }
+    
+    private void closeExercisesScreen() {
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        stage.close();
     }
 }
