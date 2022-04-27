@@ -52,15 +52,16 @@
             <VBox maxWidth="160.0" minWidth="160.0" prefHeight="646.0" prefWidth="160.0" spacing="10.0">
                <children>
                   <Label text="Herramientas:" />
-                  <ToggleButton fx:id="dragBtn" mnemonicParsing="false" prefWidth="90.0" selected="true" text="Arrastrar">
+                  <ToggleButton fx:id="dragBtn" mnemonicParsing="false" prefWidth="105.0" selected="true" text="Arrastrar">
                      <toggleGroup>
                         <ToggleGroup fx:id="tools" />
                      </toggleGroup>
                   </ToggleButton>
-                  <ToggleButton fx:id="drawPointBtn" mnemonicParsing="false" prefWidth="90.0" text="Marcar Punto" toggleGroup="$tools" />
-                  <ToggleButton fx:id="drawLineBtn" mnemonicParsing="false" prefWidth="90.0" text="Trazar Linea" toggleGroup="$tools" />
-                  <ToggleButton fx:id="drawArcBtn" mnemonicParsing="false" prefWidth="90.0" text="Trazar Arco" toggleGroup="$tools" />
-                  <ToggleButton fx:id="addTextBtn" mnemonicParsing="false" prefWidth="90.0" text="Anotar Texto" toggleGroup="$tools" />
+                  <ToggleButton fx:id="drawPointBtn" mnemonicParsing="false" prefWidth="105.0" text="Marcar Punto" toggleGroup="$tools" />
+                  <ToggleButton fx:id="drawLineBtn" mnemonicParsing="false" prefWidth="105.0" text="Trazar Linea" toggleGroup="$tools" />
+                  <ToggleButton fx:id="drawArcBtn" mnemonicParsing="false" prefWidth="105.0" text="Trazar Arco" toggleGroup="$tools" />
+                  <ToggleButton fx:id="addTextBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Anotar Texto" toggleGroup="$tools" />
+                  <ToggleButton fx:id="marcarExtremBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Marcar extremos" toggleGroup="$tools" />
                   <Separator prefWidth="200.0" />
                   <VBox prefHeight="99.0" prefWidth="191.0" spacing="10.0">
                      <children>
