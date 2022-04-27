@@ -18,11 +18,12 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Text?>
 
-<VBox minHeight="220.0" minWidth="520.0" prefHeight="469.0" prefWidth="985.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.ExercisesScreenController">
+<VBox minHeight="220.0" minWidth="520.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.ExercisesScreenController">
    <children>
       <MenuBar fx:id="menuBar">
          <menus>
@@ -48,7 +49,7 @@
       </MenuBar>
       <SplitPane dividerPositions="0.20895522388059704, 0.7310040705563094">
          <items>
-            <VBox spacing="10.0">
+            <VBox minWidth="165.0" prefWidth="167.0" spacing="10.0">
                <children>
                   <Label text="Herramientas:" />
                   <ToggleButton fx:id="dragBtn" mnemonicParsing="false" prefWidth="90.0" selected="true" text="Arrastrar">
@@ -68,10 +69,24 @@
                            <value>
                               <Color />
                            </value></ColorPicker>
-                        <HBox alignment="CENTER_LEFT" maxWidth="90.0" prefHeight="25.0" prefWidth="90.0" spacing="2.0">
+                        <HBox alignment="CENTER_LEFT" maxWidth="90.0" prefHeight="25.0" prefWidth="90.0" spacing="8.0">
                            <children>
                               <Spinner fx:id="strokeSize" editable="true" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grosor" />
+                              <ImageView fitHeight="21.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../resources/icons/line.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" maxWidth="90.0" prefHeight="25.0" prefWidth="90.0" spacing="8.0">
+                           <children>
+                              <Spinner fx:id="textSize" />
+                              <ImageView fitHeight="22.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../resources/icons/font-size.png" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </HBox>
                         <Button mnemonicParsing="false" onAction="#cleanMap" prefHeight="25.0" prefWidth="90.0" text="Limpiar Carta" />
@@ -100,11 +115,15 @@
             </VBox>
             <ScrollPane fx:id="mapScrollpane" prefWidth="482.0">
                <content>
-                  <ImageView fx:id="mapImg" fitHeight="594.0" fitWidth="925.0" onMouseDragged="#modAction" onMousePressed="#manageAction" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../resources/carta_nautica.jpg" />
-                     </image>
-                  </ImageView>
+                  <Pane fx:id="mapPane" onMouseDragged="#modAction" onMousePressed="#manageAction" prefHeight="557.0" prefWidth="957.0">
+                     <children>
+                        <ImageView fx:id="mapImg" fitHeight="594.0" fitWidth="925.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/carta_nautica.jpg" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
                </content>
             </ScrollPane>
             <VBox prefHeight="443.0" prefWidth="226.0" spacing="10.0">

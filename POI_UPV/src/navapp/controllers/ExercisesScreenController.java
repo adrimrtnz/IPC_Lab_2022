@@ -40,9 +40,11 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -63,6 +65,7 @@ public class ExercisesScreenController implements Initializable {
     @FXML private ToggleGroup tools;
     @FXML private ToggleGroup opciones;
     @FXML private Spinner<Integer> strokeSize;
+    @FXML private Spinner<Integer> textSize;
     @FXML private ImageView mapImg;
     @FXML private ToggleButton dragBtn;
     @FXML private ToggleButton drawLineBtn;
@@ -79,6 +82,7 @@ public class ExercisesScreenController implements Initializable {
     @FXML private Button nextStatementBtn;
     @FXML private MenuItem closeSessionBtn;
     @FXML private MenuBar menuBar;
+    @FXML private Pane mapPane;
     
     private User loggedUser;
     private BooleanProperty dragActive;
@@ -100,16 +104,20 @@ public class ExercisesScreenController implements Initializable {
     
     private int hits, fails;
     
+    
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dragActive = new SimpleBooleanProperty();
         dragActive.bind(dragBtn.selectedProperty());
         
         strokeSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 3));
+        textSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 40, 20));
         
         // inicializamos el slider y enlazamos con el zoom
         zoomSlider.setMin(0.5);
-        zoomSlider.setMax(1.5);
+        zoomSlider.setMax(3.5);
         zoomSlider.setValue(1.0);
         zoomSlider.valueProperty().addListener((o, oldVal, newVal) -> zoom((Double) newVal));
         
@@ -171,6 +179,13 @@ public class ExercisesScreenController implements Initializable {
         
         // TODO: Refactorizar lo que hace cada botón
         
+        
+        if (!event.isPrimaryButtonDown()) { 
+            // Si no está apretado el botón derecho del ratón no hace nada
+            // Así no dibuja cuando intentas eliminar un Node
+            return; 
+        } 
+        
         if (dragActive.get()) {
             initialXTrans = event.getSceneX();
             initialYTrans = event.getSceneY();
@@ -182,7 +197,7 @@ public class ExercisesScreenController implements Initializable {
             linePainting = new Line(event.getX(), event.getY(), event.getX(), event.getY());
             linePainting.setStrokeWidth(strokeSize.getValue());
             linePainting.setStroke(colorPicker.getValue());
-            zoomGroup.getChildren().add(linePainting);
+            mapPane.getChildren().add(linePainting);
 
             linePainting.setOnContextMenuRequested(e -> {
                 ContextMenu menuContext = new ContextMenu();
@@ -190,7 +205,7 @@ public class ExercisesScreenController implements Initializable {
 
                 menuContext.getItems().add(deleteItem);
                 deleteItem.setOnAction(ev -> {
-                    zoomGroup.getChildren().remove((Node) e.getSource());
+                    mapPane.getChildren().remove((Node) e.getSource());
                     ev.consume();
                 });
                 menuContext.show(linePainting, e.getSceneX(), e.getSceneY());
@@ -200,7 +215,7 @@ public class ExercisesScreenController implements Initializable {
         
         if (drawPointBtn.selectedProperty().get()) {
             Circle circle = new Circle(event.getX(), event.getY(), strokeSize.getValue(), colorPicker.getValue());
-            zoomGroup.getChildren().add(circle);
+            mapPane.getChildren().add(circle);
             
             circle.setOnContextMenuRequested(e -> {
                 ContextMenu menuContext = new ContextMenu();
@@ -208,7 +223,7 @@ public class ExercisesScreenController implements Initializable {
 
                 menuContext.getItems().add(deleteItem);
                 deleteItem.setOnAction(ev -> {
-                    zoomGroup.getChildren().remove((Node) e.getSource());
+                    mapPane.getChildren().remove((Node) e.getSource());
                     ev.consume();
                 });
                 menuContext.show(circle, e.getSceneX(), e.getSceneY());
@@ -219,11 +234,14 @@ public class ExercisesScreenController implements Initializable {
         if (drawArcBtn.selectedProperty().get()) {
             circlePainting = new Circle(1);
             circlePainting.setStroke(colorPicker.getValue());
+            circlePainting.setStrokeWidth(strokeSize.getValue());
             circlePainting.setFill(Color.TRANSPARENT);
             circlePainting.setCenterX(event.getX());
             circlePainting.setCenterY(event.getY());
             initialXArc = event.getX();
-            zoomGroup.getChildren().add(circlePainting);
+            //zoomGroup.getChildren().add(circlePainting);
+            mapPane.getChildren().add(circlePainting);
+            
             
             circlePainting.setOnContextMenuRequested(e -> {
                 ContextMenu menuContext = new ContextMenu();
@@ -231,7 +249,7 @@ public class ExercisesScreenController implements Initializable {
 
                 menuContext.getItems().add(deleteItem);
                 deleteItem.setOnAction(ev -> {
-                    zoomGroup.getChildren().remove((Node) e.getSource());
+                    mapPane.getChildren().remove((Node) e.getSource());
                     ev.consume();
                 });
                 menuContext.show(circlePainting, e.getSceneX(), e.getSceneY());
@@ -241,7 +259,7 @@ public class ExercisesScreenController implements Initializable {
         
         if (addTextBtn.selectedProperty().get()) {
             TextField textF = new TextField();
-            zoomGroup.getChildren().add(textF);
+            mapPane.getChildren().add(textF);
             textF.setLayoutX(event.getX());
             textF.setLayoutY(event.getY());
             textF.requestFocus();
@@ -250,9 +268,23 @@ public class ExercisesScreenController implements Initializable {
                 Text textT = new Text (textF.getText());
                 textT.setLayoutX(textF.getLayoutX());
                 textT.setLayoutY(textF.getLayoutY());
-                textT.setStyle("-fx-font-family: Gafata; -fx-font-size: 30;");
-                zoomGroup.getChildren().add(textT);
-                zoomGroup.getChildren().remove(textF);
+                textT.setFont(Font.font("Gafata", textSize.getValue()));
+                textT.setFill(colorPicker.getValue());
+                mapPane.getChildren().add(textT);
+                mapPane.getChildren().remove(textF);
+                
+                textT.setOnContextMenuRequested(ev -> {
+                    ContextMenu menuContext = new ContextMenu();
+                    MenuItem deleteItem = new MenuItem("Eliminar");
+                    menuContext.getItems().add(deleteItem);
+                    deleteItem.setOnAction(eve -> {
+                        mapPane.getChildren().remove((Node) ev.getSource());
+                        eve.consume();
+                    });
+                    menuContext.show(textT, ev.getSceneX(), ev.getSceneY());
+                    ev.consume();
+                });
+                                
                 e.consume();
             });
             
@@ -283,8 +315,8 @@ public class ExercisesScreenController implements Initializable {
 
     @FXML private void cleanMap(ActionEvent event) {
 
-        while (zoomGroup.getChildren().size() > 1) {
-            zoomGroup.getChildren().remove(zoomGroup.getChildren().size() - 1);
+        while (mapPane.getChildren().size() > 1) {
+            mapPane.getChildren().remove(mapPane.getChildren().size() - 1);
         }
         event.consume();
     }
