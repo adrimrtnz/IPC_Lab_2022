@@ -75,6 +75,7 @@ public class ExercisesScreenController implements Initializable {
     @FXML private ToggleButton drawPointBtn;
     @FXML private ToggleButton drawArcBtn;
     @FXML private ToggleButton addTextBtn;
+    @FXML private ToggleButton marcarExtremBtn;
     @FXML private ColorPicker colorPicker;
     @FXML private Slider zoomSlider;
     @FXML private ScrollPane mapScrollpane;
@@ -99,6 +100,7 @@ public class ExercisesScreenController implements Initializable {
     private Group zoomGroup;
     
     private Line linePainting; 
+    private Line markerLines[];
     private Circle circlePainting;
     
     private Navegacion baseDatos;
@@ -226,13 +228,34 @@ public class ExercisesScreenController implements Initializable {
             Circle circle = new Circle(event.getX(), event.getY(), strokeSize.getValue(), colorPicker.getValue());
             mapPane.getChildren().add(circle);
             
+            Runnable drawMarks = () -> {
+                if(markerLines != null) {
+                    mapPane.getChildren().remove(markerLines[0]);
+                    mapPane.getChildren().remove(markerLines[1]);
+                }
+                markerLines = new Line[2];
+                    
+                markerLines[0] = new Line(circle.getCenterX(), 0, circle.getCenterX(), mapImg.getFitHeight());
+                markerLines[0].setStrokeWidth(strokeSize.getValue());
+                markerLines[0].setStroke(colorPicker.getValue());
+                    
+                markerLines[1] = new Line(0, circle.getCenterY(), mapImg.getFitWidth(), circle.getCenterY());
+                markerLines[1].setStrokeWidth(strokeSize.getValue());
+                markerLines[1].setStroke(colorPicker.getValue());
+                    
+                mapPane.getChildren().add(markerLines[0]);
+                mapPane.getChildren().add(markerLines[1]);
+            };
+            
             circle.setOnContextMenuRequested(e -> {
                 ContextMenu menuContext = new ContextMenu();
                 MenuItem deleteItem = new MenuItem("Eliminar");
                 MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
+                MenuItem drawMarksItem = new MenuItem("Marcar extremos");
 
                 menuContext.getItems().add(deleteItem);
                 menuContext.getItems().add(applyColorItem);
+                menuContext.getItems().add(drawMarksItem);
                 
                 deleteItem.setOnAction(ev -> {
                     mapPane.getChildren().remove((Node) e.getSource());
@@ -244,8 +267,17 @@ public class ExercisesScreenController implements Initializable {
                     ev.consume();
                 });
                 
+                drawMarksItem.setOnAction(ev -> {
+                    drawMarks.run();
+                    ev.consume();
+                });
                 
                 menuContext.show(circle, e.getSceneX(), e.getSceneY());
+                e.consume();
+            });
+            
+            circle.setOnMousePressed(e -> {
+                if(marcarExtremBtn.selectedProperty().get() && e.isPrimaryButtonDown()) { drawMarks.run(); }
                 e.consume();
             });
         }
