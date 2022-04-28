@@ -133,7 +133,7 @@
 
 .menu-bar {
     -fx-background-color: #3B4252;
-    -fx-background-radius: 0 10 0 0;
+    -fx-background-radius: 0 0 0 0;
 }
 
 .menu-bar .label {
@@ -146,4 +146,3 @@
     -fx-border-radius: 10px;
     -fx-border-width: 2 2 2 2;
 }   
-    

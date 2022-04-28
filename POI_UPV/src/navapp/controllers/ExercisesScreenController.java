@@ -44,6 +44,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
@@ -125,7 +126,7 @@ public class ExercisesScreenController implements Initializable {
         
         // inicializamos el slider y enlazamos con el zoom
         zoomSlider.setMin(0.5);
-        zoomSlider.setMax(3.5);
+        zoomSlider.setMax(5);
         zoomSlider.setValue(1.0);
         zoomSlider.valueProperty().addListener((o, oldVal, newVal) -> zoom((Double) newVal));
         
@@ -174,11 +175,13 @@ public class ExercisesScreenController implements Initializable {
         // slider y del resultado esperado
         double sliderVal = zoomSlider.getValue();
         zoomSlider.setValue(sliderVal += 0.1);
+        event.consume();
     }
 
     @FXML void zoomOut(ActionEvent event) {
         double sliderVal = zoomSlider.getValue();
         zoomSlider.setValue(sliderVal + -0.1);
+        event.consume();
     }
 
     
@@ -400,27 +403,7 @@ public class ExercisesScreenController implements Initializable {
             linePainting.setStroke(colorPicker.getValue());
             mapPane.getChildren().add(linePainting);
 
-            linePainting.setOnContextMenuRequested(e -> {
-                ContextMenu menuContext = new ContextMenu();
-                MenuItem deleteItem = new MenuItem("Eliminar");
-                MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
-
-                menuContext.getItems().add(deleteItem);
-                menuContext.getItems().add(applyColorItem);
-                
-                deleteItem.setOnAction(ev -> {
-                    mapPane.getChildren().remove((Node) e.getSource());
-                    ev.consume();
-                });
-                
-                applyColorItem.setOnAction(ev -> {
-                    ((Line) e.getSource()).setStroke(colorPicker.getValue());
-                    ev.consume();
-                });
-                
-                menuContext.show(linePainting, e.getSceneX(), e.getSceneY());
-                e.consume();
-            });
+            addContextualMenu(linePainting);
     }
     
     private void addText(MouseEvent event) {
@@ -466,29 +449,8 @@ public class ExercisesScreenController implements Initializable {
         //zoomGroup.getChildren().add(circlePainting);
         mapPane.getChildren().add(circlePainting);
             
-            
-        circlePainting.setOnContextMenuRequested(e -> {
-            ContextMenu menuContext = new ContextMenu();
-            MenuItem deleteItem = new MenuItem("Eliminar");
-            MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
-
-            menuContext.getItems().add(deleteItem);
-            menuContext.getItems().add(applyColorItem);
-                
-            deleteItem.setOnAction(ev -> {
-                mapPane.getChildren().remove((Node) e.getSource());
-                ev.consume();
-            });
-                
-            applyColorItem.setOnAction(ev -> {
-                ((Circle) e.getSource()).setStroke(colorPicker.getValue());
-                ev.consume();
-            });
-                
-            menuContext.show(circlePainting, e.getSceneX(), e.getSceneY());
-                e.consume();
-            });
-    
+        addContextualMenu(circlePainting);
+       
     }
     
     private void drawPoint(MouseEvent event) {
@@ -510,43 +472,66 @@ public class ExercisesScreenController implements Initializable {
                 markerLines[1] = new Line(0, circle.getCenterY(), mapImg.getFitWidth(), circle.getCenterY());
                 markerLines[1].setStrokeWidth(strokeSize.getValue());
                 markerLines[1].setStroke(colorPicker.getValue());
-                    
+                
                 mapPane.getChildren().add(markerLines[0]);
                 mapPane.getChildren().add(markerLines[1]);
+                
+                for(Line line : markerLines) {
+                    addContextualMenu(line);
+                }
             };
             
-            circle.setOnContextMenuRequested(e -> {
-                ContextMenu menuContext = new ContextMenu();
-                MenuItem deleteItem = new MenuItem("Eliminar");
-                MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
-                MenuItem drawMarksItem = new MenuItem("Marcar extremos");
+            addContextualMenu(circle, drawMarks, "Marcar Extremos");
+    }
+    
+    private void addContextualMenu(Shape shape) {
+        addContextualMenu(shape, null, null);
+    }
+    
+    private void addContextualMenu(Shape shape, Runnable action, String actionName) {
+         shape.setOnContextMenuRequested(e -> {
+            ContextMenu menuContext = new ContextMenu();
+            MenuItem deleteItem = new MenuItem("Eliminar");
+            MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
 
-                menuContext.getItems().add(deleteItem);
-                menuContext.getItems().add(applyColorItem);
+            menuContext.getItems().add(deleteItem);
+            menuContext.getItems().add(applyColorItem);
+                
+            deleteItem.setOnAction(ev -> {
+                mapPane.getChildren().remove((Node) e.getSource());
+                ev.consume();
+            });
+                
+            if(action != null) {
+                
+                MenuItem drawMarksItem = new MenuItem(actionName);
                 menuContext.getItems().add(drawMarksItem);
                 
-                deleteItem.setOnAction(ev -> {
-                    mapPane.getChildren().remove((Node) e.getSource());
-                    ev.consume();
-                });
-                
                 applyColorItem.setOnAction(ev -> {
-                    ((Circle) e.getSource()).setStroke(colorPicker.getValue());
-                    ev.consume();
+                ((Shape) e.getSource()).setFill(colorPicker.getValue());
+                ev.consume();
                 });
                 
                 drawMarksItem.setOnAction(ev -> {
-                    drawMarks.run();
+                        action.run();
+                        ev.consume();
+                });
+            }
+            else {
+                applyColorItem.setOnAction(ev -> {
+                    ((Shape) e.getSource()).setStroke(colorPicker.getValue());
                     ev.consume();
                 });
-                
-                menuContext.show(circle, e.getSceneX(), e.getSceneY());
-                e.consume();
-            });
+            }
             
-            circle.setOnMousePressed(e -> {
-                if(marcarExtremBtn.selectedProperty().get() && e.isPrimaryButtonDown()) { drawMarks.run(); }
+            menuContext.show(shape, e.getSceneX(), e.getSceneY());
+            e.consume();
+        }); 
+         
+         if(action == null) { return; }   
+         shape.setOnMousePressed(e -> {
+                if(marcarExtremBtn.selectedProperty().get() && e.isPrimaryButtonDown()) { action.run(); }
                 e.consume();
-            });
+         });
     }
 }
