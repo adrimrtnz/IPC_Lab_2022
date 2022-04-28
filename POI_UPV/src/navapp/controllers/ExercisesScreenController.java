@@ -126,7 +126,7 @@ public class ExercisesScreenController implements Initializable {
         
         // inicializamos el slider y enlazamos con el zoom
         zoomSlider.setMin(0.5);
-        zoomSlider.setMax(3.5);
+        zoomSlider.setMax(5);
         zoomSlider.setValue(1.0);
         zoomSlider.valueProperty().addListener((o, oldVal, newVal) -> zoom((Double) newVal));
         
@@ -481,14 +481,14 @@ public class ExercisesScreenController implements Initializable {
                 }
             };
             
-            addContextualMenu(circle, true, drawMarks);
+            addContextualMenu(circle, drawMarks, "Marcar Extremos");
     }
     
     private void addContextualMenu(Shape shape) {
-        addContextualMenu(shape, false, null);
+        addContextualMenu(shape, null, null);
     }
     
-    private void addContextualMenu(Shape shape, boolean isPoint, Runnable action) {
+    private void addContextualMenu(Shape shape, Runnable action, String actionName) {
          shape.setOnContextMenuRequested(e -> {
             ContextMenu menuContext = new ContextMenu();
             MenuItem deleteItem = new MenuItem("Eliminar");
@@ -502,9 +502,9 @@ public class ExercisesScreenController implements Initializable {
                 ev.consume();
             });
                 
-            if(isPoint) {
+            if(action != null) {
                 
-                MenuItem drawMarksItem = new MenuItem("Marcar extremos");
+                MenuItem drawMarksItem = new MenuItem(actionName);
                 menuContext.getItems().add(drawMarksItem);
                 
                 applyColorItem.setOnAction(ev -> {
@@ -528,7 +528,7 @@ public class ExercisesScreenController implements Initializable {
             e.consume();
         }); 
          
-         if(!isPoint) { return; }   
+         if(action == null) { return; }   
          shape.setOnMousePressed(e -> {
                 if(marcarExtremBtn.selectedProperty().get() && e.isPrimaryButtonDown()) { action.run(); }
                 e.consume();
