@@ -254,8 +254,9 @@ public class RegisterScreenController implements Initializable {
                 
                 exitoTxtField.setVisible(true);
                 errorTxtField.setVisible(false);
-                deleteTextFieldsContent();
-                resetFieldChecks();
+                //Añadir un mensaje de confirmacion!!!!
+                Stage stage = (Stage) toolBar.getScene().getWindow();
+                stage.close();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 propmtErrorMsg("Error en el registro del nuevo usuario.");
@@ -358,23 +359,6 @@ public class RegisterScreenController implements Initializable {
         }
     }
     
-    private void deleteTextFieldsContent() {
-        userName.setText("");
-        userEmail.setText("");
-        userPassword.setText("");
-        userPasswordRep.setText("");
-        userBirthDate.setValue(null);
-    }
-    
-    private void resetFieldChecks() {
-        errorTxtField.setVisible(false);
-        userNameCheck.setVisible(false);
-        userEmailCheck.setVisible(false);
-        userPassCheck.setVisible(false);
-        userPassRepCheck.setVisible(false);
-        birthDateCheck.setVisible(false);
-    }
-
     @FXML
     private void selectAvatarImage(MouseEvent event) {
         Stage stage = (Stage) userName.getScene().getWindow();
