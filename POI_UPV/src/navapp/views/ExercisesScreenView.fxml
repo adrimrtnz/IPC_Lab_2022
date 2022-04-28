@@ -37,7 +37,7 @@
             <Menu text="_Usuario">
                <items>
                   <MenuItem mnemonicParsing="false" text="Perfil" />
-                  <MenuItem mnemonicParsing="false" text="Estadísticas" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadStatsScreen" text="Estadísticas" />
                   <MenuItem fx:id="closeSessionBtn" mnemonicParsing="false" onAction="#closeSession" text="Cerrar Sesión" />
                </items>
             </Menu>
@@ -131,7 +131,7 @@
                               <Image url="@../../resources/carta_nautica.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="transportImg" fitHeight="243.0" fitWidth="284.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="transportImg" fitHeight="243.0" fitWidth="284.0" onMouseDragged="#dragTool" onMousePressed="#holdTool" opacity="0.5" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resources/transportador.png" />
                            </image>
