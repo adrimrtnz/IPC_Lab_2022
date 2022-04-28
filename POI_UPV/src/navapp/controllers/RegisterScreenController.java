@@ -52,6 +52,7 @@ public class RegisterScreenController implements Initializable {
     @FXML private Button maximizeButton;
     @FXML private Button minimizeBtn;
     @FXML private Button changeAvatarBtn;
+    @FXML private Button registerBtn;
     
     @FXML private Text exitoTxtField;
     @FXML private Text errorTxtField;
@@ -137,6 +138,7 @@ public class RegisterScreenController implements Initializable {
         validPassword.bind(userPassCheck.visibleProperty());
         equalPasswords.bind(userPassRepCheck.visibleProperty());
         validBirthDate.bind(birthDateCheck.visibleProperty());
+        registerBtn.disableProperty().bind((validUserName.and(validEmail).and(validPassword).and(equalPasswords).and(validBirthDate)).not());
         
         
         // ToolTips para los diferentes campos
@@ -151,49 +153,55 @@ public class RegisterScreenController implements Initializable {
                 + "y algún caracter especial(!@#$%&*()-+=)");
         userPassword.setTooltip(passToolTip);
         
-        
-        
         // Se comprueba si los datos introducidos son válidos cada vez que se pierde el foco del campo
         userName.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
-                    checkUserName();
-                }                
+                    checkUserName(userName.focusedProperty().get());
+                } else if(newValue) {
+                    userNameToolTip.hide();
+                }               
         });
         
-        userName.focusedProperty().addListener((ob,oldValue,newValue) -> {
-                if(newValue) {
-                    userNameToolTip.hide();
-                }                
+        userName.textProperty().addListener((ob,oldValue,newValue) -> {
+                checkUserName(userName.focusedProperty().get());              
         });
         
         userEmail.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
-                    checkUserEmail();
-                }                
+                    checkUserPassword(userName.focusedProperty().get());
+                } else if(newValue) {
+                    userNameToolTip.hide();
+                }               
+        });
+                
+        userEmail.textProperty().addListener((ob,oldValue,newValue) -> {
+                checkUserEmail(userEmail.focusedProperty().get());           
         });
         
         userPassword.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
-                    checkUserPassword();
-                }                
-        });
-        
-        userPassword.focusedProperty().addListener((ob,oldValue,newValue) -> {
-                if(newValue) {
+                    checkUserPassword(userPassword.focusedProperty().get());
+                } else if(newValue) {
                     passToolTip.hide();
                 }                
         });
         
+        userPassword.textProperty().addListener((ob,oldValue,newValue) -> {
+                checkUserPassword(userPassword.focusedProperty().get());                
+        });
+                
         userPasswordRep.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
-                    checkRepeatedPassword();
+                    checkRepeatedPassword(userPasswordRep.focusedProperty().get());
                 }                
         });
         
-        userBirthDate.focusedProperty().addListener((ob,oldValue,newValue) -> {
-                if(!newValue) {
-                    checkBirthDate();
-                }                
+        userPasswordRep.textProperty().addListener((ob,oldValue,newValue) -> {
+                checkRepeatedPassword(userPasswordRep.focusedProperty().get());              
+        });
+        
+        userBirthDate.valueProperty().addListener((ob) -> {
+                checkBirthDate();             
         });
         
         
@@ -246,8 +254,9 @@ public class RegisterScreenController implements Initializable {
                 
                 exitoTxtField.setVisible(true);
                 errorTxtField.setVisible(false);
-                deleteTextFieldsContent();
-                resetFieldChecks();
+                //Añadir un mensaje de confirmacion!!!!
+                Stage stage = (Stage) toolBar.getScene().getWindow();
+                stage.close();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 propmtErrorMsg("Error en el registro del nuevo usuario.");
@@ -262,7 +271,7 @@ public class RegisterScreenController implements Initializable {
         errorTxtField.setVisible(true);
     }
     
-    public void checkUserName() {
+    public void checkUserName(boolean focused) {
         userNameCheck.setVisible(false);
         
         Stage stage = (Stage) userName.getScene().getWindow();
@@ -272,53 +281,53 @@ public class RegisterScreenController implements Initializable {
         if (baseDatos.exitsNickName(userName.getText())) {
             propmtErrorMsg("Nombre de usuario en uso");
         }
-        else if (!User.checkNickName(userName.getText())) {
+        else if (!User.checkNickName(userName.getText()) && !focused) {
             propmtErrorMsg("Debes introducir un nombre de usuario válido.");
             userNameToolTip.show((Node)userName, stage.getX() + offsetX ,stage.getY() + offsetY);
         }
-        else {
-           errorTxtField.setVisible(false);
-           userNameCheck.setVisible(true);
+        else if (User.checkNickName(userName.getText())) {
+            errorTxtField.setVisible(false);
+            userNameCheck.setVisible(true);
         }
     }
     
-    public void checkUserEmail() {
+    public void checkUserEmail(boolean focused) {
         userEmailCheck.setVisible(false);
         
-        if (!User.checkEmail(userEmail.getText())) {
+        if (!User.checkEmail(userEmail.getText()) && !focused) {
             propmtErrorMsg("Debes introducir un email válido.");
         }
-        else {
+        else if (User.checkEmail(userEmail.getText())){
            errorTxtField.setVisible(false);
            userEmailCheck.setVisible(true);
         }
     }
     
-    public void checkUserPassword() {
+    public void checkUserPassword(boolean focused) {
         userPassCheck.setVisible(false);
         
         Stage stage = (Stage) userPassword.getScene().getWindow();
         double offsetX = 500;
         double offsetY = 140;
         
-        if (!User.checkPassword(userPassword.getText())) {
+        if (!User.checkPassword(userPassword.getText()) && !focused) {
             propmtErrorMsg("Debes introducir una contraseña válida.");
             passToolTip.show((Node)userPassword, stage.getX() + offsetX ,stage.getY() + offsetY);
         }
-        else {
+        else if (User.checkPassword(userPassword.getText())) {
            errorTxtField.setVisible(false);
            userPassCheck.setVisible(true);
         }
     }
     
-    public void checkRepeatedPassword() {
+    public void checkRepeatedPassword(boolean focused) {
         userPassRepCheck.setVisible(false);
         if (userPasswordRep.getText().isEmpty() || !validPassword.get()) { return; }
         
-        if (!userPasswordRep.getText().equals(userPassword.getText())) {
+        if (!userPasswordRep.getText().equals(userPassword.getText()) && !focused) {
             propmtErrorMsg("Las contraseñas deben coincidir.");
         }
-        else {
+        else if (userPasswordRep.getText().equals(userPassword.getText())) {
            errorTxtField.setVisible(false);
            userPassRepCheck.setVisible(true);
         }
@@ -350,23 +359,6 @@ public class RegisterScreenController implements Initializable {
         }
     }
     
-    private void deleteTextFieldsContent() {
-        userName.setText("");
-        userEmail.setText("");
-        userPassword.setText("");
-        userPasswordRep.setText("");
-        userBirthDate.setValue(null);
-    }
-    
-    private void resetFieldChecks() {
-        errorTxtField.setVisible(false);
-        userNameCheck.setVisible(false);
-        userEmailCheck.setVisible(false);
-        userPassCheck.setVisible(false);
-        userPassRepCheck.setVisible(false);
-        birthDateCheck.setVisible(false);
-    }
-
     @FXML
     private void selectAvatarImage(MouseEvent event) {
         Stage stage = (Stage) userName.getScene().getWindow();
@@ -382,6 +374,4 @@ public class RegisterScreenController implements Initializable {
             userAvatar.imageProperty().set(avatar);
         }
     }
-
-    
 }
