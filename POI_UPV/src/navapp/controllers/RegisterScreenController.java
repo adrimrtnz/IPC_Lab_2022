@@ -52,6 +52,7 @@ public class RegisterScreenController implements Initializable {
     @FXML private Button maximizeButton;
     @FXML private Button minimizeBtn;
     @FXML private Button changeAvatarBtn;
+    @FXML private Button registerBtn;
     
     @FXML private Text exitoTxtField;
     @FXML private Text errorTxtField;
@@ -137,6 +138,7 @@ public class RegisterScreenController implements Initializable {
         validPassword.bind(userPassCheck.visibleProperty());
         equalPasswords.bind(userPassRepCheck.visibleProperty());
         validBirthDate.bind(birthDateCheck.visibleProperty());
+        registerBtn.disableProperty().bind((validUserName.and(validEmail).and(validPassword).and(equalPasswords).and(validBirthDate)).not());
         
         
         // ToolTips para los diferentes campos
@@ -388,6 +390,4 @@ public class RegisterScreenController implements Initializable {
             userAvatar.imageProperty().set(avatar);
         }
     }
-
-    
 }
