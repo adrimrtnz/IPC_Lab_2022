@@ -77,6 +77,8 @@ public class LoginScreenController implements Initializable {
         errorTxtField.textProperty().setValue(errorTxtMsg);
         errorTxtField.setDisable(true);
         
+        //Bindeamos el boton a los fields
+        loginBtn.disableProperty().bind((userName.textProperty().isNotEmpty().and(userPassword.textProperty().isNotEmpty())).not());
         
         // TODO : Da null pointer exception al cargar la BD, no se crea si no existe.
         // CARGA la Base de Datos.
