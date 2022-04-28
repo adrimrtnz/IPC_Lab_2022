@@ -338,13 +338,15 @@ public class ExercisesScreenController implements Initializable {
     
     @FXML
     private void loadStatsScreen(ActionEvent event) throws Exception {
-        FXMLLoader confirmationWindow = new FXMLLoader(getClass().getResource("/navapp/views/StatsScreenView.fxml"));
-        Parent root = confirmationWindow.load();
+        FXMLLoader statsWindow = new FXMLLoader(getClass().getResource("/navapp/views/StatsScreenView.fxml"));
+        Parent root = statsWindow.load();
         
-        ConfirmationScreenController controlador = confirmationWindow.getController();
+        StatsScreenController controlador = statsWindow.getController();
+        controlador.initializeStats(loggedUser, hits, fails);
+        controlador.initializeCharts();
         
         Stage stage = new Stage();
-        stage.setTitle("Registro Nuevo Usuario");
+        stage.setTitle("Estadísticas de Usuario");
         stage.initStyle(StageStyle.UNDECORATED);
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -352,7 +354,6 @@ public class ExercisesScreenController implements Initializable {
         scene.setFill(Color.TRANSPARENT);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
-        controlador.setCancelFocus();
         stage.showAndWait();
     }
     
