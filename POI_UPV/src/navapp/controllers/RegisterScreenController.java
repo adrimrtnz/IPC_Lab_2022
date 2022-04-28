@@ -151,21 +151,15 @@ public class RegisterScreenController implements Initializable {
                 + "y algún caracter especial(!@#$%&*()-+=)");
         userPassword.setTooltip(passToolTip);
         
-        
-        
         // Se comprueba si los datos introducidos son válidos cada vez que se pierde el foco del campo
         userName.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
                     checkUserName();
-                }                
-        });
-        
-        userName.focusedProperty().addListener((ob,oldValue,newValue) -> {
-                if(newValue) {
+                } else if(newValue) {
                     userNameToolTip.hide();
-                }                
+                }               
         });
-        
+                
         userEmail.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
                     checkUserEmail();
@@ -175,15 +169,11 @@ public class RegisterScreenController implements Initializable {
         userPassword.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
                     checkUserPassword();
-                }                
-        });
-        
-        userPassword.focusedProperty().addListener((ob,oldValue,newValue) -> {
-                if(newValue) {
+                } else if(newValue) {
                     passToolTip.hide();
                 }                
         });
-        
+                
         userPasswordRep.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
                     checkRepeatedPassword();
