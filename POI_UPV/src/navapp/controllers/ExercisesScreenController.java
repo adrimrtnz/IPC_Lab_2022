@@ -44,6 +44,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
@@ -402,27 +403,7 @@ public class ExercisesScreenController implements Initializable {
             linePainting.setStroke(colorPicker.getValue());
             mapPane.getChildren().add(linePainting);
 
-            linePainting.setOnContextMenuRequested(e -> {
-                ContextMenu menuContext = new ContextMenu();
-                MenuItem deleteItem = new MenuItem("Eliminar");
-                MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
-
-                menuContext.getItems().add(deleteItem);
-                menuContext.getItems().add(applyColorItem);
-                
-                deleteItem.setOnAction(ev -> {
-                    mapPane.getChildren().remove((Node) e.getSource());
-                    ev.consume();
-                });
-                
-                applyColorItem.setOnAction(ev -> {
-                    ((Line) e.getSource()).setStroke(colorPicker.getValue());
-                    ev.consume();
-                });
-                
-                menuContext.show(linePainting, e.getSceneX(), e.getSceneY());
-                e.consume();
-            });
+            addContextualMenu(linePainting);
     }
     
     private void addText(MouseEvent event) {
@@ -468,29 +449,8 @@ public class ExercisesScreenController implements Initializable {
         //zoomGroup.getChildren().add(circlePainting);
         mapPane.getChildren().add(circlePainting);
             
-            
-        circlePainting.setOnContextMenuRequested(e -> {
-            ContextMenu menuContext = new ContextMenu();
-            MenuItem deleteItem = new MenuItem("Eliminar");
-            MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
-
-            menuContext.getItems().add(deleteItem);
-            menuContext.getItems().add(applyColorItem);
-                
-            deleteItem.setOnAction(ev -> {
-                mapPane.getChildren().remove((Node) e.getSource());
-                ev.consume();
-            });
-                
-            applyColorItem.setOnAction(ev -> {
-                ((Circle) e.getSource()).setStroke(colorPicker.getValue());
-                ev.consume();
-            });
-                
-            menuContext.show(circlePainting, e.getSceneX(), e.getSceneY());
-                e.consume();
-            });
-    
+        addContextualMenu(circlePainting);
+       
     }
     
     private void drawPoint(MouseEvent event) {
@@ -517,38 +477,50 @@ public class ExercisesScreenController implements Initializable {
                 mapPane.getChildren().add(markerLines[1]);
             };
             
-            circle.setOnContextMenuRequested(e -> {
-                ContextMenu menuContext = new ContextMenu();
-                MenuItem deleteItem = new MenuItem("Eliminar");
-                MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
-                MenuItem drawMarksItem = new MenuItem("Marcar extremos");
+            addContextualMenu(circle, true, drawMarks);
+    }
+    
+    private void addContextualMenu(Shape shape) {
+        addContextualMenu(shape, false, null);
+    }
+    
+    private void addContextualMenu(Shape shape, boolean isPoint, Runnable action) {
+         shape.setOnContextMenuRequested(e -> {
+            ContextMenu menuContext = new ContextMenu();
+            MenuItem deleteItem = new MenuItem("Eliminar");
+            MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
 
-                menuContext.getItems().add(deleteItem);
-                menuContext.getItems().add(applyColorItem);
+            menuContext.getItems().add(deleteItem);
+            menuContext.getItems().add(applyColorItem);
+                
+            deleteItem.setOnAction(ev -> {
+                mapPane.getChildren().remove((Node) e.getSource());
+                ev.consume();
+            });
+                
+            applyColorItem.setOnAction(ev -> {
+                ((Circle) e.getSource()).setStroke(colorPicker.getValue());
+                ev.consume();
+            });
+                
+            menuContext.show(shape, e.getSceneX(), e.getSceneY());
+                e.consume();
+                
+            if(isPoint) {
+                MenuItem drawMarksItem = new MenuItem("Marcar extremos");
                 menuContext.getItems().add(drawMarksItem);
-                
-                deleteItem.setOnAction(ev -> {
-                    mapPane.getChildren().remove((Node) e.getSource());
-                    ev.consume();
-                });
-                
-                applyColorItem.setOnAction(ev -> {
-                    ((Circle) e.getSource()).setStroke(colorPicker.getValue());
-                    ev.consume();
-                });
-                
+
                 drawMarksItem.setOnAction(ev -> {
-                    drawMarks.run();
-                    ev.consume();
+                        action.run();
+                        ev.consume();
                 });
-                
-                menuContext.show(circle, e.getSceneX(), e.getSceneY());
+            }
+        }); 
+         
+         if(!isPoint) { return; }       // Si no intenta hacer el marcar Extremos si hacemos click en otra figura que no sea el punto
+         shape.setOnMousePressed(e -> {
+                if(marcarExtremBtn.selectedProperty().get() && e.isPrimaryButtonDown()) { action.run(); }
                 e.consume();
-            });
-            
-            circle.setOnMousePressed(e -> {
-                if(marcarExtremBtn.selectedProperty().get() && e.isPrimaryButtonDown()) { drawMarks.run(); }
-                e.consume();
-            });
+         });
     }
 }
