@@ -472,9 +472,13 @@ public class ExercisesScreenController implements Initializable {
                 markerLines[1] = new Line(0, circle.getCenterY(), mapImg.getFitWidth(), circle.getCenterY());
                 markerLines[1].setStrokeWidth(strokeSize.getValue());
                 markerLines[1].setStroke(colorPicker.getValue());
-                    
+                
                 mapPane.getChildren().add(markerLines[0]);
                 mapPane.getChildren().add(markerLines[1]);
+                
+                for(Line line : markerLines) {
+                    addContextualMenu(line);
+                }
             };
             
             addContextualMenu(circle, true, drawMarks);
@@ -498,26 +502,33 @@ public class ExercisesScreenController implements Initializable {
                 ev.consume();
             });
                 
-            applyColorItem.setOnAction(ev -> {
-                ((Circle) e.getSource()).setStroke(colorPicker.getValue());
-                ev.consume();
-            });
-                
-            menuContext.show(shape, e.getSceneX(), e.getSceneY());
-                e.consume();
-                
             if(isPoint) {
+                
                 MenuItem drawMarksItem = new MenuItem("Marcar extremos");
                 menuContext.getItems().add(drawMarksItem);
-
+                
+                applyColorItem.setOnAction(ev -> {
+                ((Shape) e.getSource()).setFill(colorPicker.getValue());
+                ev.consume();
+                });
+                
                 drawMarksItem.setOnAction(ev -> {
                         action.run();
                         ev.consume();
                 });
             }
+            else {
+                applyColorItem.setOnAction(ev -> {
+                    ((Shape) e.getSource()).setStroke(colorPicker.getValue());
+                    ev.consume();
+                });
+            }
+            
+            menuContext.show(shape, e.getSceneX(), e.getSceneY());
+            e.consume();
         }); 
          
-         if(!isPoint) { return; }       // Si no intenta hacer el marcar Extremos si hacemos click en otra figura que no sea el punto
+         if(!isPoint) { return; }   
          shape.setOnMousePressed(e -> {
                 if(marcarExtremBtn.selectedProperty().get() && e.isPrimaryButtonDown()) { action.run(); }
                 e.consume();
