@@ -68,22 +68,22 @@
                   </Button>
                   <VBox prefHeight="312.0" prefWidth="497.0" spacing="20.0">
                      <children>
-                        <TextField fx:id="userName" promptText="Nombre de Usuario" styleClass="text-fields" stylesheets="@../../resources/styles.css">
+                        <TextField fx:id="userName" onAction="#registrarUsuario" promptText="Nombre de Usuario" styleClass="text-fields" stylesheets="@../../resources/styles.css">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="userEmail" promptText="correo@electronico.com" styleClass="text-fields" stylesheets="@../../resources/styles.css">
+                        <TextField fx:id="userEmail" onAction="#registrarUsuario" promptText="correo@electronico.com" styleClass="text-fields" stylesheets="@../../resources/styles.css">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </TextField>
-                        <PasswordField fx:id="userPassword" promptText="Contraseña" styleClass="text-fields" stylesheets="@../../resources/styles.css">
+                        <PasswordField fx:id="userPassword" onAction="#registrarUsuario" promptText="Contraseña" styleClass="text-fields" stylesheets="@../../resources/styles.css">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </PasswordField>
-                        <PasswordField fx:id="userPasswordRep" promptText="Repetir Contraseña" styleClass="text-fields" stylesheets="@../../resources/styles.css">
+                        <PasswordField fx:id="userPasswordRep" onAction="#registrarUsuario" promptText="Repetir Contraseña" styleClass="text-fields" stylesheets="@../../resources/styles.css">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>

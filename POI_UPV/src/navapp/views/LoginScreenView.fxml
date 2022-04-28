@@ -57,7 +57,7 @@
                      </VBox.margin>
                   </ImageView>
                   <Text fx:id="errorTxtField" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Error: Aquí irán los mensajes de error" />
-                  <TextField fx:id="userName" prefWidth="387.0" promptText="Usuario" styleClass="text-fields" stylesheets="@../../resources/styles.css">
+                  <TextField fx:id="userName" onAction="#iniciarSesion" prefWidth="387.0" promptText="Usuario" styleClass="text-fields" stylesheets="@../../resources/styles.css">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -65,7 +65,7 @@
                         <Insets left="120.0" right="120.0" />
                      </VBox.margin>
                   </TextField>
-                  <PasswordField fx:id="userPassword" promptText="Contraseña" styleClass="text-fields" stylesheets="@../../resources/styles.css">
+                  <PasswordField fx:id="userPassword" onAction="#iniciarSesion" promptText="Contraseña" styleClass="text-fields" stylesheets="@../../resources/styles.css">
                      <VBox.margin>
                         <Insets left="120.0" right="120.0" />
                      </VBox.margin>
