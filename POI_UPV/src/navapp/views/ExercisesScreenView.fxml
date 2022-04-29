@@ -37,7 +37,7 @@
             <Menu text="_Usuario">
                <items>
                   <MenuItem mnemonicParsing="false" text="Perfil" />
-                  <MenuItem mnemonicParsing="false" text="Estadísticas" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadStatsScreen" text="Estadísticas" />
                   <MenuItem fx:id="closeSessionBtn" mnemonicParsing="false" onAction="#closeSession" text="Cerrar Sesión" />
                </items>
             </Menu>
@@ -63,7 +63,7 @@
                   <ToggleButton fx:id="drawArcBtn" mnemonicParsing="false" prefWidth="105.0" styleClass="large-button" text="Trazar Arco" toggleGroup="$tools" />
                   <ToggleButton fx:id="addTextBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="large-button" text="Anotar Texto" toggleGroup="$tools" />
                   <ToggleButton fx:id="marcarExtremBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="large-button" text="Marcar extremos" toggleGroup="$tools" />
-                  <ToggleButton fx:id="transportBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="large-button" text="Transportador" toggleGroup="$tools" />
+                  <ToggleButton fx:id="transportBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="large-button" text="Transportador" />
                   <Separator prefWidth="0.0" />
                   <VBox prefHeight="99.0" prefWidth="191.0" spacing="10.0">
                      <children>
@@ -131,7 +131,7 @@
                               <Image url="@../../resources/carta_nautica.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="transportImg" fitHeight="243.0" fitWidth="284.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="transportImg" fitHeight="243.0" fitWidth="284.0" onMouseDragged="#dragTool" onMousePressed="#holdTool" opacity="0.5" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resources/transportador.png" />
                            </image>

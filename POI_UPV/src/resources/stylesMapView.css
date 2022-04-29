@@ -12,13 +12,8 @@
     -fx-border-radius: 20;
 }
 
-.large-button:pressed {
+.large-button:selected {
     -fx-background-color: #81A1C1;
-}
-
-.large-button:focused {
-    -fx-background-color: #81A1C1;
-    -fx-border-radius: 20;
 }
 
 .menu-bar {

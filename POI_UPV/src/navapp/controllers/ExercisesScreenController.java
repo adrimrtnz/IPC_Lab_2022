@@ -196,7 +196,7 @@ public class ExercisesScreenController implements Initializable {
             return; 
         } 
         
-        else if (dragActive.get()) {
+        else if (dragActive.get() && !transportBtn.selectedProperty().get()) {
             initialXTrans = event.getSceneX();
             initialYTrans = event.getSceneY();
             baseX = contentGroup.getTranslateX();
@@ -219,12 +219,6 @@ public class ExercisesScreenController implements Initializable {
             addText(event);
         }
         
-        else if(transportBtn.selectedProperty().get()) {
-            initialXTrans = event.getSceneX();
-            initialYTrans = event.getSceneY();
-            baseX = transportImg.getTranslateX();
-            baseY = transportImg.getTranslateY();
-        }
         event.consume();
     }
     
@@ -235,7 +229,7 @@ public class ExercisesScreenController implements Initializable {
             return; 
         } 
         
-        if (dragActive.get()) {
+        if (dragActive.get() && !transportBtn.selectedProperty().get()) {
             double despX = event.getSceneX() - initialXTrans;
             double despY = event.getSceneY() - initialYTrans;
             contentGroup.setTranslateX(baseX + despX);
@@ -252,14 +246,7 @@ public class ExercisesScreenController implements Initializable {
             double radio = Math.sqrt((dif[0]*dif[0])+(dif[1]*dif[1]));
             circlePainting.setRadius(radio);
         }
-         
-        else if(transportBtn.selectedProperty().get()) {
-            double despX = event.getSceneX() - initialXTrans;
-            double despY = event.getSceneY() - initialYTrans;
-            transportImg.setTranslateX(baseX + despX);
-            transportImg.setTranslateY(baseY + despY);
-        }
-       
+
         event.consume();
     } 
 
@@ -347,6 +334,27 @@ public class ExercisesScreenController implements Initializable {
     private Session generateSessionInfo() {
         LocalDateTime lt = LocalDateTime.now();
         return new Session(lt,hits,fails);
+    }
+    
+    @FXML
+    private void loadStatsScreen(ActionEvent event) throws Exception {
+        FXMLLoader statsWindow = new FXMLLoader(getClass().getResource("/navapp/views/StatsScreenView.fxml"));
+        Parent root = statsWindow.load();
+        
+        StatsScreenController controlador = statsWindow.getController();
+        controlador.initializeStats(loggedUser, hits, fails);
+        controlador.initializeCharts();
+        
+        Stage stage = new Stage();
+        stage.setTitle("Estadísticas de Usuario");
+        stage.initStyle(StageStyle.UNDECORATED);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        scene.setFill(Color.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
     }
     
     @FXML
@@ -533,5 +541,28 @@ public class ExercisesScreenController implements Initializable {
                 if(marcarExtremBtn.selectedProperty().get() && e.isPrimaryButtonDown()) { action.run(); }
                 e.consume();
          });
+    }
+
+    
+
+    @FXML
+    private void dragTool(MouseEvent event) {
+        if(transportBtn.selectedProperty().get() && dragActive.get()) {
+            double despX = event.getSceneX() - initialXTrans;
+            double despY = event.getSceneY() - initialYTrans;
+            transportImg.setTranslateX(baseX + despX);
+            transportImg.setTranslateY(baseY + despY);
+        }
+    }
+
+    @FXML
+    private void holdTool(MouseEvent event) {
+        if(transportBtn.selectedProperty().get() && dragActive.get()) {
+            initialXTrans = event.getSceneX();
+            initialYTrans = event.getSceneY();
+            baseX = transportImg.getTranslateX();
+            baseY = transportImg.getTranslateY();
+        }
+        
     }
 }
