@@ -44,7 +44,13 @@
             </ToolBar>
          </top>
          <center>
-            <ListView fx:id="avatarListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <ListView fx:id="avatarListView" maxWidth="-Infinity" prefHeight="357.0" prefWidth="327.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </BorderPane.margin>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding></ListView>
          </center>
          <right>
             <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
