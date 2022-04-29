@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="506.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.StatsScreenController">
+<AnchorPane id="AnchorPane" prefHeight="506.0" prefWidth="600.0" styleClass="app-general-style" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.StatsScreenController">
    <children>
       <BorderPane prefHeight="506.0" prefWidth="780.0">
          <top>
@@ -66,7 +66,10 @@
                                     <Image url="@../../resources/avatars/default.png" />
                                  </image>
                               </ImageView>
-                              <Text fx:id="userNameTag" strokeType="OUTSIDE" strokeWidth="0.0" text="nombreUsuario" textAlignment="CENTER" wrappingWidth="122.66861271858215" />
+                              <Text fx:id="userNameTag" strokeType="OUTSIDE" strokeWidth="0.0" text="nombreUsuario" textAlignment="CENTER" wrappingWidth="122.66861271858215">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font></Text>
                            </children>
                         </VBox>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aquí irán los Stats en un futuro." wrappingWidth="126.12628173828125" />

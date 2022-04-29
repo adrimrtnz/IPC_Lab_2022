@@ -30,7 +30,7 @@
          <menus>
             <Menu text="_Problemas">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Lista de Problemas" />
+                  <MenuItem mnemonicParsing="false" onAction="#showProblemList" text="Lista de Problemas" />
                   <MenuItem fx:id="newRandBtn" mnemonicParsing="false" onAction="#newRandomExercise" text="Nuevo Problema Aleatorio" />
                </items>
             </Menu>

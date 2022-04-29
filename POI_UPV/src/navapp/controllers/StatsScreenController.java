@@ -135,8 +135,8 @@ public class StatsScreenController implements Initializable {
         String histDataHitsLabel = "Aciertos: " + histHits;
         String histDataFaultsLabel = "Aciertos: " + histFaults;
         
-        histHitsFaults.add(new PieChart.Data(histDataHitsLabel, histHits));
-        histHitsFaults.add(new PieChart.Data(histDataFaultsLabel, histFaults));
+        histHitsFaults.add(new PieChart.Data(histDataHitsLabel, histHits + this.hits));
+        histHitsFaults.add(new PieChart.Data(histDataFaultsLabel, histFaults + this.faults));
         historicalHitsPie.setData(histHitsFaults);
         
     }
