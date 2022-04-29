@@ -468,10 +468,16 @@ public class ExercisesScreenController implements Initializable {
                 markerLines[0] = new Line(circle.getCenterX(), 0, circle.getCenterX(), mapImg.getFitHeight());
                 markerLines[0].setStrokeWidth(strokeSize.getValue());
                 markerLines[0].setStroke(colorPicker.getValue());
+                markerLines[0].strokeProperty().addListener( (ob) -> {
+                    markerLines[1].setStroke(markerLines[0].strokeProperty().get());
+                });
                     
                 markerLines[1] = new Line(0, circle.getCenterY(), mapImg.getFitWidth(), circle.getCenterY());
                 markerLines[1].setStrokeWidth(strokeSize.getValue());
                 markerLines[1].setStroke(colorPicker.getValue());
+                markerLines[1].strokeProperty().addListener( (ob) -> {
+                    markerLines[0].setStroke(markerLines[1].strokeProperty().get());
+                });
                 
                 mapPane.getChildren().add(markerLines[0]);
                 mapPane.getChildren().add(markerLines[1]);
@@ -498,7 +504,12 @@ public class ExercisesScreenController implements Initializable {
             menuContext.getItems().add(applyColorItem);
                 
             deleteItem.setOnAction(ev -> {
-                mapPane.getChildren().remove((Node) e.getSource());
+                if(((Node) e.getSource()).equals(markerLines[0]) || ((Node) e.getSource()).equals(markerLines[1])){
+                    mapPane.getChildren().remove(markerLines[0]);
+                    mapPane.getChildren().remove(markerLines[1]);
+                } else {
+                    mapPane.getChildren().remove((Node) e.getSource());
+                }
                 ev.consume();
             });
                 
