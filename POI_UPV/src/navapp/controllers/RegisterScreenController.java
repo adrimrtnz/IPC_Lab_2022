@@ -21,8 +21,11 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
@@ -32,10 +35,13 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import model.Navegacion;
 import model.User;
@@ -248,7 +254,7 @@ public class RegisterScreenController implements Initializable {
         }
         else {
             try {
-                // Versión comentada es con imagen, por ahora da == null
+                // Versión comentada es sin imagen
                 baseDatos.registerUser(userName.getText(), userEmail.getText(), userPassword.getText(), avatar, birthdate);
                 //baseDatos.registerUser(userName.getText(), userEmail.getText(), userPassword.getText(), birthdate);
                 
@@ -360,18 +366,27 @@ public class RegisterScreenController implements Initializable {
     }
     
     @FXML
-    private void selectAvatarImage(MouseEvent event) {
-        Stage stage = (Stage) userName.getScene().getWindow();
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Image");
-        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Images", "*.jpg", "*.jpeg", "*.png"));
-        File file = fileChooser.showOpenDialog(stage);
+    private void selectAvatarImage(MouseEvent event) throws Exception {
+        FXMLLoader avatarWindow = new FXMLLoader(getClass().getResource("/navapp/views/AvatarSelectionView.fxml"));
+        Parent root = avatarWindow.load();
         
-        if(file == null) {
-            System.out.println("Null Image File");
-        } else {
-            avatar = new Image(file.toURI().toString());
-            userAvatar.imageProperty().set(avatar);
+        AvatarSelectionController controlador = avatarWindow.getController();
+        
+        Stage stage = new Stage();
+        stage.setTitle("Selección de avatar");
+        stage.initStyle(StageStyle.UNDECORATED);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        scene.setFill(Color.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
+        
+        Image selectedImage = controlador.getImage();
+        
+        if (selectedImage != null) {
+            userAvatar.imageProperty().set(selectedImage);
         }
     }
 }
