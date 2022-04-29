@@ -125,7 +125,7 @@ public class ExercisesScreenController implements Initializable {
         
         // inicializamos el slider y enlazamos con el zoom
         zoomSlider.setMin(0.5);
-        zoomSlider.setMax(5);
+        zoomSlider.setMax(6);
         zoomSlider.setValue(1.0);
         zoomSlider.valueProperty().addListener((o, oldVal, newVal) -> zoom((Double) newVal));
         

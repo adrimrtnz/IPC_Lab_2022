@@ -385,7 +385,9 @@ public class RegisterScreenController implements Initializable {
         
         try {
             Image selectedImage = controlador.getImage();
-            userAvatar.imageProperty().set(selectedImage);
+            userAvatar.setImage(selectedImage);
+            //userAvatar.setPreserveRatio(true);
+            //userAvatar.setFitWidth(95);
             avatar = userAvatar.imageProperty().get();
         }
         catch(Exception e) {
