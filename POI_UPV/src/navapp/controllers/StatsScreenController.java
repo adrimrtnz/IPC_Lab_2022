@@ -27,6 +27,7 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -46,8 +47,8 @@ public class StatsScreenController implements Initializable {
     @FXML private Button returnBtn;
     @FXML private PieChart actualSessionHitsPie;
     @FXML private PieChart historicalHitsPie;
-    @FXML private Text actualSessionLabel;
-    @FXML private Text historicalHitsLabel;
+    @FXML private ImageView userAvatar;
+    @FXML private Text userNameTag;
     
     private User loggedUser;
     private int hits, faults;
@@ -56,12 +57,15 @@ public class StatsScreenController implements Initializable {
     private double yOffset;
     
     
+    
+    
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         closeBtn.setOnAction((ActionEvent event) -> {
             Node source = (Node) event.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
@@ -97,6 +101,8 @@ public class StatsScreenController implements Initializable {
     
     public void initializeStats(User user, int hits, int fails) {
         loggedUser = user;
+        userAvatar.imageProperty().set(loggedUser.getAvatar());
+        userNameTag.textProperty().set(loggedUser.getNickName());
         this.hits = hits;
         this.faults = fails;
     }
@@ -116,20 +122,23 @@ public class StatsScreenController implements Initializable {
             histHits += session.getHits();
             histFaults += session.getFaults();
         }
-
-        actualData.add(new PieChart.Data("Aciertos", this.hits));
-        actualData.add(new PieChart.Data("Fallos", this.faults));
+        
+        
+        String actualDataHitsLabel = "Aciertos: " + this.hits;
+        String actualDataFaultsLabel = "Aciertos: " + this.faults;
+        
+        actualData.add(new PieChart.Data(actualDataHitsLabel, this.hits));
+        actualData.add(new PieChart.Data(actualDataFaultsLabel, this.faults));
         actualSessionHitsPie.setData(actualData);
         
-        histHitsFaults.add(new PieChart.Data("Aciertos", histHits));
-        histHitsFaults.add(new PieChart.Data("Fallos", histFaults));
+        //-----------------------------------------------------------//
+        String histDataHitsLabel = "Aciertos: " + histHits;
+        String histDataFaultsLabel = "Aciertos: " + histFaults;
+        
+        histHitsFaults.add(new PieChart.Data(histDataHitsLabel, histHits));
+        histHitsFaults.add(new PieChart.Data(histDataFaultsLabel, histFaults));
         historicalHitsPie.setData(histHitsFaults);
         
-        actualSessionLabel.textProperty().set("Aciertos: " + this.hits + " (" + "%)" + 
-                                            "\nFallos: " + this.faults + " (" + "%)");
-        
-        historicalHitsLabel.textProperty().set("Aciertos: " + histHits + " (" + "%)" +
-                                             "\nFallos: " + histFaults + " (" + "%)");
     }
             
 }
