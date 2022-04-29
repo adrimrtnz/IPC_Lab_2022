@@ -29,7 +29,7 @@ public class AvatarListCell extends ListCell<Avatar>{
         } else {
             view.setImage(avatar.getImage());  
             view.setPreserveRatio(true);
-            view.setFitHeight(120);
+            view.setFitWidth(120);
             setGraphic(view);
             setText(avatar.getName());     
         }
