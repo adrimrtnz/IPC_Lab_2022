@@ -383,10 +383,13 @@ public class RegisterScreenController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
         
-        Image selectedImage = controlador.getImage();
-        
-        if (selectedImage != null) {
+        try {
+            Image selectedImage = controlador.getImage();
             userAvatar.imageProperty().set(selectedImage);
+            avatar = userAvatar.imageProperty().get();
+        }
+        catch(Exception e) {
+            System.out.println("No se ha seleccionado ninguna imagen");
         }
     }
 }

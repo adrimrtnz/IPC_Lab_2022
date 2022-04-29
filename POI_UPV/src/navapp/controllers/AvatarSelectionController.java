@@ -26,6 +26,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import navapp.Avatar;
+import navapp.AvatarListCell;
 
 /**
  * FXML Controller class
@@ -41,13 +43,13 @@ public class AvatarSelectionController implements Initializable {
     @FXML private Button acceptBtn;
     @FXML private Button cancelBtn;
     @FXML private Button searchBtn;
-    @FXML private ListView<Image> avatarListView;
+    @FXML private ListView<Avatar> avatarListView;
     
     private double xOffset, yOffset;
-    private ObservableList<Image> defaultAvatars = null;
-    private ObservableList<Image> datos = null;
+    private ObservableList<Avatar> defaultAvatars = null;
+    private ObservableList<Avatar> datos = null;
     
-    private Image selectedImage;
+    private Avatar selectedImage;
     
 
     /**
@@ -99,27 +101,21 @@ public class AvatarSelectionController implements Initializable {
         
         });
         
-        ArrayList<Image> avatares = new ArrayList<Image>();
+        ArrayList<Avatar> avatares = new ArrayList<Avatar>();
         
-        avatares.add(new Image("/resources/avatars/default.png"));
-        avatares.add(new Image("/resources/avatars/avatar1.png"));
-        avatares.add(new Image("/resources/avatars/avatar2.png"));
-        avatares.add(new Image("/resources/avatars/avatar3.png"));
-        avatares.add(new Image("/resources/avatars/avatar4.png"));
+        avatares.add(new Avatar(new Image("/resources/avatars/default.png"), "default"));
+        avatares.add(new Avatar(new Image("/resources/avatars/avatar1.png"), "avatar1"));
+        avatares.add(new Avatar(new Image("/resources/avatars/avatar2.png"), "avatar2"));
+        avatares.add(new Avatar(new Image("/resources/avatars/avatar3.png"), "avatar3"));
+        avatares.add(new Avatar(new Image("/resources/avatars/avatar4.png"), "avatar4"));
         
         datos = FXCollections.observableArrayList(avatares);
         avatarListView.setItems(datos); // vinculación entre la vista y el modelo
         
-        /*
-        vistadeListafxID.setCellFactory(c -> new ListCell<String>() {
-           private ImageView imageView = new ImageView();
-           
-           @Override
-           public void updateItems(String name, boolean empty) {
-               super.updateItem(name, empty);
-           }
-            
-        });*/
+
+        avatarListView.setCellFactory(c -> new AvatarListCell());
+
+        
         defaultAvatars = avatarListView.getItems();
         
         searchBtn.setOnAction((ActionEvent event) -> {
@@ -132,15 +128,15 @@ public class AvatarSelectionController implements Initializable {
             if(file == null) {
                 System.out.println("Null Image File");
             } else {
-                datos.add(new Image(file.toURI().toString()));
+                datos.add(new Avatar(new Image(file.toURI().toString()),file.getName()));
             }
         });
         
         
     }    
     
-    public Image getImage() {
-        return selectedImage;
+    public Image getImage() throws Exception{
+        return selectedImage.getImage();
     }
             
     
