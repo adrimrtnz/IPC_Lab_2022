@@ -46,14 +46,15 @@ public class QuestionsListController implements Initializable {
     
     private Navegacion baseDatos;
     private List<Problem> probDisp;
-    private Problem selectedProblem;
 
     private double xOffset, yOffset;
+    private TitledPane[] tps;
+    private boolean userSelection;
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        selectedProblem = null;
+        userSelection = false;
         
         try{
             baseDatos = Navegacion.getSingletonNavegacion();
@@ -64,7 +65,7 @@ public class QuestionsListController implements Initializable {
             System.out.println(e.toString());
         }
         
-        TitledPane[] tps = new TitledPane[probDisp.size()];
+        tps = new TitledPane[probDisp.size()];
         
         for (int i = 0; i < probDisp.size(); i++) {
             // POR CADA PROBLEMA
@@ -81,8 +82,17 @@ public class QuestionsListController implements Initializable {
         }
         
         accordion.getPanes().addAll(tps);
+        accordion.setExpandedPane(tps[0]);
+        
+        selectQuestionBtn.setOnAction((ActionEvent event) -> {
+            userSelection = true;
+            Node source = (Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+            stage.close();
+        });
         
         closeBtn.setOnAction((ActionEvent event) -> {
+            userSelection = false;
             Node source = (Node) event.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             stage.close();
@@ -121,14 +131,16 @@ public class QuestionsListController implements Initializable {
   
     }
     
-    public Problem getSelectedQuestion() throws Exception {
-        return selectedProblem;
+    public Problem getSelectedQuestion() {
+        for(int i = 0; i < tps.length; i++) {
+            if(tps[i].isExpanded()) {
+                System.out.println("Seleccionado problema: " + (i + 1));
+                return probDisp.get(i);
+            }
+        }
+        System.out.println("Seleccionado problema: " + 1);
+        return probDisp.get(0);
     }
 
-    @FXML
-    private void setSelectedQuestion(ActionEvent event) {
- 
-        
-    }
-    
+    public boolean userHasSelectedProblem() { return userSelection; }
 }

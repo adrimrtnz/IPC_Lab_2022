@@ -587,6 +587,13 @@ public class ExercisesScreenController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
         
+        if (controlador.userHasSelectedProblem()) {
+            activeProblem = controlador.getSelectedQuestion();
+            updateProblem();
+        }
+        else {
+            return;
+        }
         
     }
 }

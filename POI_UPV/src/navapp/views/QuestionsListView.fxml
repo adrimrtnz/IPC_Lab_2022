@@ -48,7 +48,7 @@
          <bottom>
             <HBox alignment="CENTER" prefHeight="63.0" prefWidth="451.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="selectQuestionBtn" mnemonicParsing="false" onAction="#setSelectedQuestion" prefWidth="80.0" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Seleccionar" />
+                  <Button fx:id="selectQuestionBtn" mnemonicParsing="false" prefWidth="80.0" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Seleccionar" />
                   <Button fx:id="backBtn" mnemonicParsing="false" prefWidth="80.0" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Volver" />
                </children>
             </HBox>
