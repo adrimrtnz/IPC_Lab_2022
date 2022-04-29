@@ -336,6 +336,7 @@ public class ExercisesScreenController implements Initializable {
         StatsScreenController controlador = statsWindow.getController();
         controlador.initializeStats(loggedUser, hits, fails);
         controlador.initializeCharts();
+        controlador.initializeUserInfo();
         
         Stage stage = new Stage();
         stage.setTitle("Estadísticas de Usuario");
