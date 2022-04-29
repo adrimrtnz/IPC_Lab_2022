@@ -63,7 +63,7 @@
                   <ToggleButton fx:id="drawArcBtn" mnemonicParsing="false" prefWidth="105.0" styleClass="large-button" text="Trazar Arco" toggleGroup="$tools" />
                   <ToggleButton fx:id="addTextBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="large-button" text="Anotar Texto" toggleGroup="$tools" />
                   <ToggleButton fx:id="marcarExtremBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="large-button" text="Marcar extremos" toggleGroup="$tools" />
-                  <ToggleButton fx:id="transportBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="large-button" text="Transportador" toggleGroup="$tools" />
+                  <ToggleButton fx:id="transportBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" styleClass="large-button" text="Transportador" />
                   <Separator prefWidth="0.0" />
                   <VBox prefHeight="99.0" prefWidth="191.0" spacing="10.0">
                      <children>

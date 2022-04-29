@@ -196,7 +196,7 @@ public class ExercisesScreenController implements Initializable {
             return; 
         } 
         
-        else if (dragActive.get()) {
+        else if (dragActive.get() && !transportBtn.selectedProperty().get()) {
             initialXTrans = event.getSceneX();
             initialYTrans = event.getSceneY();
             baseX = contentGroup.getTranslateX();
@@ -229,7 +229,7 @@ public class ExercisesScreenController implements Initializable {
             return; 
         } 
         
-        if (dragActive.get()) {
+        if (dragActive.get() && !transportBtn.selectedProperty().get()) {
             double despX = event.getSceneX() - initialXTrans;
             double despY = event.getSceneY() - initialYTrans;
             contentGroup.setTranslateX(baseX + despX);
@@ -547,7 +547,7 @@ public class ExercisesScreenController implements Initializable {
 
     @FXML
     private void dragTool(MouseEvent event) {
-        if(transportBtn.selectedProperty().get()) {
+        if(transportBtn.selectedProperty().get() && dragActive.get()) {
             double despX = event.getSceneX() - initialXTrans;
             double despY = event.getSceneY() - initialYTrans;
             transportImg.setTranslateX(baseX + despX);
@@ -557,7 +557,7 @@ public class ExercisesScreenController implements Initializable {
 
     @FXML
     private void holdTool(MouseEvent event) {
-        if(transportBtn.selectedProperty().get()) {
+        if(transportBtn.selectedProperty().get() && dragActive.get()) {
             initialXTrans = event.getSceneX();
             initialYTrans = event.getSceneY();
             baseX = transportImg.getTranslateX();
