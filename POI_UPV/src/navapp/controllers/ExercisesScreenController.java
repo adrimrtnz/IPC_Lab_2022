@@ -7,11 +7,11 @@ package navapp.controllers;
 
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.List;
-import java.util.LinkedList;
 import java.util.Random;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
@@ -279,19 +279,11 @@ public class ExercisesScreenController implements Initializable {
     private void updateProblem() {
         probStatement.textProperty().set(activeProblem.getText());
         List<Answer> ansListTemp = activeProblem.getAnswers();
-        List<Integer> order = new LinkedList<Integer>();
-        Random rd = new Random();
-        /*No es la forma más eficiente para aleatorizar las respuestas
-        pero para generar 4 valores solamente no es crítico y es simple*/
-        while(order.size() < 4) {
-            Integer n = rd.nextInt(4);
-            if(!order.contains(n)){
-                order.add(n);
-            }
-        }
-        
+        List<Integer> order = Arrays.asList(new Integer[]{0,1,2,3});
+        Collections.shuffle(order);
+       
         for(Toggle t: opciones.getToggles()){
-            Answer ans = ansListTemp.get(order.remove(0));
+            Answer ans = ansListTemp.get(order.get(opciones.getToggles().indexOf(t)));
             ((RadioButton)t).textProperty().set(ans.getText());
             ((RadioButton)t).setUserData(ans.getValidity());
         }
@@ -476,10 +468,16 @@ public class ExercisesScreenController implements Initializable {
                 markerLines[0] = new Line(circle.getCenterX(), 0, circle.getCenterX(), mapImg.getFitHeight());
                 markerLines[0].setStrokeWidth(strokeSize.getValue());
                 markerLines[0].setStroke(colorPicker.getValue());
+                markerLines[0].strokeProperty().addListener( (ob) -> {
+                    markerLines[1].setStroke(markerLines[0].strokeProperty().get());
+                });
                     
                 markerLines[1] = new Line(0, circle.getCenterY(), mapImg.getFitWidth(), circle.getCenterY());
                 markerLines[1].setStrokeWidth(strokeSize.getValue());
                 markerLines[1].setStroke(colorPicker.getValue());
+                markerLines[1].strokeProperty().addListener( (ob) -> {
+                    markerLines[0].setStroke(markerLines[1].strokeProperty().get());
+                });
                 
                 mapPane.getChildren().add(markerLines[0]);
                 mapPane.getChildren().add(markerLines[1]);
@@ -506,7 +504,12 @@ public class ExercisesScreenController implements Initializable {
             menuContext.getItems().add(applyColorItem);
                 
             deleteItem.setOnAction(ev -> {
-                mapPane.getChildren().remove((Node) e.getSource());
+                if(((Node) e.getSource()).equals(markerLines[0]) || ((Node) e.getSource()).equals(markerLines[1])){
+                    mapPane.getChildren().remove(markerLines[0]);
+                    mapPane.getChildren().remove(markerLines[1]);
+                } else {
+                    mapPane.getChildren().remove((Node) e.getSource());
+                }
                 ev.consume();
             });
                 
@@ -516,8 +519,8 @@ public class ExercisesScreenController implements Initializable {
                 menuContext.getItems().add(drawMarksItem);
                 
                 applyColorItem.setOnAction(ev -> {
-                ((Shape) e.getSource()).setFill(colorPicker.getValue());
-                ev.consume();
+                    ((Shape) e.getSource()).setFill(colorPicker.getValue());
+                    ev.consume();
                 });
                 
                 drawMarksItem.setOnAction(ev -> {
