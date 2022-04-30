@@ -169,25 +169,27 @@ public class RegisterScreenController implements Initializable {
                     checkUserName();
                 } else if(newValue) {
                     itHasBeenWarned = false;
-                    userNameToolTip.hide();
-                }               
+                }
         });
         
         userName.textProperty().addListener((ob,oldValue,newValue) -> {
-                checkUserName();              
+                if(!newValue.equals(oldValue) && itHasBeenWarned) {
+                    userNameToolTip.hide();
+                }             
         });
         
         userEmail.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
-                    checkUserPassword();
+                    checkUserEmail();
                 } else if(newValue) {
                     itHasBeenWarned = false;
-                    userNameToolTip.hide();
+                    //userNameToolTip.hide();
                 }               
         });
-                
+        
         userEmail.textProperty().addListener((ob,oldValue,newValue) -> {
-                checkUserEmail();           
+                userNameToolTip.hide();
+                passToolTip.hide();          
         });
         
         userPassword.focusedProperty().addListener((ob,oldValue,newValue) -> {
@@ -195,13 +197,16 @@ public class RegisterScreenController implements Initializable {
                     checkUserPassword();
                 } else if(newValue) {
                     itHasBeenWarned = false;
-                    passToolTip.hide();
                 }                
         });
         
+        
         userPassword.textProperty().addListener((ob,oldValue,newValue) -> {
-                checkUserPassword();                
+                if(!newValue.equals(oldValue) && itHasBeenWarned) {
+                    passToolTip.hide();
+                }                 
         });
+        
                 
         userPasswordRep.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
@@ -212,11 +217,14 @@ public class RegisterScreenController implements Initializable {
         });
         
         userPasswordRep.textProperty().addListener((ob,oldValue,newValue) -> {
-                checkRepeatedPassword();              
+                userNameToolTip.hide();
+                passToolTip.hide();  
         });
         
+        
         userBirthDate.valueProperty().addListener((ob) -> {
-                checkBirthDate();            
+                userNameToolTip.hide();
+                passToolTip.hide();             
         });
         
         
