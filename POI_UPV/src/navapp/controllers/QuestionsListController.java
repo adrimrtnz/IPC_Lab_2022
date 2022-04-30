@@ -69,7 +69,7 @@ public class QuestionsListController implements Initializable {
         
         for (int i = 0; i < probDisp.size(); i++) {
             // POR CADA PROBLEMA
-            // Accordion
+            // En el Accordion:
                 // Por cada Pregunta un TitledPane
                 // Añadir al TittledPane un TextField con el texto de la pregunta
                
@@ -82,7 +82,7 @@ public class QuestionsListController implements Initializable {
         }
         
         accordion.getPanes().addAll(tps);
-        accordion.setExpandedPane(tps[0]);
+        accordion.setExpandedPane(tps[0]); // Este es el que está abierto por defecto
         
         selectQuestionBtn.setOnAction((ActionEvent event) -> {
             userSelection = true;
