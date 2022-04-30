@@ -111,8 +111,7 @@ public class ExercisesScreenController implements Initializable {
     private Problem activeProblem;
     
     private int hits, fails;
-
-    
+    private int initialChildren;   
     
 
     @Override
@@ -126,7 +125,7 @@ public class ExercisesScreenController implements Initializable {
         
         // inicializamos el slider y enlazamos con el zoom
         zoomSlider.setMin(0.5);
-        zoomSlider.setMax(5);
+        zoomSlider.setMax(6);
         zoomSlider.setValue(1.0);
         zoomSlider.valueProperty().addListener((o, oldVal, newVal) -> zoom((Double) newVal));
         
@@ -135,6 +134,7 @@ public class ExercisesScreenController implements Initializable {
         contentGroup.getChildren().add(zoomGroup);
         zoomGroup.getChildren().add(mapScrollpane.getContent());
         mapScrollpane.setContent(contentGroup);
+        initialChildren = mapPane.getChildren().size();
         
         
         try{
@@ -252,7 +252,7 @@ public class ExercisesScreenController implements Initializable {
 
     @FXML private void cleanMap(ActionEvent event) {
 
-        while (mapPane.getChildren().size() > 2) {
+        while (mapPane.getChildren().size() > initialChildren) {
             mapPane.getChildren().remove(mapPane.getChildren().size() - 1);
         }
         event.consume();
@@ -336,6 +336,7 @@ public class ExercisesScreenController implements Initializable {
         StatsScreenController controlador = statsWindow.getController();
         controlador.initializeStats(loggedUser, hits, fails);
         controlador.initializeCharts();
+        controlador.initializeUserInfo();
         
         Stage stage = new Stage();
         stage.setTitle("Estadísticas de Usuario");
@@ -565,6 +566,34 @@ public class ExercisesScreenController implements Initializable {
             initialYTrans = event.getSceneY();
             baseX = transportImg.getTranslateX();
             baseY = transportImg.getTranslateY();
+        }
+        
+    }
+
+    @FXML
+    private void showProblemList(ActionEvent event) throws Exception {
+        FXMLLoader questionsListWindow = new FXMLLoader(getClass().getResource("/navapp/views/QuestionsListView.fxml"));
+        Parent root = questionsListWindow.load();
+        
+        QuestionsListController controlador = questionsListWindow.getController();
+        
+        Stage stage = new Stage();
+        stage.setTitle("Lista de Preguntas");
+        stage.initStyle(StageStyle.UNDECORATED);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        scene.setFill(Color.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
+        
+        if (controlador.userHasSelectedProblem()) {
+            activeProblem = controlador.getSelectedQuestion();
+            updateProblem();
+        }
+        else {
+            return;
         }
         
     }

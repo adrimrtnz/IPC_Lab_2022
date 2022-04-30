@@ -95,6 +95,8 @@ public class RegisterScreenController implements Initializable {
     private Tooltip passToolTip;
     private Tooltip userNameToolTip;
     
+    private boolean itHasBeenWarned;
+    
     
     /**
      * Initializes the controller class.
@@ -112,6 +114,8 @@ public class RegisterScreenController implements Initializable {
         
         avatar = userAvatar.getImage();
         currentDate = LocalDate.now();
+        
+        itHasBeenWarned = false;
         
         try {
             baseDatos = Navegacion.getSingletonNavegacion();
@@ -162,52 +166,57 @@ public class RegisterScreenController implements Initializable {
         // Se comprueba si los datos introducidos son válidos cada vez que se pierde el foco del campo
         userName.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
-                    checkUserName(userName.focusedProperty().get());
+                    checkUserName();
                 } else if(newValue) {
+                    itHasBeenWarned = false;
                     userNameToolTip.hide();
                 }               
         });
         
         userName.textProperty().addListener((ob,oldValue,newValue) -> {
-                checkUserName(userName.focusedProperty().get());              
+                checkUserName();              
         });
         
         userEmail.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
-                    checkUserPassword(userName.focusedProperty().get());
+                    checkUserPassword();
                 } else if(newValue) {
+                    itHasBeenWarned = false;
                     userNameToolTip.hide();
                 }               
         });
                 
         userEmail.textProperty().addListener((ob,oldValue,newValue) -> {
-                checkUserEmail(userEmail.focusedProperty().get());           
+                checkUserEmail();           
         });
         
         userPassword.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
-                    checkUserPassword(userPassword.focusedProperty().get());
+                    checkUserPassword();
                 } else if(newValue) {
+                    itHasBeenWarned = false;
                     passToolTip.hide();
                 }                
         });
         
         userPassword.textProperty().addListener((ob,oldValue,newValue) -> {
-                checkUserPassword(userPassword.focusedProperty().get());                
+                checkUserPassword();                
         });
                 
         userPasswordRep.focusedProperty().addListener((ob,oldValue,newValue) -> {
                 if(!newValue) {
-                    checkRepeatedPassword(userPasswordRep.focusedProperty().get());
-                }                
+                    checkRepeatedPassword();
+                } else if (newValue) {
+                    itHasBeenWarned = false;
+                }
         });
         
         userPasswordRep.textProperty().addListener((ob,oldValue,newValue) -> {
-                checkRepeatedPassword(userPasswordRep.focusedProperty().get());              
+                checkRepeatedPassword();              
         });
         
         userBirthDate.valueProperty().addListener((ob) -> {
-                checkBirthDate();             
+                checkBirthDate();            
         });
         
         
@@ -277,19 +286,24 @@ public class RegisterScreenController implements Initializable {
         errorTxtField.setVisible(true);
     }
     
-    public void checkUserName(boolean focused) {
+    public void checkUserName() {
         userNameCheck.setVisible(false);
         
         Stage stage = (Stage) userName.getScene().getWindow();
         double offsetX = 500;
         double offsetY = 40;
         
-        if (baseDatos.exitsNickName(userName.getText())) {
+        
+        if (baseDatos.exitsNickName(userName.getText()) && !itHasBeenWarned) {
             propmtErrorMsg("Nombre de usuario en uso");
+            userName.requestFocus();
+            itHasBeenWarned = true;
         }
-        else if (!User.checkNickName(userName.getText()) && !focused) {
+        else if (!User.checkNickName(userName.getText()) && !itHasBeenWarned) {
             propmtErrorMsg("Debes introducir un nombre de usuario válido.");
             userNameToolTip.show((Node)userName, stage.getX() + offsetX ,stage.getY() + offsetY);
+            userName.requestFocus();
+            itHasBeenWarned = true;
         }
         else if (User.checkNickName(userName.getText())) {
             errorTxtField.setVisible(false);
@@ -297,11 +311,13 @@ public class RegisterScreenController implements Initializable {
         }
     }
     
-    public void checkUserEmail(boolean focused) {
+    public void checkUserEmail() {
         userEmailCheck.setVisible(false);
         
-        if (!User.checkEmail(userEmail.getText()) && !focused) {
+        if (!User.checkEmail(userEmail.getText()) && !itHasBeenWarned) {
             propmtErrorMsg("Debes introducir un email válido.");
+            userEmail.requestFocus();
+            itHasBeenWarned = true;
         }
         else if (User.checkEmail(userEmail.getText())){
            errorTxtField.setVisible(false);
@@ -309,16 +325,18 @@ public class RegisterScreenController implements Initializable {
         }
     }
     
-    public void checkUserPassword(boolean focused) {
+    public void checkUserPassword() {
         userPassCheck.setVisible(false);
         
         Stage stage = (Stage) userPassword.getScene().getWindow();
         double offsetX = 500;
         double offsetY = 140;
         
-        if (!User.checkPassword(userPassword.getText()) && !focused) {
+        if (!User.checkPassword(userPassword.getText()) && !itHasBeenWarned) {
             propmtErrorMsg("Debes introducir una contraseña válida.");
             passToolTip.show((Node)userPassword, stage.getX() + offsetX ,stage.getY() + offsetY);
+            userPassword.requestFocus();
+            itHasBeenWarned = true;
         }
         else if (User.checkPassword(userPassword.getText())) {
            errorTxtField.setVisible(false);
@@ -326,12 +344,14 @@ public class RegisterScreenController implements Initializable {
         }
     }
     
-    public void checkRepeatedPassword(boolean focused) {
+    public void checkRepeatedPassword() {
         userPassRepCheck.setVisible(false);
         if (userPasswordRep.getText().isEmpty() || !validPassword.get()) { return; }
         
-        if (!userPasswordRep.getText().equals(userPassword.getText()) && !focused) {
+        if (!userPasswordRep.getText().equals(userPassword.getText()) && !itHasBeenWarned) {
             propmtErrorMsg("Las contraseñas deben coincidir.");
+            userPasswordRep.requestFocus();
+            itHasBeenWarned = true;
         }
         else if (userPasswordRep.getText().equals(userPassword.getText())) {
            errorTxtField.setVisible(false);
@@ -350,8 +370,10 @@ public class RegisterScreenController implements Initializable {
 
             int yearsOld = timeLived.getYear();
 
-            if (yearsOld < 16) {
+            if (yearsOld < 16 && !itHasBeenWarned) {
                 propmtErrorMsg("Debes ser mayor de 16 años.");
+                userBirthDate.requestFocus();
+                itHasBeenWarned = true;
             }
             else {
                 birthdate = userBirthDay;
@@ -385,7 +407,9 @@ public class RegisterScreenController implements Initializable {
         
         try {
             Image selectedImage = controlador.getImage();
-            userAvatar.imageProperty().set(selectedImage);
+            userAvatar.setImage(selectedImage);
+            //userAvatar.setPreserveRatio(true);
+            //userAvatar.setFitWidth(95);
             avatar = userAvatar.imageProperty().get();
         }
         catch(Exception e) {

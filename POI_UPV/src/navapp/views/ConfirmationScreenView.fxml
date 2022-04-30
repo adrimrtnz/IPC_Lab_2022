@@ -45,7 +45,7 @@
          <center>
             <VBox alignment="BOTTOM_CENTER" prefHeight="102.0" prefWidth="364.0" stylesheets="@../../resources/styles.css" BorderPane.alignment="CENTER">
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="¿Confirma que quiere salir?" textAlignment="CENTER" wrappingWidth="143.947265625" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="¿Confirma que quiere salir?" textAlignment="CENTER" wrappingWidth="143.947265625" />
                   <HBox alignment="CENTER" prefHeight="57.0" prefWidth="364.0" spacing="20.0">
                      <children>
                         <Button fx:id="acceptBtn" mnemonicParsing="false" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Aceptar" />

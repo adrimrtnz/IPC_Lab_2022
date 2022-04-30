@@ -49,6 +49,10 @@ public class StatsScreenController implements Initializable {
     @FXML private PieChart historicalHitsPie;
     @FXML private ImageView userAvatar;
     @FXML private Text userNameTag;
+    @FXML private Text userInfo;
+    @FXML private LineChart<?, ?> lineChart;
+    @FXML private NumberAxis yAxis;
+    @FXML private CategoryAxis xAxis;
     
     private User loggedUser;
     private int hits, faults;
@@ -57,9 +61,6 @@ public class StatsScreenController implements Initializable {
     private double yOffset;
     
     
-    
-    
-
     /**
      * Initializes the controller class.
      */
@@ -108,8 +109,8 @@ public class StatsScreenController implements Initializable {
     }
     
     public void initializeCharts() {
-        histHits = 0;
-        histFaults = 0;
+        histHits = this.hits;
+        histFaults = this.faults;
                
         ObservableList<PieChart.Data> actualData = FXCollections.observableArrayList();
         ObservableList<PieChart.Data> histHitsFaults = FXCollections.observableArrayList();
@@ -117,15 +118,25 @@ public class StatsScreenController implements Initializable {
         // Recuperación de los datos históricos
         List<Session> histSessions = loggedUser.getSessions();
        
+        XYChart.Series hitsSession = new XYChart.Series();
+        XYChart.Series faultsSession = new XYChart.Series();
+        
+        hitsSession.setName("Aciertos");
+        faultsSession.setName("Fallos");
         
         for(Session session : histSessions) {
+            hitsSession.getData().add(new XYChart.Data(session.getLocalDate().toString(), session.getHits()));
+            faultsSession.getData().add(new XYChart.Data(session.getLocalDate().toString(), session.getFaults()));
+            
             histHits += session.getHits();
             histFaults += session.getFaults();
         }
         
+        lineChart.getData().add(hitsSession);
+        lineChart.getData().add(faultsSession);
         
         String actualDataHitsLabel = "Aciertos: " + this.hits;
-        String actualDataFaultsLabel = "Aciertos: " + this.faults;
+        String actualDataFaultsLabel = "Fallos: " + this.faults;
         
         actualData.add(new PieChart.Data(actualDataHitsLabel, this.hits));
         actualData.add(new PieChart.Data(actualDataFaultsLabel, this.faults));
@@ -133,12 +144,27 @@ public class StatsScreenController implements Initializable {
         
         //-----------------------------------------------------------//
         String histDataHitsLabel = "Aciertos: " + histHits;
-        String histDataFaultsLabel = "Aciertos: " + histFaults;
+        String histDataFaultsLabel = "Fallos: " + histFaults;
         
         histHitsFaults.add(new PieChart.Data(histDataHitsLabel, histHits));
         histHitsFaults.add(new PieChart.Data(histDataFaultsLabel, histFaults));
         historicalHitsPie.setData(histHitsFaults);
         
+    }
+    
+    public void initializeUserInfo() {
+        String userInfoString = "";
+        List<Session> histSessions = loggedUser.getSessions();
+        
+        userInfoString += "Usuario desde:    " + histSessions.get(0).getLocalDate().toString() + "\n";
+        userInfoString += "Sesiones realizadas: " + histSessions.size() + "\n";
+        
+        userInfoString += "Tasa de aciertos SESIÓN: "
+                + String.format("%.2f",(double)this.hits / (this.hits + this.faults)* 100) + "%\n";
+        userInfoString += "Tasa de aciertos TOTAL: " 
+                + String.format("%.2f",(double)histHits / (histHits + histFaults) * 100) + "%\n";
+        
+        userInfo.textProperty().set(userInfoString);
     }
             
 }
