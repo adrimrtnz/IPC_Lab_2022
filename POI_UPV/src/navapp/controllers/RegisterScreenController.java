@@ -234,6 +234,7 @@ public class RegisterScreenController implements Initializable {
         
         userBirthDate.valueProperty().addListener((ob, oldValue, newValue) -> {
                 if(!newValue.equals(oldValue)) {
+                    birthDateCheck.setVisible(false);
                     checkBirthDate();
                 }     
         });
@@ -386,13 +387,16 @@ public class RegisterScreenController implements Initializable {
             LocalDate timeLived = currentDate.minusYears(userBirthDay.getYear());
                       timeLived = timeLived.minusMonths(userBirthDay.getMonthValue() - 1);
                       timeLived = timeLived.minusDays(userBirthDay.getDayOfMonth() - 1);
-
+            System.out.println(timeLived.toString());
             int yearsOld = timeLived.getYear();
+            System.out.println("Years old:" + yearsOld);
 
-            if (yearsOld < 16 && !itHasBeenWarned) {
+            if (yearsOld < 16) {
                 propmtErrorMsg("Debes ser mayor de 16 años.");
-                userBirthDate.requestFocus();
-                itHasBeenWarned = true;
+                if (!itHasBeenWarned) {
+                    userBirthDate.requestFocus();
+                    itHasBeenWarned = true;
+                }
             }
             else {
                 birthdate = userBirthDay;
