@@ -156,7 +156,15 @@ public class StatsScreenController implements Initializable {
         String userInfoString = "";
         List<Session> histSessions = loggedUser.getSessions();
         
-        userInfoString += "Usuario desde:    " + histSessions.get(0).getLocalDate().toString() + "\n";
+        LocalDate userSince;
+        
+        if (histSessions.size() > 0) {
+            userSince = histSessions.get(0).getLocalDate();
+        } else { 
+            userSince = LocalDate.now();
+        }
+        
+        userInfoString += "Usuario desde:    " + userSince.toString() + "\n";
         userInfoString += "Sesiones realizadas: " + histSessions.size() + "\n";
         
         int hitsFaultsSum = this.hits + this.faults;

@@ -77,6 +77,11 @@
     -fx-alignmen: center;
 }
 
+.text-fields:readonly {
+    -fx-text-fill: #7d7d7d;
+    -fx-background-color: #adb3bc;
+}
+
 .date-picker {
     -fx-effect: dropshadow( gaussian , #5E81AC , 2,0,1,1 );
     -fx-background-color: #ECEFF4;

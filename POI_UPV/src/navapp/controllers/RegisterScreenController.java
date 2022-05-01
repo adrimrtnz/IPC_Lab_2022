@@ -62,6 +62,7 @@ public class RegisterScreenController implements Initializable {
     
     @FXML private Text exitoTxtField;
     @FXML private Text errorTxtField;
+    @FXML private Text windowTitleTxt;
     
     @FXML private ImageView userAvatar;
     @FXML private TextField userName;
@@ -89,6 +90,7 @@ public class RegisterScreenController implements Initializable {
     private Image avatar;
     private LocalDate birthdate;
     private LocalDate currentDate;
+    private User loggedUser;
     
     private Navegacion baseDatos;
    
@@ -96,6 +98,7 @@ public class RegisterScreenController implements Initializable {
     private Tooltip userNameToolTip;
     
     private boolean itHasBeenWarned;
+    
     
     
     /**
@@ -221,10 +224,18 @@ public class RegisterScreenController implements Initializable {
                 passToolTip.hide();  
         });
         
+        userBirthDate.focusedProperty().addListener((ob,oldValue,newValue) -> {
+                if(newValue) {
+                    userNameToolTip.hide();
+                    passToolTip.hide(); 
+                    itHasBeenWarned = false;
+                }
+        });
         
-        userBirthDate.valueProperty().addListener((ob) -> {
-                userNameToolTip.hide();
-                passToolTip.hide();             
+        userBirthDate.valueProperty().addListener((ob, oldValue, newValue) -> {
+                if(!newValue.equals(oldValue)) {
+                    checkBirthDate();
+                }     
         });
         
         
@@ -424,4 +435,52 @@ public class RegisterScreenController implements Initializable {
             System.out.println("No se ha seleccionado ninguna imagen");
         }
     }
+    
+    public void swapToModidyScreen(User loggedUser) {
+        this.loggedUser = loggedUser;
+        windowTitleTxt.textProperty().set("Perfil de Usuario");
+        registerBtn.textProperty().set("Modificar");
+        userName.editableProperty().set(false);
+        
+        registerBtn.disableProperty().bind(validEmail.and(validPassword.and(equalPasswords.and(validBirthDate))).not());
+        
+        userName.textProperty().set(loggedUser.getNickName());
+        userEmail.textProperty().set(loggedUser.getEmail());
+        userPassword.textProperty().set(loggedUser.getPassword());
+        userBirthDate.valueProperty().set(loggedUser.getBirthdate());
+        
+        registerBtn.setOnAction((ActionEvent event) -> {
+            System.out.println("Se ha solicitado cambiar los datos de usuario. Cierre sesión para confirmar cambios.");
+            modifyUser();
+        }); 
+    }
+    
+    private void modifyUser() {
+        BooleanBinding validFields = validEmail.and(validPassword.and(equalPasswords.and(validBirthDate)));
+        
+        if(!validFields.get()){
+            propmtErrorMsg("Todos los campos deben ser correctos");
+        }
+        try {
+            this.loggedUser.setEmail(userEmail.textProperty().get());
+            this.loggedUser.setPassword(userPassword.textProperty().get());
+            this.loggedUser.setBirthdate(userBirthDate.getValue());
+            this.loggedUser.setAvatar(userAvatar.getImage());
+            
+            Stage stage = (Stage) toolBar.getScene().getWindow();
+            stage.close();
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void testChecks() {
+        checkUserEmail();
+        checkUserPassword();
+        checkRepeatedPassword();
+        checkBirthDate();
+    }
+    
+    public User getModifiedUser() { return this.loggedUser; }
 }
