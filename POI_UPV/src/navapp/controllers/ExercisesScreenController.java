@@ -29,6 +29,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
@@ -36,6 +37,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
@@ -52,7 +54,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javax.crypto.SealedObject;
 import model.Navegacion;
 import model.User;
 import model.Problem;
@@ -83,7 +84,7 @@ public class ExercisesScreenController implements Initializable {
     @FXML private Slider zoomSlider;
     @FXML private ScrollPane mapScrollpane;
     @FXML private MenuItem newRandBtn;
-    @FXML private Text probStatement;
+    @FXML private Label probStatement;
     @FXML private Button submitAnsBtn;
     @FXML private Button clearBtn;
     @FXML private Button nextStatementBtn;
@@ -596,5 +597,28 @@ public class ExercisesScreenController implements Initializable {
             return;
         }
         
+    }
+
+    @FXML
+    private void showUserProfile(ActionEvent event) throws Exception {
+        FXMLLoader userProfileWindow = new FXMLLoader(getClass().getResource("/navapp/views/RegisterScreenView.fxml"));
+        Parent root = userProfileWindow.load();
+        
+        RegisterScreenController controlador = userProfileWindow.getController();
+        
+        Stage stage = new Stage();
+        stage.setTitle("Perfil de Usuario");
+        stage.initStyle(StageStyle.UNDECORATED);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        scene.setFill(Color.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        controlador.swapToModidyScreen(loggedUser);
+        controlador.testChecks();
+        stage.showAndWait();
+        
+        loggedUser = controlador.getModifiedUser();
     }
 }

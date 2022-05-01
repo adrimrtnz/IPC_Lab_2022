@@ -17,11 +17,11 @@ import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Navegacion;
 import model.Problem;
@@ -35,10 +35,7 @@ public class QuestionsListController implements Initializable {
 
     @FXML private ToolBar toolBar;
     @FXML private Button closeBtn;
-    @FXML private Button maximizeButton;
     @FXML private Button minimizeBtn;
-    @FXML private VBox vBox;
-    @FXML private ScrollPane questionsScrollPane;
     @FXML private Accordion accordion;
     @FXML private Button selectQuestionBtn;
     @FXML private Button backBtn;
@@ -76,8 +73,8 @@ public class QuestionsListController implements Initializable {
             tps[i] = new TitledPane();
             tps[i].setText(new String("Problema: " + (i+1)));
             
-            Text question = new Text(probDisp.get(i).getText());
-            question.wrappingWidthProperty().set(400);
+            Label question = new Label(probDisp.get(i).getText());
+            question.wrapTextProperty().set(true);
             tps[i].setContent(question);
         }
         
