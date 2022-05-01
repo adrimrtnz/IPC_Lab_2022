@@ -121,8 +121,8 @@ public class ExercisesScreenController implements Initializable {
         dragActive.bind(dragBtn.selectedProperty());
         transportImg.visibleProperty().bind(transportBtn.selectedProperty());
         
-        strokeSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 3));
-        textSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 40, 20));
+        strokeSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 3));
+        textSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(5, 40, 20));
         
         // inicializamos el slider y enlazamos con el zoom
         zoomSlider.setMin(0.5);
