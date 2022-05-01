@@ -159,10 +159,15 @@ public class StatsScreenController implements Initializable {
         userInfoString += "Usuario desde:    " + histSessions.get(0).getLocalDate().toString() + "\n";
         userInfoString += "Sesiones realizadas: " + histSessions.size() + "\n";
         
+        int hitsFaultsSum = this.hits + this.faults;
+            hitsFaultsSum = (hitsFaultsSum > 0) ? hitsFaultsSum : 1;
+        int histHitsFaultsSum = histHits + histFaults;
+            histHitsFaultsSum = (histHitsFaultsSum > 0) ? histHitsFaultsSum : 1;
+        
         userInfoString += "Tasa de aciertos SESIÓN: "
-                + String.format("%.2f",(double)this.hits / (this.hits + this.faults)* 100) + "%\n";
+                + String.format("%.2f",(double)this.hits / (hitsFaultsSum)* 100) + "%\n";
         userInfoString += "Tasa de aciertos TOTAL: " 
-                + String.format("%.2f",(double)histHits / (histHits + histFaults) * 100) + "%\n";
+                + String.format("%.2f",(double)histHits / (histHitsFaultsSum) * 100) + "%\n";
         
         userInfo.textProperty().set(userInfoString);
     }
