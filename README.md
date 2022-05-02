@@ -6,11 +6,11 @@ Aplicación desarrollada en la asignatura Interfaces Persona-Computador (IPC) en
 
 **Componentes del Grupo:**
 
-* Carmona Pérez, Luis Miguel.
+* [Carmona Pérez, Luis Miguel.](https://github.com/luismi2801)
 
-* Dominguez Lacal, Juan.
+* [Dominguez Lacal, Juan. ](https://github.com/jdomlac)
 
-* Martínez Martínez, Adrián.
+* [Martínez Martínez, Adrián.](https://github.com/adrimrtnz)
 
 ## Características de la aplicación
 
