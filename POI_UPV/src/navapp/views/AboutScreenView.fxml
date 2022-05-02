@@ -11,8 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="254.0" prefWidth="364.0" stylesheets="@../../resources/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="navapp.controllers.AboutScreenController">
+<AnchorPane id="AnchorPane" prefHeight="254.0" prefWidth="364.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.AboutScreenController">
    <children>
       <BorderPane prefHeight="254.0" prefWidth="364.0">
          <top>
@@ -46,7 +45,7 @@
          <center>
             <VBox alignment="TOP_CENTER" prefHeight="173.0" prefWidth="364.0" stylesheets="@../../resources/styles.css" BorderPane.alignment="CENTER">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Merak Trainer&quot; coje su nombre de la estrella Merak, una estrella de la constelación de la Osa Mayor. Estrella familiar para los observadores en el hemisferio norte como estrella &quot;apuntadora&quot;." textAlignment="JUSTIFY" wrappingWidth="332.0">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Merak Trainer&quot; recibe su nombre de la estrella Merak, una estrella de la constelación de la Osa Mayor. Estrella familiar para los observadores en el hemisferio norte como estrella &quot;apuntadora&quot;." textAlignment="JUSTIFY" wrappingWidth="332.0">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>
