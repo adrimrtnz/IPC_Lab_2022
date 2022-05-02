@@ -137,7 +137,6 @@ public class ExercisesScreenController implements Initializable {
         mapScrollpane.setContent(contentGroup);
         initialChildren = mapPane.getChildren().size();
         
-        
         try{
             baseDatos = Navegacion.getSingletonNavegacion();
             probDisp = baseDatos.getProblems();
