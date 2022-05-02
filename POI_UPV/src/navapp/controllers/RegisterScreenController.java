@@ -447,6 +447,7 @@ public class RegisterScreenController implements Initializable {
         
         registerBtn.disableProperty().bind(validEmail.and(validPassword.and(equalPasswords.and(validBirthDate))).not());
         
+        userAvatar.imageProperty().set(loggedUser.getAvatar());
         userName.textProperty().set(loggedUser.getNickName());
         userEmail.textProperty().set(loggedUser.getEmail());
         userPassword.textProperty().set(loggedUser.getPassword());
