@@ -234,7 +234,6 @@ public class RegisterScreenController implements Initializable {
         
         userBirthDate.valueProperty().addListener((ob, oldValue, newValue) -> {
                 if(!newValue.equals(oldValue)) {
-                    birthDateCheck.setVisible(false);
                     checkBirthDate();
                 }     
         });
@@ -380,7 +379,7 @@ public class RegisterScreenController implements Initializable {
     }
     
     public void checkBirthDate() {
-        
+        birthDateCheck.setVisible(false);
         try {
             LocalDate userBirthDay = userBirthDate.getValue();
 
@@ -448,6 +447,7 @@ public class RegisterScreenController implements Initializable {
         
         registerBtn.disableProperty().bind(validEmail.and(validPassword.and(equalPasswords.and(validBirthDate))).not());
         
+        userAvatar.imageProperty().set(loggedUser.getAvatar());
         userName.textProperty().set(loggedUser.getNickName());
         userEmail.textProperty().set(loggedUser.getEmail());
         userPassword.textProperty().set(loggedUser.getPassword());

@@ -7,10 +7,8 @@ package navapp.controllers;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,9 +21,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -124,13 +120,50 @@ public class StatsScreenController implements Initializable {
         hitsSession.setName("Aciertos");
         faultsSession.setName("Fallos");
         
+        XYChart.Data sessionHits = null;
+        XYChart.Data sessionFaults = null;
+        
         for(Session session : histSessions) {
-            hitsSession.getData().add(new XYChart.Data(session.getLocalDate().toString(), session.getHits()));
-            faultsSession.getData().add(new XYChart.Data(session.getLocalDate().toString(), session.getFaults()));
+            if (sessionHits == null) { 
+                sessionHits = new XYChart.Data(session.getLocalDate().toString(), session.getHits());
+                sessionFaults = new XYChart.Data(session.getLocalDate().toString(), session.getFaults());
+                hitsSession.getData().add(sessionHits);
+                faultsSession.getData().add(sessionFaults);
+            } else {
+                if (sessionHits.getXValue().toString().equals(session.getLocalDate().toString())) {
+                    sessionHits.setYValue((int) sessionHits.getYValue() + session.getHits());
+                    sessionFaults.setYValue((int) sessionFaults.getYValue() + session.getFaults());
+                } else {
+                    sessionHits = new XYChart.Data(session.getLocalDate().toString(), session.getHits());
+                    sessionFaults = new XYChart.Data(session.getLocalDate().toString(), session.getFaults());
+                    hitsSession.getData().add(sessionHits);
+                    faultsSession.getData().add(sessionFaults);
+                }
+            }
             
             histHits += session.getHits();
             histFaults += session.getFaults();
         }
+        
+        // ADD current day to the XYChart
+        if (sessionHits == null) {
+            sessionHits = new XYChart.Data("Hoy", this.hits);
+            sessionFaults = new XYChart.Data("Hoy", this.faults);
+            hitsSession.getData().add(sessionHits);
+            faultsSession.getData().add(sessionFaults);
+        } else if (LocalDate.now().toString().equals(sessionHits.getXValue().toString())) {
+            sessionHits.setYValue((int) sessionHits.getYValue() + this.hits);
+            sessionFaults.setYValue((int) sessionFaults.getYValue() + this.faults);
+            sessionHits.setXValue("Hoy");
+            sessionFaults.setXValue("Hoy");
+        } else {
+            sessionHits = new XYChart.Data("Hoy", this.hits);
+            sessionFaults = new XYChart.Data("Hoy", this.faults);
+            hitsSession.getData().add(sessionHits);
+            faultsSession.getData().add(sessionFaults);
+        }
+        
+        
         
         lineChart.getData().add(hitsSession);
         lineChart.getData().add(faultsSession);

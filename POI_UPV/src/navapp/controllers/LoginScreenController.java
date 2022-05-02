@@ -26,6 +26,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -212,6 +213,7 @@ public class LoginScreenController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         closeLoginScreen();
+        stage.getIcons().add(new Image("resources/icons/icon.png"));
         stage.show();
     }
     

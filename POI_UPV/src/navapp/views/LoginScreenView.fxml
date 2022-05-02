@@ -36,8 +36,8 @@
                         <Font name="System Bold" size="9.0" />
                      </font>
                   </Button>
-                  <Region prefHeight="0.0" prefWidth="200.0" />
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="NavApp - IPC_Lab_2022" />
+                  <Region prefHeight="6.0" prefWidth="159.0" />
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Merak Trainer - IPC_Lab_2022" />
               </items>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="8.0" />
@@ -52,7 +52,7 @@
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../resources/Logos/Logo_black.png" />
+                        <Image url="@../../resources/Logos/Logo.png" />
                      </image>
                      <VBox.margin>
                         <Insets bottom="40.0" top="40.0" />

@@ -121,8 +121,8 @@ public class ExercisesScreenController implements Initializable {
         dragActive.bind(dragBtn.selectedProperty());
         transportImg.visibleProperty().bind(transportBtn.selectedProperty());
         
-        strokeSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 3));
-        textSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 40, 20));
+        strokeSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 3));
+        textSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(5, 40, 20));
         
         // inicializamos el slider y enlazamos con el zoom
         zoomSlider.setMin(0.5);
@@ -620,5 +620,22 @@ public class ExercisesScreenController implements Initializable {
         stage.showAndWait();
         
         loggedUser = controlador.getModifiedUser();
+    }
+
+    @FXML
+    private void loadAboutScreen(ActionEvent event) throws Exception {
+        FXMLLoader aboutWindow = new FXMLLoader(getClass().getResource("/navapp/views/AboutScreenView.fxml"));
+        Parent root = aboutWindow.load();
+
+        Stage stage = new Stage();
+        stage.setTitle("Acerca de...");
+        stage.initStyle(StageStyle.UNDECORATED);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        scene.setFill(Color.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
     }
 }
