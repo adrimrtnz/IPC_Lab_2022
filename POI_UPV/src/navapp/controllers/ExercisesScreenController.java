@@ -137,7 +137,6 @@ public class ExercisesScreenController implements Initializable {
         mapScrollpane.setContent(contentGroup);
         initialChildren = mapPane.getChildren().size();
         
-        
         try{
             baseDatos = Navegacion.getSingletonNavegacion();
             probDisp = baseDatos.getProblems();
@@ -555,8 +554,8 @@ public class ExercisesScreenController implements Initializable {
         if(transportBtn.selectedProperty().get() && dragActive.get()) {
             double despX = event.getSceneX() - initialXTrans;
             double despY = event.getSceneY() - initialYTrans;
-            transportImg.setTranslateX(baseX + despX);
-            transportImg.setTranslateY(baseY + despY);
+            transportImg.setTranslateX(baseX + despX / zoomSlider.getValue());
+            transportImg.setTranslateY(baseY + despY / zoomSlider.getValue());
         }
     }
 

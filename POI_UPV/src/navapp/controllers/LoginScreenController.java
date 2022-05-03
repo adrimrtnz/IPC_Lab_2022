@@ -6,12 +6,7 @@
 package navapp.controllers;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -76,7 +71,7 @@ public class LoginScreenController implements Initializable {
         // Cambiamos el contenido del campo de mensaje de error y lo ocultamos
         errorTxtMsg = "";
         errorTxtField.textProperty().setValue(errorTxtMsg);
-        errorTxtField.setDisable(true);
+        errorTxtField.setVisible(false);
         
         //Bindeamos el boton a los fields
         loginBtn.disableProperty().bind((userName.textProperty().isNotEmpty().and(userPassword.textProperty().isNotEmpty())).not());
@@ -91,14 +86,14 @@ public class LoginScreenController implements Initializable {
             if (baseDatos == null) {
                 errorTxtMsg = "Error al cargar la Base de Datos.";
                 errorTxtField.textProperty().setValue(errorTxtMsg);
-                errorTxtField.setDisable(false);
+                errorTxtField.setVisible(true);
             }
             
         }
         catch(Exception e) {
             errorTxtMsg = "Ha ocurrido una excepción al cargar la Base de Datos.";
             errorTxtField.textProperty().setValue(errorTxtMsg);
-            errorTxtField.setDisable(false);
+            errorTxtField.setVisible(false);
         }
         
         validPassword = new SimpleBooleanProperty();
@@ -136,6 +131,18 @@ public class LoginScreenController implements Initializable {
         minimizeBtn.setOnAction((ActionEvent event) -> {
             ((Stage) minimizeBtn.getScene().getWindow()).setIconified(true);
         });
+        
+        userName.textProperty().addListener((ob,oldValue,newValue) -> {
+            if(!newValue.equals(oldValue)) {   
+                errorTxtField.setVisible(false);
+            }
+        });
+        
+        userPassword.textProperty().addListener((ob,oldValue,newValue) -> {
+            if(!newValue.equals(oldValue)) {    
+                errorTxtField.setVisible(false); 
+            }  
+        });
     }    
 
     @FXML
@@ -147,7 +154,7 @@ public class LoginScreenController implements Initializable {
         if (userName.textProperty().isEmpty().get() || userPassword.textProperty().isEmpty().get()) {
             errorTxtMsg = "Error: Se deben rellenar ambos campos.";
             errorTxtField.textProperty().setValue(errorTxtMsg);
-            errorTxtField.setDisable(false);
+            errorTxtField.setVisible(true);
         }
         else {
             
@@ -157,12 +164,12 @@ public class LoginScreenController implements Initializable {
             if (!validUserName.getValue() || loggedUser == null) {
                 errorTxtMsg = "Credenciales Incorrectas.";
                 errorTxtField.textProperty().setValue(errorTxtMsg);
-                errorTxtField.setDisable(false);
+                errorTxtField.setVisible(true);
             }
             else {
                 //errorTxtMsg = "Usuario encontrado pero no hay más ventanas. Vuelve más tarde.";
                 //errorTxtField.textProperty().setValue(errorTxtMsg);
-                errorTxtField.setDisable(false);
+                errorTxtField.setVisible(true);
                 try {
                     loadExercisesScreen(loggedUser);
                 } catch(Exception e) {
