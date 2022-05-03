@@ -80,6 +80,7 @@ public class QuestionsListController implements Initializable {
         
         accordion.getPanes().addAll(tps);
         accordion.setExpandedPane(tps[0]); // Este es el que está abierto por defecto
+
         
         selectQuestionBtn.setOnAction((ActionEvent event) -> {
             userSelection = true;

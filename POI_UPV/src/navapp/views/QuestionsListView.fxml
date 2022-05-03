@@ -58,7 +58,7 @@
                <children>
                   <ScrollPane prefHeight="372.0" prefWidth="451.0">
                      <content>
-                        <Accordion fx:id="accordion" prefHeight="365.0" prefWidth="447.0" />
+                        <Accordion fx:id="accordion" prefWidth="440.0" />
                      </content>
                   </ScrollPane>
                </children></VBox>

@@ -71,7 +71,7 @@ public class LoginScreenController implements Initializable {
         // Cambiamos el contenido del campo de mensaje de error y lo ocultamos
         errorTxtMsg = "";
         errorTxtField.textProperty().setValue(errorTxtMsg);
-        errorTxtField.setDisable(true);
+        errorTxtField.setVisible(false);
         
         //Bindeamos el boton a los fields
         loginBtn.disableProperty().bind((userName.textProperty().isNotEmpty().and(userPassword.textProperty().isNotEmpty())).not());
@@ -86,14 +86,14 @@ public class LoginScreenController implements Initializable {
             if (baseDatos == null) {
                 errorTxtMsg = "Error al cargar la Base de Datos.";
                 errorTxtField.textProperty().setValue(errorTxtMsg);
-                errorTxtField.setDisable(false);
+                errorTxtField.setVisible(true);
             }
             
         }
         catch(Exception e) {
             errorTxtMsg = "Ha ocurrido una excepción al cargar la Base de Datos.";
             errorTxtField.textProperty().setValue(errorTxtMsg);
-            errorTxtField.setDisable(false);
+            errorTxtField.setVisible(false);
         }
         
         validPassword = new SimpleBooleanProperty();
