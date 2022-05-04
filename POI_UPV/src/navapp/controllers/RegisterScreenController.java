@@ -99,6 +99,8 @@ public class RegisterScreenController implements Initializable {
     
     private boolean itHasBeenWarned;
     
+    private boolean newUser;
+    
     
     
     /**
@@ -281,6 +283,7 @@ public class RegisterScreenController implements Initializable {
             propmtErrorMsg("Todos los campos deben ser correctos");
         }
         else {
+            LoginScreenController controlador = new LoginScreenController();
             try {
                 // Versión comentada es sin imagen
                 baseDatos.registerUser(userName.getText(), userEmail.getText(), userPassword.getText(), avatar, birthdate);
@@ -288,6 +291,9 @@ public class RegisterScreenController implements Initializable {
                 
                 exitoTxtField.setVisible(true);
                 errorTxtField.setVisible(false);
+                
+                controlador.newUser();
+                
                 //Añadir un mensaje de confirmacion!!!!
                 Stage stage = (Stage) toolBar.getScene().getWindow();
                 stage.close();

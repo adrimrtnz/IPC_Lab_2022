@@ -61,6 +61,8 @@ public class LoginScreenController implements Initializable {
     private Navegacion baseDatos;
     private User loggedUser;
     
+    private int oldUsersLogged;
+    private boolean newUser;
     
     /**
      * Initializes the controller class.
@@ -71,7 +73,16 @@ public class LoginScreenController implements Initializable {
         // Cambiamos el contenido del campo de mensaje de error y lo ocultamos
         errorTxtMsg = "";
         errorTxtField.textProperty().setValue(errorTxtMsg);
+<<<<<<< Updated upstream
         errorTxtField.setVisible(false);
+=======
+        errorTxtField.setDisable(true);
+        errorTxtField.setFill(Color.RED);
+        
+        // Obtener size de la base de datos ANTES de registrar a un nuevo usuario
+            //oldUsersLogged = baseDatos.;
+        newUser = false;
+>>>>>>> Stashed changes
         
         //Bindeamos el boton a los fields
         loginBtn.disableProperty().bind((userName.textProperty().isNotEmpty().and(userPassword.textProperty().isNotEmpty())).not());
@@ -204,8 +215,11 @@ public class LoginScreenController implements Initializable {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+        
     }
 
+    
+    
     private void loadExercisesScreen(User loggedUser) throws Exception {
         FXMLLoader cargadorEjercicios = new FXMLLoader(getClass().getResource("/navapp/views/ExercisesScreenView.fxml"));
         Parent root = cargadorEjercicios.load();
@@ -227,5 +241,12 @@ public class LoginScreenController implements Initializable {
     private void closeLoginScreen() {
         Stage stage = (Stage) toolBar.getScene().getWindow();
         stage.close();
+    }
+    
+    public void newUser(){
+        errorTxtField.setFill(Color.BLACK);
+        errorTxtField.setText("Nuevo usuario creado correctamente");
+        errorTxtField.setVisible(true);
+        
     }
 }

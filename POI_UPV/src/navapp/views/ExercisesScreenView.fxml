@@ -36,7 +36,11 @@
             </Menu>
             <Menu text="_Usuario">
                <items>
+<<<<<<< Updated upstream
                   <MenuItem mnemonicParsing="false" onAction="#showUserProfile" text="Perfil" />
+=======
+                  <MenuItem mnemonicParsing="false" onAction="#loadModifyUser" text="Perfil" />
+>>>>>>> Stashed changes
                   <MenuItem mnemonicParsing="false" onAction="#loadStatsScreen" text="Estadísticas" />
                   <MenuItem fx:id="closeSessionBtn" mnemonicParsing="false" onAction="#closeSession" text="Cerrar Sesión" />
                </items>

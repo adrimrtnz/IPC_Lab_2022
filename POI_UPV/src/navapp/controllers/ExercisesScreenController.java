@@ -645,6 +645,7 @@ public class ExercisesScreenController implements Initializable {
     }
 
     @FXML
+
     private void showUserProfile(ActionEvent event) throws Exception {
         FXMLLoader userProfileWindow = new FXMLLoader(getClass().getResource("/navapp/views/RegisterScreenView.fxml"));
         Parent root = userProfileWindow.load();
@@ -653,6 +654,18 @@ public class ExercisesScreenController implements Initializable {
         
         Stage stage = new Stage();
         stage.setTitle("Perfil de Usuario");
+    }
+
+    private void loadModifyUser(ActionEvent event) throws Exception {
+        FXMLLoader modifyWindow = new FXMLLoader(getClass().getResource("/navapp/views/ModifyScreenView.fxml"));
+        Parent root = modifyWindow.load();
+        
+        ModifyScreenController controlador = modifyWindow.getController();
+        controlador.setLoggedUser(loggedUser);
+        
+        Stage stage = new Stage();
+        stage.setTitle("Modificar Usuario");
+
         stage.initStyle(StageStyle.UNDECORATED);
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -660,11 +673,15 @@ public class ExercisesScreenController implements Initializable {
         scene.setFill(Color.TRANSPARENT);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
-        controlador.swapToModidyScreen(loggedUser);
-        controlador.testChecks();
+
+        //controlador.swapToModidyScreen(loggedUser);
+        //controlador.testChecks();
         stage.showAndWait();
         
-        loggedUser = controlador.getModifiedUser();
+        //loggedUser = controlador.getModifiedUser();
+
+        stage.showAndWait();
+
     }
 
     @FXML
