@@ -12,15 +12,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -39,7 +33,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
@@ -63,6 +56,7 @@ import model.User;
 import model.Problem;
 import model.Answer;
 import model.Session;
+import navapp.TriangleShape;
 
 /**
  * FXML Controller class
@@ -494,14 +488,9 @@ public class ExercisesScreenController implements Initializable {
             );
             pointShape.setFill(colorPicker.getValue()); 
         }
-        else if (pointShape instanceof Polygon) {
-            ((Polygon) pointShape).getPoints().setAll(
-                  event.getX() - strokeSize.getValue(), event.getY() + strokeSize.getValue(),
-                  event.getX() + strokeSize.getValue(), event.getY() + strokeSize.getValue(),
-                  event.getX(), event.getY() - strokeSize.getValue()
-            );
-            
-            ((Polygon) pointShape).setFill(colorPicker.getValue());
+        else if (pointShape instanceof TriangleShape) {
+            pointShape = new TriangleShape(event.getX(), event.getY(), strokeSize.getValue());
+            pointShape.setFill(colorPicker.getValue());
         }
         
         mapPane.getChildren().add(pointShape);
@@ -696,6 +685,6 @@ public class ExercisesScreenController implements Initializable {
 
     @FXML
     private void setTriangleShape(ActionEvent event) {
-        pointShape = new Polygon();
+        pointShape = new TriangleShape();
     }
 }
