@@ -145,6 +145,13 @@ public class ExercisesScreenController implements Initializable {
             System.out.print("Error al cargar la base de datos: ");
             System.out.println(e.toString());
         }
+        
+        tools.selectedToggleProperty().addListener((ev) -> {
+            if(tools.selectedToggleProperty().get() == null ) {
+                dragBtn.setSelected(true);
+            }
+        });
+        
     }
 
 
