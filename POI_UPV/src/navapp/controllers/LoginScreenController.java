@@ -215,7 +215,7 @@ public class LoginScreenController implements Initializable {
         controlador.initializeUser(loggedUser);
         
         Stage stage = new Stage();
-        stage.setTitle("Vista Principal -TÍTULO PROVISIONAL");
+        stage.setTitle("Merak Trainer - IPC 2021-2022");
         //stage.initStyle(StageStyle.UNDECORATED);
         Scene scene = new Scene(root);
         stage.setScene(scene);
