@@ -97,6 +97,7 @@
                           <items>
                             <MenuItem mnemonicParsing="false" onAction="#setCircleShape" text="Círculo" />
                             <MenuItem mnemonicParsing="false" onAction="#setSquareShape" text="Cuadrado" />
+                              <MenuItem mnemonicParsing="false" onAction="#setTriangleShape" text="Triángulo" />
                           </items>
                         </SplitMenuButton>
                         <Button focusTraversable="false" mnemonicParsing="false" onAction="#cleanMap" prefHeight="25.0" prefWidth="120.0" styleClass="large-button" text="Limpiar Carta" />

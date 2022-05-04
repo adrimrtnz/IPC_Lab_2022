@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
@@ -49,6 +51,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -120,6 +123,7 @@ public class ExercisesScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         pointShape = new Circle();
+        markerLines = new Line[2];
         dragActive = new SimpleBooleanProperty();
         dragActive.bind(dragBtn.selectedProperty());
         transportImg.visibleProperty().bind(transportBtn.selectedProperty());
@@ -488,8 +492,16 @@ public class ExercisesScreenController implements Initializable {
                     strokeSize.getValue() * 2, 
                     strokeSize.getValue() * 2
             );
-            pointShape.setFill(colorPicker.getValue());
+            pointShape.setFill(colorPicker.getValue()); 
+        }
+        else if (pointShape instanceof Polygon) {
+            ((Polygon) pointShape).getPoints().setAll(
+                  event.getX() - strokeSize.getValue(), event.getY() + strokeSize.getValue(),
+                  event.getX() + strokeSize.getValue(), event.getY() + strokeSize.getValue(),
+                  event.getX(), event.getY() - strokeSize.getValue()
+            );
             
+            ((Polygon) pointShape).setFill(colorPicker.getValue());
         }
         
         mapPane.getChildren().add(pointShape);
@@ -499,7 +511,6 @@ public class ExercisesScreenController implements Initializable {
                     mapPane.getChildren().remove(markerLines[0]);
                     mapPane.getChildren().remove(markerLines[1]);
                 }
-                markerLines = new Line[2];
                     
                 markerLines[0] = new Line(circle.getCenterX(), 0, circle.getCenterX(), mapImg.getFitHeight());
                 markerLines[0].setStrokeWidth(strokeSize.getValue());
@@ -681,5 +692,10 @@ public class ExercisesScreenController implements Initializable {
     @FXML
     private void setSquareShape(ActionEvent event) {
         pointShape = new Rectangle();
+    }
+
+    @FXML
+    private void setTriangleShape(ActionEvent event) {
+        pointShape = new Polygon();
     }
 }
