@@ -12,6 +12,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -23,7 +24,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="220.0" minWidth="520.0" prefHeight="627.0" prefWidth="1175.0" stylesheets="@../../resources/stylesMapView.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.ExercisesScreenController">
+<VBox minHeight="220.0" minWidth="520.0" prefHeight="667.0" prefWidth="1175.0" stylesheets="@../../resources/stylesMapView.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.ExercisesScreenController">
    <children>
       <MenuBar fx:id="menuBar">
          <menus>
@@ -52,29 +53,29 @@
             <VBox maxWidth="160.0" minWidth="160.0" prefHeight="600.0" prefWidth="144.0" spacing="10.0" styleClass="mapSplitPane">
                <children>
                   <Label text="Herramientas:" />
-                  <ToggleButton fx:id="dragBtn" mnemonicParsing="false" prefWidth="110.0" selected="true" styleClass="large-button" text="Arrastrar">
+                  <ToggleButton fx:id="dragBtn" mnemonicParsing="false" prefWidth="120.0" selected="true" styleClass="large-button" text="Arrastrar">
                      <toggleGroup>
                         <ToggleGroup fx:id="tools" />
                      </toggleGroup>
                   </ToggleButton>
-                  <ToggleButton fx:id="drawPointBtn" mnemonicParsing="false" prefWidth="110.0" styleClass="large-button" text="Marcar Punto" toggleGroup="$tools" />
-                  <ToggleButton fx:id="drawLineBtn" mnemonicParsing="false" prefWidth="110.0" styleClass="large-button" text="Trazar Linea" toggleGroup="$tools" />
-                  <ToggleButton fx:id="drawArcBtn" mnemonicParsing="false" prefWidth="110.0" styleClass="large-button" text="Trazar Arco" toggleGroup="$tools" />
-                  <ToggleButton fx:id="addTextBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" styleClass="large-button" text="Anotar Texto" toggleGroup="$tools" />
-                  <ToggleButton fx:id="marcarExtremBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" styleClass="large-button" text="Marcar extremos" toggleGroup="$tools" />
+                  <ToggleButton fx:id="drawPointBtn" mnemonicParsing="false" prefWidth="120.0" styleClass="large-button" text="Marcar Punto" toggleGroup="$tools" />
+                  <ToggleButton fx:id="drawLineBtn" mnemonicParsing="false" prefWidth="120.0" styleClass="large-button" text="Trazar Linea" toggleGroup="$tools" />
+                  <ToggleButton fx:id="drawArcBtn" mnemonicParsing="false" prefWidth="120.0" styleClass="large-button" text="Trazar Arco" toggleGroup="$tools" />
+                  <ToggleButton fx:id="addTextBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" styleClass="large-button" text="Anotar Texto" toggleGroup="$tools" />
+                  <ToggleButton fx:id="marcarExtremBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" styleClass="large-button" text="Marcar extremos" toggleGroup="$tools" />
                   <Separator prefWidth="0.0" />
-                  <ToggleButton fx:id="transportBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" styleClass="large-button" text="Transportador" />
+                  <ToggleButton fx:id="transportBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" styleClass="large-button" text="Transportador" />
                   <Separator prefWidth="0.0" />
                   <VBox prefHeight="99.0" prefWidth="191.0" spacing="10.0">
                      <children>
                         <Label text="Opciones sobre marcas:" />
-                        <ColorPicker fx:id="colorPicker" focusTraversable="false" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" styleClass="large-button">
+                        <ColorPicker fx:id="colorPicker" focusTraversable="false" minHeight="30.0" prefHeight="30.0" prefWidth="120.0" styleClass="large-button">
                            <value>
                               <Color />
                            </value></ColorPicker>
                         <HBox alignment="CENTER_LEFT" maxWidth="110.0" prefHeight="25.0" prefWidth="110.0" spacing="8.0">
                            <children>
-                              <Spinner fx:id="strokeSize" editable="true" focusTraversable="false" />
+                              <Spinner fx:id="strokeSize" editable="true" focusTraversable="false" prefWidth="120.0" />
                               <ImageView fitHeight="21.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../resources/icons/line.png" />
@@ -84,7 +85,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" maxWidth="110.0" prefHeight="25.0" prefWidth="110.0" spacing="8.0">
                            <children>
-                              <Spinner fx:id="textSize" focusTraversable="false" />
+                              <Spinner fx:id="textSize" focusTraversable="false" prefWidth="120.0" />
                               <ImageView fitHeight="22.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../resources/icons/font-size.png" />
@@ -92,7 +93,13 @@
                               </ImageView>
                            </children>
                         </HBox>
-                        <Button focusTraversable="false" mnemonicParsing="false" onAction="#cleanMap" prefHeight="25.0" prefWidth="110.0" styleClass="large-button" text="Limpiar Carta" />
+                        <SplitMenuButton maxWidth="120.0" mnemonicParsing="false" prefWidth="120.0" text="  Forma Punto" textAlignment="CENTER">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#setCircleShape" text="Círculo" />
+                            <MenuItem mnemonicParsing="false" onAction="#setSquareShape" text="Cuadrado" />
+                          </items>
+                        </SplitMenuButton>
+                        <Button focusTraversable="false" mnemonicParsing="false" onAction="#cleanMap" prefHeight="25.0" prefWidth="120.0" styleClass="large-button" text="Limpiar Carta" />
                      </children>
                      <VBox.margin>
                         <Insets />

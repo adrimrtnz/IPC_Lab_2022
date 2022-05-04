@@ -49,6 +49,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -106,17 +107,19 @@ public class ExercisesScreenController implements Initializable {
     private Line linePainting; 
     private Line markerLines[];
     private Circle circlePainting;
+    private Shape pointShape;
     
     private Navegacion baseDatos;
     private List<Problem> probDisp;
     private Problem activeProblem;
     
     private int hits, fails;
-    private int initialChildren;   
+    private int initialChildren;  
     
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        pointShape = new Circle();
         dragActive = new SimpleBooleanProperty();
         dragActive.bind(dragBtn.selectedProperty());
         transportImg.visibleProperty().bind(transportBtn.selectedProperty());
@@ -433,11 +436,21 @@ public class ExercisesScreenController implements Initializable {
             textT.setOnContextMenuRequested(ev -> {
                 ContextMenu menuContext = new ContextMenu();
                 MenuItem deleteItem = new MenuItem("Eliminar");
+                MenuItem applyColorItem = new MenuItem("Aplicar nuevo color");
+                
                 menuContext.getItems().add(deleteItem);
+                menuContext.getItems().add(applyColorItem);
+                
                 deleteItem.setOnAction(eve -> {
                     mapPane.getChildren().remove((Node) ev.getSource());
                     eve.consume();
                 });
+                
+                applyColorItem.setOnAction(eve -> {
+                    textT.setFill(colorPicker.getValue());
+                    ev.consume();
+                });
+                
                 menuContext.show(textT, ev.getSceneX(), ev.getSceneY());
                 ev.consume();
             });
@@ -464,7 +477,22 @@ public class ExercisesScreenController implements Initializable {
     private void drawPoint(MouseEvent event) {
     
         Circle circle = new Circle(event.getX(), event.getY(), strokeSize.getValue(), colorPicker.getValue());
-            mapPane.getChildren().add(circle);
+        
+        if(pointShape instanceof Circle) {
+            pointShape = new Circle(event.getX(), event.getY(), strokeSize.getValue(), colorPicker.getValue());
+        } 
+        else if (pointShape instanceof Rectangle) {
+            pointShape = new Rectangle(
+                    event.getX() - strokeSize.getValue(), 
+                    event.getY() - strokeSize.getValue(),
+                    strokeSize.getValue() * 2, 
+                    strokeSize.getValue() * 2
+            );
+            pointShape.setFill(colorPicker.getValue());
+            
+        }
+        
+        mapPane.getChildren().add(pointShape);
             
             Runnable drawMarks = () -> {
                 if(markerLines != null) {
@@ -495,7 +523,7 @@ public class ExercisesScreenController implements Initializable {
                 }
             };
             
-            addContextualMenu(circle, drawMarks, "Marcar Extremos");
+        addContextualMenu(pointShape, drawMarks, "Marcar Extremos");
     }
     
     private void addContextualMenu(Shape shape) {
@@ -643,5 +671,15 @@ public class ExercisesScreenController implements Initializable {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+    }
+
+    @FXML
+    private void setCircleShape(ActionEvent event) {
+        pointShape = new Circle();
+    }
+
+    @FXML
+    private void setSquareShape(ActionEvent event) {
+        pointShape = new Rectangle();
     }
 }
