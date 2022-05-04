@@ -13,7 +13,6 @@ import javafx.scene.shape.Polygon;
  */
 public class TriangleShape extends Polygon {
     
-    //private Polygon triangle;
     public TriangleShape() {
         super();
     }
@@ -21,9 +20,9 @@ public class TriangleShape extends Polygon {
     public TriangleShape(double xCenter, double yCenter, double offset) {
         super();
         super.getPoints().setAll(
-            xCenter - offset, yCenter + offset,
-            xCenter + offset, yCenter + offset,
-            xCenter, yCenter - offset   
+            xCenter - offset, yCenter + offset, // Esquina inferior izquierda
+            xCenter + offset, yCenter + offset, // Esquina inferior derecha
+            xCenter, yCenter - offset           // Punta del triángulo
         );
     }
 }
