@@ -5,16 +5,9 @@
  */
 package navapp.controllers;
 
-import java.awt.Window;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.HashSet;
 import java.util.ResourceBundle;
-import java.util.Set;  
-import java.io.File;
-import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -39,11 +32,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 import model.Navegacion;
 import model.User;
 
