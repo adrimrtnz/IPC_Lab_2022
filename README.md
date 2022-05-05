@@ -28,6 +28,8 @@ Si se selecciona la opción de "Registrarse" aparecerá la siguiente ventana don
 
 <p align="center"><img title="" src="img\registro.png" alt="login.png" align="center" width="738"></p>
 
+En esta ventana, si lo introducido no concuerda con las restricciones de formato de la aplicación, el foco se quedará en ese campo una sola vez. Es decir, si el usuario se equivoca en el formato de la contraseña se le avisará del error, se mostrará la información del formato correcto y el foco se quedará en ese campo, pero si a continuación el usuario quiere cambiar a otro campo se le permitirá.
+
 ## Visa de la pantalla de ejercicios
 
 En esta vista se ofrecen diferentes herramientas con las que trabajar y dibujar sobre el mapa.
