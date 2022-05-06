@@ -81,12 +81,9 @@ public class ExercisesScreenController implements Initializable {
     @FXML private ColorPicker colorPicker;
     @FXML private Slider zoomSlider;
     @FXML private ScrollPane mapScrollpane;
-    @FXML private MenuItem newRandBtn;
     @FXML private Label probStatement;
     @FXML private Button submitAnsBtn;
     @FXML private Button clearBtn;
-    @FXML private Button nextStatementBtn;
-    @FXML private MenuItem closeSessionBtn;
     @FXML private MenuBar menuBar;
     @FXML private Pane mapPane;
     
@@ -153,6 +150,9 @@ public class ExercisesScreenController implements Initializable {
             }
         });
         
+        clearBtn.setOnAction(e -> {
+            opciones.selectToggle(null);
+        });
     }
 
 
