@@ -89,6 +89,7 @@ public class RegisterScreenController implements Initializable {
     private Tooltip userNameToolTip;
     
     private boolean itHasBeenWarned;
+    private String registeredMsg;
     
     
     
@@ -97,7 +98,7 @@ public class RegisterScreenController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        registeredMsg = "";
         exitoTxtField.setVisible(false);
         errorTxtField.setVisible(false);
         userNameCheck.setVisible(false);
@@ -291,7 +292,8 @@ public class RegisterScreenController implements Initializable {
                 
                 exitoTxtField.setVisible(true);
                 errorTxtField.setVisible(false);
-                //Añadir un mensaje de confirmacion!!!!
+                //Añadir un mensaje de confirmacion
+                registeredMsg = "Se ha registrado un nuevo usuario.";
                 Stage stage = (Stage) toolBar.getScene().getWindow();
                 stage.close();
             } catch (Exception e) {
@@ -487,7 +489,12 @@ public class RegisterScreenController implements Initializable {
         checkUserPassword();
         checkRepeatedPassword();
         checkBirthDate();
+        errorTxtField.setVisible(false);
     }
     
     public User getModifiedUser() { return this.loggedUser; }
+    
+    public String newUser() {
+        return registeredMsg;
+    }
 }

@@ -58,7 +58,7 @@
                         <Insets bottom="40.0" top="40.0" />
                      </VBox.margin>
                   </ImageView>
-                  <Text fx:id="errorTxtField" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Error: Aquí irán los mensajes de error" />
+                  <Text fx:id="promptTxtField" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Error: Aquí irán los mensajes de error" />
                   <TextField fx:id="userName" onAction="#iniciarSesion" prefWidth="387.0" promptText="Usuario" styleClass="text-fields" stylesheets="@../../resources/styles.css">
                      <opaqueInsets>
                         <Insets />
