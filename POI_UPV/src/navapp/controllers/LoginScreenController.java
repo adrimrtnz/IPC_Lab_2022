@@ -41,7 +41,7 @@ public class LoginScreenController implements Initializable {
     @FXML private Button closeBtn;
     @FXML private Button minimizeBtn;
     @FXML private Button maximizeButton;
-    @FXML private Text errorTxtField;
+    @FXML private Text promptTxtField;
     @FXML private ToolBar toolBar;
     
     @FXML private Button loginBtn;
@@ -56,7 +56,7 @@ public class LoginScreenController implements Initializable {
     
     private double xOffset;
     private double yOffset;
-    private String errorTxtMsg;
+    private String promptTxtMsg;
     
     private Navegacion baseDatos;
     private User loggedUser;
@@ -69,9 +69,9 @@ public class LoginScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         // Cambiamos el contenido del campo de mensaje de error y lo ocultamos
-        errorTxtMsg = "";
-        errorTxtField.textProperty().setValue(errorTxtMsg);
-        errorTxtField.setVisible(false);
+        promptTxtMsg = "";
+        promptTxtField.textProperty().setValue(promptTxtMsg);
+        promptTxtField.setVisible(false);
         
         //Bindeamos el boton a los fields
         loginBtn.disableProperty().bind((userName.textProperty().isNotEmpty().and(userPassword.textProperty().isNotEmpty())).not());
@@ -84,16 +84,14 @@ public class LoginScreenController implements Initializable {
             loggedUser = null;
             
             if (baseDatos == null) {
-                errorTxtMsg = "Error al cargar la Base de Datos.";
-                errorTxtField.textProperty().setValue(errorTxtMsg);
-                errorTxtField.setVisible(true);
+                promptTxtMsg = "Error al cargar la Base de Datos.";
+                promptErrorMsg(promptTxtMsg);
             }
             
         }
         catch(Exception e) {
-            errorTxtMsg = "Ha ocurrido una excepción al cargar la Base de Datos.";
-            errorTxtField.textProperty().setValue(errorTxtMsg);
-            errorTxtField.setVisible(false);
+            promptTxtMsg = "Ha ocurrido una excepción al cargar la Base de Datos.";
+            promptErrorMsg(promptTxtMsg);
         }
         
         validPassword = new SimpleBooleanProperty();
@@ -134,13 +132,13 @@ public class LoginScreenController implements Initializable {
         
         userName.textProperty().addListener((ob,oldValue,newValue) -> {
             if(!newValue.equals(oldValue)) {   
-                errorTxtField.setVisible(false);
+                promptTxtField.setVisible(false);
             }
         });
         
         userPassword.textProperty().addListener((ob,oldValue,newValue) -> {
             if(!newValue.equals(oldValue)) {    
-                errorTxtField.setVisible(false); 
+                promptTxtField.setVisible(false); 
             }  
         });
     }    
@@ -152,9 +150,8 @@ public class LoginScreenController implements Initializable {
         
         // TODO cambiar los booleanos por booleanos con listeners sobre el estado de los TextFields
         if (userName.textProperty().isEmpty().get() || userPassword.textProperty().isEmpty().get()) {
-            errorTxtMsg = "Error: Se deben rellenar ambos campos.";
-            errorTxtField.textProperty().setValue(errorTxtMsg);
-            errorTxtField.setVisible(true);
+            promptTxtMsg = "Error: Se deben rellenar ambos campos.";
+            promptErrorMsg(promptTxtMsg);
         }
         else {
             
@@ -162,20 +159,19 @@ public class LoginScreenController implements Initializable {
             loggedUser = baseDatos.loginUser(userName.getText(), userPassword.getText());
             
             if (!validUserName.getValue() || loggedUser == null) {
-                errorTxtMsg = "Credenciales Incorrectas.";
-                errorTxtField.textProperty().setValue(errorTxtMsg);
-                errorTxtField.setVisible(true);
+                promptTxtMsg = "Credenciales Incorrectas.";
+                promptErrorMsg(promptTxtMsg);
             }
             else {
                 //errorTxtMsg = "Usuario encontrado pero no hay más ventanas. Vuelve más tarde.";
                 //errorTxtField.textProperty().setValue(errorTxtMsg);
-                errorTxtField.setVisible(true);
+                promptTxtField.setVisible(true);
                 try {
                     loadExercisesScreen(loggedUser);
                 } catch(Exception e) {
                     System.out.println("No se ha podido cargar la pantalla de ejercicios.");
-                    errorTxtMsg = "No se ha podido cargar la pantalla de ejercicios.";
-                    errorTxtField.textProperty().setValue(errorTxtMsg);
+                    promptTxtMsg = "No se ha podido cargar la pantalla de ejercicios.";
+                    promptErrorMsg(promptTxtMsg);
                 }
             }
         }
@@ -192,7 +188,7 @@ public class LoginScreenController implements Initializable {
         Parent root = cargadorRegistro.load();
         
         // Acceso al controlador de la Vista de Registro
-        // RegisterScreenController controlador = cargadorRegistro.getController();
+        RegisterScreenController controlador = cargadorRegistro.getController();
         
         Stage stage = new Stage();
         stage.setTitle("Registro Nuevo Usuario");
@@ -204,6 +200,10 @@ public class LoginScreenController implements Initializable {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+        
+        // Si se ha registrado un nuevo usuario muestra un mensaje
+        promptTxtMsg = controlador.newUser();
+        promptSuccessMsg(promptTxtMsg);
     }
 
     private void loadExercisesScreen(User loggedUser) throws Exception {
@@ -227,5 +227,17 @@ public class LoginScreenController implements Initializable {
     private void closeLoginScreen() {
         Stage stage = (Stage) toolBar.getScene().getWindow();
         stage.close();
+    }
+    
+    private void promptErrorMsg(String msg) {
+        promptTxtField.textProperty().setValue(msg);
+        promptTxtField.setFill(Color.RED);
+        promptTxtField.setVisible(true);
+    }
+    
+    private void promptSuccessMsg(String msg) {
+        promptTxtField.textProperty().set(msg);
+        promptTxtField.setFill(Color.web("0x5CDB5C"));
+        promptTxtField.setVisible(true);
     }
 }

@@ -27,7 +27,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Session;
@@ -269,8 +268,6 @@ public class StatsScreenController implements Initializable {
             hitsSession.getData().add(sessionHits);
             faultsSession.getData().add(sessionFaults);
         }
-        System.out.println(hitsSession.getData().toString());
-        System.out.println(faultsSession.getData().toString());
         
         lineChart.getData().add(hitsSession);
         lineChart.getData().add(faultsSession);

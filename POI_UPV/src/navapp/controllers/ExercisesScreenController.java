@@ -81,12 +81,9 @@ public class ExercisesScreenController implements Initializable {
     @FXML private ColorPicker colorPicker;
     @FXML private Slider zoomSlider;
     @FXML private ScrollPane mapScrollpane;
-    @FXML private MenuItem newRandBtn;
     @FXML private Label probStatement;
     @FXML private Button submitAnsBtn;
     @FXML private Button clearBtn;
-    @FXML private Button nextStatementBtn;
-    @FXML private MenuItem closeSessionBtn;
     @FXML private MenuBar menuBar;
     @FXML private Pane mapPane;
     
@@ -112,10 +109,11 @@ public class ExercisesScreenController implements Initializable {
     
     private int hits, fails;
     private int initialChildren;  
-    
+    private boolean canDragMap;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        canDragMap = true;
         pointShape = new Circle();
         markerLines = new Line[2];
         dragActive = new SimpleBooleanProperty();
@@ -153,6 +151,9 @@ public class ExercisesScreenController implements Initializable {
             }
         });
         
+        clearBtn.setOnAction(e -> {
+            opciones.selectToggle(null);
+        });
     }
 
 
@@ -204,7 +205,7 @@ public class ExercisesScreenController implements Initializable {
             return; 
         } 
         
-        else if (dragActive.get() && !transportBtn.selectedProperty().get()) {
+        else if (dragActive.get() && canDragMap) {
             initialXTrans = event.getSceneX();
             initialYTrans = event.getSceneY();
             baseX = contentGroup.getTranslateX();
@@ -237,7 +238,7 @@ public class ExercisesScreenController implements Initializable {
             return; 
         } 
         
-        if (dragActive.get() && !transportBtn.selectedProperty().get()) {
+        if (dragActive.get() && canDragMap) {
             double despX = event.getSceneX() - initialXTrans;
             double despY = event.getSceneY() - initialYTrans;
             contentGroup.setTranslateX(baseX + despX);
@@ -687,4 +688,15 @@ public class ExercisesScreenController implements Initializable {
     private void setTriangleShape(ActionEvent event) {
         pointShape = new TriangleShape();
     }
+
+    @FXML
+    private void mouseOverTransporter(MouseEvent event) {
+        canDragMap = false;
+    }
+    
+    @FXML
+    private void mouseNotOverTransporter(MouseEvent event) {
+        canDragMap = true;
+    }
+
 }

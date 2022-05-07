@@ -80,7 +80,7 @@
                               <Separator prefWidth="200.0" />
                               <Text fx:id="userInfo" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="188.8033676147461" />
                               <Separator prefWidth="200.0" />
-                              <DatePicker fx:id="datePicker" prefHeight="29.0" prefWidth="129.0" promptText="Mostrar desde...">
+                              <DatePicker fx:id="datePicker" prefHeight="29.0" prefWidth="174.0" promptText="Mostrar datos desde...">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>

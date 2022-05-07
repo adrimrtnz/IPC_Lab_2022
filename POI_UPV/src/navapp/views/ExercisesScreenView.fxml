@@ -31,14 +31,14 @@
             <Menu text="_Problemas">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#showProblemList" text="Lista de Problemas" />
-                  <MenuItem fx:id="newRandBtn" mnemonicParsing="false" onAction="#newRandomExercise" text="Nuevo Problema Aleatorio" />
+                  <MenuItem mnemonicParsing="false" onAction="#newRandomExercise" text="Nuevo Problema Aleatorio" />
                </items>
             </Menu>
             <Menu text="_Usuario">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#showUserProfile" text="Perfil" />
                   <MenuItem mnemonicParsing="false" onAction="#loadStatsScreen" text="Estadísticas" />
-                  <MenuItem fx:id="closeSessionBtn" mnemonicParsing="false" onAction="#closeSession" text="Cerrar Sesión" />
+                  <MenuItem mnemonicParsing="false" onAction="#closeSession" text="Cerrar Sesión" />
                </items>
             </Menu>
             <Menu text="_Ayuda">
@@ -139,7 +139,7 @@
                               <Image url="@../../resources/carta_nautica.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="transportImg" fitHeight="243.0" fitWidth="284.0" onMouseDragged="#dragTool" onMousePressed="#holdTool" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="transportImg" fitHeight="243.0" fitWidth="284.0" onMouseDragged="#dragTool" onMouseEntered="#mouseOverTransporter" onMouseExited="#mouseNotOverTransporter" onMousePressed="#holdTool" opacity="0.5" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resources/transportador.png" />
                            </image>
@@ -180,7 +180,7 @@
                      <children>
                         <Button fx:id="submitAnsBtn" disable="true" mnemonicParsing="false" onAction="#checkAnswer" styleClass="large-button" text="Aceptar" />
                         <Button fx:id="clearBtn" mnemonicParsing="false" styleClass="large-button" text="Limpiar" />
-                        <Button fx:id="nextStatementBtn" mnemonicParsing="false" onAction="#nextExercise" styleClass="large-button" text="Siguiente" />
+                        <Button mnemonicParsing="false" onAction="#nextExercise" styleClass="large-button" text="Siguiente" />
                      </children>
                   </HBox>
                </children>
