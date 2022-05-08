@@ -212,12 +212,15 @@ public class LoginScreenController implements Initializable {
         
         // Acceso al controlador de la Vista de Registro
         ExercisesScreenController controlador = cargadorEjercicios.getController();
-        controlador.initializeUser(loggedUser);
         
         Stage stage = new Stage();
         stage.setTitle("Merak Trainer - IPC 2021-2022");
         //stage.initStyle(StageStyle.UNDECORATED);
         Scene scene = new Scene(root);
+        
+        controlador.initializeUser(loggedUser);
+        controlador.setAccelerators(scene);
+        
         stage.setScene(scene);
         closeLoginScreen();
         stage.getIcons().add(new Image("resources/icons/icon.png"));

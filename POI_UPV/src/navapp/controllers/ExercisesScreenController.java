@@ -38,13 +38,15 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -110,9 +112,11 @@ public class ExercisesScreenController implements Initializable {
     private int hits, fails;
     private int initialChildren;  
     private boolean canDragMap;
+    private KeyCombination kc;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        System.out.println("Método initialize");
         canDragMap = true;
         pointShape = new Circle();
         markerLines = new Line[2];
@@ -154,12 +158,26 @@ public class ExercisesScreenController implements Initializable {
         clearBtn.setOnAction(e -> {
             opciones.selectToggle(null);
         });
+        
     }
 
 
     public void initializeUser(User user) {
         loggedUser = user;
         System.out.println("Usuario: " + loggedUser.getNickName());
+    }
+    
+    public void setAccelerators(Scene scene) {
+        // ADD Control+Z Accelerator
+        kc = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
+        
+        Runnable rn = () -> {
+            int children = mapPane.getChildren().size();
+            if (children > initialChildren) {
+                mapPane.getChildren().remove(children - 1);
+            }
+        };
+        scene.getAccelerators().put(kc, rn);
     }
     
     
