@@ -112,7 +112,6 @@ public class ExercisesScreenController implements Initializable {
     private int hits, fails;
     private int initialChildren;  
     private boolean canDragMap;
-    private KeyCombination kc;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -169,11 +168,15 @@ public class ExercisesScreenController implements Initializable {
     
     public void setAccelerators(Scene scene) {
         // ADD Control+Z Accelerator
-        kc = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
+        KeyCombination kc = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
         
         Runnable rn = () -> {
             int children = mapPane.getChildren().size();
-            if (children > initialChildren) {
+            if (markerLines[0] != null && mapPane.getChildren().get(children - 1).equals(markerLines[1])) {
+                mapPane.getChildren().remove(markerLines[0]);
+                mapPane.getChildren().remove(markerLines[1]);
+            }
+            else if (children > initialChildren) {
                 mapPane.getChildren().remove(children - 1);
             }
         };
