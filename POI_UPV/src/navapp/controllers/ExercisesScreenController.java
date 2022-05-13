@@ -139,6 +139,7 @@ public class ExercisesScreenController implements Initializable {
         contentGroup.getChildren().add(zoomGroup);
         zoomGroup.getChildren().add(mapScrollpane.getContent());
         mapScrollpane.setContent(contentGroup);
+        mapScrollpane.setPannable(false);
         initialChildren = mapPane.getChildren().size();
         
         try{
@@ -259,9 +260,9 @@ public class ExercisesScreenController implements Initializable {
             // Si no está apretado el botón derecho del ratón no hace nada
             // Así no dibuja cuando intentas eliminar un Node
             return; 
-        } 
+        }
         
-        if (dragActive.get() && canDragMap) {
+        else if (dragActive.get() && canDragMap) {
             double despX = event.getSceneX() - initialXTrans;
             double despY = event.getSceneY() - initialYTrans;
             contentGroup.setTranslateX(baseX + despX);
@@ -611,7 +612,7 @@ public class ExercisesScreenController implements Initializable {
 
     @FXML
     private void dragTool(MouseEvent event) {
-        if(transportBtn.selectedProperty().get() && dragActive.get()) {
+        if(transportBtn.selectedProperty().get() && dragActive.get() && event.isPrimaryButtonDown()) {
             double despX = event.getSceneX() - initialXTrans;
             double despY = event.getSceneY() - initialYTrans;
             transportImg.setTranslateX(baseX + despX / zoomSlider.getValue());
@@ -621,7 +622,7 @@ public class ExercisesScreenController implements Initializable {
 
     @FXML
     private void holdTool(MouseEvent event) {
-        if(transportBtn.selectedProperty().get() && dragActive.get()) {
+        if(transportBtn.selectedProperty().get() && dragActive.get() && event.isPrimaryButtonDown()) {
             initialXTrans = event.getSceneX();
             initialYTrans = event.getSceneY();
             baseX = transportImg.getTranslateX();
