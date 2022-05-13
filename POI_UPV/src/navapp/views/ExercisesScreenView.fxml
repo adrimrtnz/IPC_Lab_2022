@@ -183,7 +183,7 @@
                         <Button mnemonicParsing="false" onAction="#nextExercise" styleClass="large-button" text="Siguiente" />
                      </children>
                   </HBox>
-                  <VBox prefHeight="300.0" prefWidth="337.0">
+                  <VBox fx:id="infoContainer" prefHeight="300.0" prefWidth="337.0">
                      <children>
                         <Separator prefWidth="200.0" />
                         <Label text="Instrucciones" textAlignment="JUSTIFY" wrapText="true">

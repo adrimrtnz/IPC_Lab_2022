@@ -43,6 +43,7 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.Circle;
@@ -88,6 +89,7 @@ public class ExercisesScreenController implements Initializable {
     @FXML private Button clearBtn;
     @FXML private MenuBar menuBar;
     @FXML private Pane mapPane;
+    @FXML private VBox infoContainer;
     
     private User loggedUser;
     private BooleanProperty dragActive;
@@ -307,7 +309,7 @@ public class ExercisesScreenController implements Initializable {
     }
     
     private void updateProblem() {
-        probStatement.textProperty().set(activeProblem.getText());
+        probStatement.textProperty().set(String.format("Pregunta %d/%d: \n %s",probDisp.indexOf(activeProblem) + 1,probDisp.size(),activeProblem.getText()));
         List<Answer> ansListTemp = activeProblem.getAnswers();
         List<Integer> order = Arrays.asList(new Integer[]{0,1,2,3});
         Collections.shuffle(order);
@@ -318,6 +320,7 @@ public class ExercisesScreenController implements Initializable {
             ((RadioButton)t).setUserData(ans.getValidity());
         }
         
+        infoContainer.visibleProperty().set(false);
         clearAnswers();
     }
 
