@@ -178,11 +178,51 @@
                   <Separator prefWidth="200.0" />
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <Button fx:id="submitAnsBtn" disable="true" mnemonicParsing="false" onAction="#checkAnswer" styleClass="large-button" text="Aceptar" />
+                        <Button fx:id="submitAnsBtn" disable="true" mnemonicParsing="false" onAction="#checkAnswer" styleClass="large-button" text="Validar" />
                         <Button fx:id="clearBtn" mnemonicParsing="false" styleClass="large-button" text="Limpiar" />
                         <Button mnemonicParsing="false" onAction="#nextExercise" styleClass="large-button" text="Siguiente" />
                      </children>
                   </HBox>
+                  <VBox prefHeight="300.0" prefWidth="337.0">
+                     <children>
+                        <Separator prefWidth="200.0" />
+                        <Label text="Instrucciones" textAlignment="JUSTIFY" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Validar:" textAlignment="JUSTIFY" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Comprueba si la opción seleccionada corresponde con la solución. En caso afirmativo, se resaltará el texto en verde. En caso contrario se resaltará en rojo y la respuesta correcta se mostrará en verde." textAlignment="JUSTIFY" wrapText="true" />
+                        <Label text="Limpiar:" textAlignment="JUSTIFY" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Elimina cualquier selección de respuesta hecha por el usuario." textAlignment="JUSTIFY" wrapText="true" />
+                        <Label text="Siguiente:" textAlignment="JUSTIFY" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Pasa a la siguiente pregunta. En caso de no haber iniciado desde el menú preguntas, se mostrarán los problemas en el mismo orden que se muestran en la ventana &quot;Lista de Problemas&quot;. Si no se ha validado una respuesta, no se contabilizará esa respuesta en el conteo de Fallos / Aciertos." textAlignment="JUSTIFY" wrapText="true" />
+                     </children>
+                  </VBox>
                </children>
                <opaqueInsets>
                   <Insets />
