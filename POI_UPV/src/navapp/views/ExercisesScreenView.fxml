@@ -24,7 +24,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="220.0" minWidth="520.0" prefHeight="667.0" prefWidth="1175.0" stylesheets="@../../resources/stylesMapView.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.ExercisesScreenController">
+<VBox minHeight="220.0" minWidth="520.0" prefHeight="694.0" prefWidth="1175.0" stylesheets="@../../resources/stylesMapView.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="navapp.controllers.ExercisesScreenController">
    <children>
       <MenuBar fx:id="menuBar">
          <menus>
