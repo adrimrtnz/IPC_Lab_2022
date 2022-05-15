@@ -18,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -38,6 +39,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -230,6 +232,7 @@ public class ExercisesScreenController implements Initializable {
         } 
         
         else if (dragActive.get() && canDragMap) {
+            mapPane.setCursor(Cursor.CLOSED_HAND);
             initialXTrans = event.getSceneX();
             initialYTrans = event.getSceneY();
             baseX = contentGroup.getTranslateX();
@@ -251,7 +254,7 @@ public class ExercisesScreenController implements Initializable {
         else if (addTextBtn.selectedProperty().get()) {
             addText(event);
         }
-        
+        transportImg.toFront();
         event.consume();
     }
     
@@ -263,6 +266,7 @@ public class ExercisesScreenController implements Initializable {
         }
         
         else if (dragActive.get() && canDragMap) {
+            
             double despX = event.getSceneX() - initialXTrans;
             double despY = event.getSceneY() - initialYTrans;
             contentGroup.setTranslateX(baseX + despX);
@@ -279,14 +283,17 @@ public class ExercisesScreenController implements Initializable {
             double radio = Math.sqrt((dif[0]*dif[0])+(dif[1]*dif[1]));
             circlePainting.setRadius(radio);
         }
-
+        transportImg.toFront();
         event.consume();
     } 
 
     @FXML private void cleanMap(ActionEvent event) {
-
         while (mapPane.getChildren().size() > initialChildren) {
-            mapPane.getChildren().remove(mapPane.getChildren().size() - 1);
+            if(!mapPane.getChildren().get(mapPane.getChildren().size()-1).equals(transportImg)) {
+                mapPane.getChildren().remove(mapPane.getChildren().size() - 1);
+            } else {
+                mapPane.getChildren().remove(mapPane.getChildren().size() - 2);
+            }
         }
         event.consume();
     }
@@ -613,6 +620,7 @@ public class ExercisesScreenController implements Initializable {
     @FXML
     private void dragTool(MouseEvent event) {
         if(transportBtn.selectedProperty().get() && dragActive.get() && event.isPrimaryButtonDown()) {
+            mapPane.setCursor(Cursor.CLOSED_HAND);
             double despX = event.getSceneX() - initialXTrans;
             double despY = event.getSceneY() - initialYTrans;
             transportImg.setTranslateX(baseX + despX / zoomSlider.getValue());
@@ -717,11 +725,24 @@ public class ExercisesScreenController implements Initializable {
     @FXML
     private void mouseOverTransporter(MouseEvent event) {
         canDragMap = false;
+        System.out.println(canDragMap);
     }
     
     @FXML
     private void mouseNotOverTransporter(MouseEvent event) {
         canDragMap = true;
+        System.out.println(canDragMap);
     }
+
+    @FXML
+    private void checkCursor(MouseEvent event) {
+        if (dragBtn.selectedProperty().get()) {
+            mapPane.setCursor(Cursor.OPEN_HAND);
+        }
+        else {
+            mapPane.setCursor(Cursor.DEFAULT);
+        }
+    }
+
 
 }

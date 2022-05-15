@@ -132,7 +132,7 @@
             </VBox>
             <ScrollPane fx:id="mapScrollpane" pannable="true" prefWidth="730.0" stylesheets="@../../resources/styles.css">
                <content>
-                  <Pane fx:id="mapPane" onMouseDragged="#modAction" onMousePressed="#manageAction" prefHeight="2000.0">
+                  <Pane fx:id="mapPane" onMouseDragged="#modAction" onMouseEntered="#checkCursor" onMousePressed="#manageAction" onMouseReleased="#checkCursor" prefHeight="2000.0">
                      <children>
                         <ImageView fx:id="mapImg" fitHeight="600.0" fitWidth="1158.0" pickOnBounds="true" preserveRatio="true">
                            <image>
