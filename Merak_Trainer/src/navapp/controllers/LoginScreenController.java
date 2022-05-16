@@ -6,6 +6,7 @@
 package navapp.controllers;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -17,7 +18,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
@@ -28,6 +33,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import model.*;
 
 
@@ -224,6 +230,35 @@ public class LoginScreenController implements Initializable {
         stage.setScene(scene);
         closeLoginScreen();
         stage.getIcons().add(new Image("resources/icons/icon.png"));
+        
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Cierre de aplicación");
+                alert.setHeaderText("Se cerrará la aplicación sin cerrar sesión, se perderan los datos de la sesión actual.");
+                alert.setContentText("¿Está seguro?");
+                        
+                ButtonType acceptButton = new ButtonType("Sí", ButtonData.YES);
+                ButtonType cancelButton = new ButtonType("No, volver", ButtonData.NO);
+            
+                alert.getButtonTypes().setAll(acceptButton, cancelButton);
+            
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.isPresent()) {
+                    if(result.get() == acceptButton) {
+                        try {
+                        controlador.loadLoginScreen();
+                        } catch (Exception ex) {
+                            System.err.println(ex.getMessage());
+                        }
+                    }
+                } 
+                event.consume();
+            }
+            
+        });
+        
         stage.show();
     }
     

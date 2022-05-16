@@ -5,6 +5,7 @@
  */
 package navapp.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
@@ -411,9 +412,15 @@ public class ExercisesScreenController implements Initializable {
         stage.showAndWait();
         
         if (controlador.isClosing()) {
+            loadLoginScreen();
+        }
         
-            Parent rootIni = FXMLLoader.load(getClass().getResource("/navapp/views/LoginScreenView.fxml"));
+    }
+    
+    public void loadLoginScreen() throws IOException {
+        Parent rootIni = FXMLLoader.load(getClass().getResource("/navapp/views/LoginScreenView.fxml"));
 
+        try {
             loggedUser.addSession(generateSessionInfo());
 
             Stage stageIni = new Stage();
@@ -426,8 +433,9 @@ public class ExercisesScreenController implements Initializable {
             stageIni.setScene(sceneIni);
             closeExercisesScreen();
             stageIni.show();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
-        
     }
     
     private void closeExercisesScreen() {

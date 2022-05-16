@@ -18,6 +18,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -30,20 +31,38 @@
          <menus>
             <Menu text="_Problemas">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#showProblemList" text="Lista de Problemas" />
-                  <MenuItem mnemonicParsing="false" onAction="#newRandomExercise" text="Nuevo Problema Aleatorio" />
+                  <MenuItem mnemonicParsing="false" onAction="#showProblemList" text="Lista de Problemas">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#newRandomExercise" text="Nuevo Problema Aleatorio">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
                </items>
             </Menu>
             <Menu text="_Usuario">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#showUserProfile" text="Perfil" />
-                  <MenuItem mnemonicParsing="false" onAction="#loadStatsScreen" text="Estadísticas" />
-                  <MenuItem mnemonicParsing="false" onAction="#closeSession" text="Cerrar Sesión" />
+                  <MenuItem mnemonicParsing="false" onAction="#showUserProfile" text="Perfil">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#loadStatsScreen" text="Estadísticas">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#closeSession" text="Cerrar Sesión">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
                </items>
             </Menu>
             <Menu text="_Ayuda">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#loadAboutScreen" text="Acerda de..." />
+                  <MenuItem mnemonicParsing="false" onAction="#loadAboutScreen" text="Acerda de...">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
                </items>
             </Menu>
          </menus>
