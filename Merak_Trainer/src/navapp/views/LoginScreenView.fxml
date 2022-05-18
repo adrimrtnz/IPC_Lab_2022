@@ -59,7 +59,7 @@
                      </VBox.margin>
                   </ImageView>
                   <Text fx:id="promptTxtField" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Error: Aquí irán los mensajes de error" />
-                  <TextField fx:id="userName" onAction="#iniciarSesion" prefWidth="387.0" promptText="Usuario" styleClass="text-fields" stylesheets="@../../resources/styles.css">
+                  <TextField fx:id="userName" prefWidth="387.0" promptText="Usuario" styleClass="text-fields" stylesheets="@../../resources/styles.css">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -67,12 +67,12 @@
                         <Insets left="120.0" right="120.0" />
                      </VBox.margin>
                   </TextField>
-                  <PasswordField fx:id="userPassword" onAction="#iniciarSesion" promptText="Contraseña" styleClass="text-fields" stylesheets="@../../resources/styles.css">
+                  <PasswordField fx:id="userPassword" promptText="Contraseña" styleClass="text-fields" stylesheets="@../../resources/styles.css">
                      <VBox.margin>
                         <Insets left="120.0" right="120.0" />
                      </VBox.margin>
                   </PasswordField>
-                  <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#iniciarSesion" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Iniciar Sesión" />
+                  <Button fx:id="loginBtn" defaultButton="true" mnemonicParsing="false" onAction="#iniciarSesion" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Iniciar Sesión" />
                   <Button fx:id="registerBtn" mnemonicParsing="false" onAction="#loadRegisterForm" styleClass="large-button" stylesheets="@../../resources/styles.css" text="Registrarse" />
                </children>
                <opaqueInsets>
