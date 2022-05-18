@@ -16,6 +16,15 @@
     -fx-background-color: #81A1C1;
 }
 
+.dialog-pane .button {
+    -fx-background-color: #ECEFF4;
+    -fx-text-fill: #000000;
+    -fx-border-color: #5E81AC;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 2 2 2 2;
+}
+
 .split-menu-button {
     -fx-background-color: #ECEFF4;
     -fx-text-fill: #000000;

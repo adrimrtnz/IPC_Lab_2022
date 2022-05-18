@@ -234,26 +234,13 @@ public class LoginScreenController implements Initializable {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("Cierre de aplicación");
-                alert.setHeaderText("Se cerrará la aplicación sin cerrar sesión, se perderan los datos de la sesión actual.");
-                alert.setContentText("¿Está seguro?");
-                        
-                ButtonType acceptButton = new ButtonType("Sí", ButtonData.YES);
-                ButtonType cancelButton = new ButtonType("No, volver", ButtonData.NO);
-            
-                alert.getButtonTypes().setAll(acceptButton, cancelButton);
-            
-                Optional<ButtonType> result = alert.showAndWait();
-                if(result.isPresent()) {
-                    if(result.get() == acceptButton) {
-                        try {
-                        controlador.loadLoginScreen();
-                        } catch (Exception ex) {
-                            System.err.println(ex.getMessage());
-                        }
-                    }
-                } 
+
+                try {
+                    controlador.closeSession(new ActionEvent());
+                } catch (Exception e) {
+                    System.err.println("Se ha producido un error: " + e.getMessage());
+                }
+
                 event.consume();
             }
             

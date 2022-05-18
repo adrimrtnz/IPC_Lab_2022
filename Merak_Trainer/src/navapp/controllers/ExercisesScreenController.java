@@ -400,7 +400,7 @@ public class ExercisesScreenController implements Initializable {
         ConfirmationScreenController controlador = confirmationWindow.getController();
         
         Stage stage = new Stage();
-        stage.setTitle("Registro Nuevo Usuario");
+        stage.setTitle("Confirmación de cierre");
         stage.initStyle(StageStyle.UNDECORATED);
         Scene scene = new Scene(root);
         stage.setScene(scene);
