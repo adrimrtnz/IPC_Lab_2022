@@ -15,6 +15,7 @@ nb-configuration.xml
 *.war
 *.ear
 
-POI_UPV/nbproject/private/private.properties
-POI_UPV/nbproject/private/private.xml
-POI_UPV/store
+Merak_Trainer/nbproject/private/private.properties
+Merak_Trainer/nbproject/private/private.xml
+Merak_Trainer/store
+/Merak_Trainer/nbproject/private/
