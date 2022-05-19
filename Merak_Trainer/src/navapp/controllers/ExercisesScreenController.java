@@ -183,7 +183,7 @@ public class ExercisesScreenController implements Initializable {
                 mapPane.getChildren().remove(markerLines[1]);
             }
             else if (children > initialChildren) {
-                mapPane.getChildren().remove(children - 1);
+                mapPane.getChildren().remove(children - 2);
             }
         };
         scene.getAccelerators().put(kc, rn);
