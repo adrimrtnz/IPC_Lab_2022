@@ -54,18 +54,23 @@
          <center>
             <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="changeAvatarBtn" maxHeight="124.0" maxWidth="102.0" minHeight="124.0" minWidth="102.0" mnemonicParsing="false" onMouseClicked="#selectAvatarImage" prefHeight="124.0" prefWidth="102.0" styleClass="avatar-button" stylesheets="@../../resources/styles.css">
-                     <graphic>
-                        <ImageView fx:id="userAvatar" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" styleClass="avatar-img">
-                           <image>
-                              <Image url="@../../resources/avatars/default.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="changeAvatarBtn" maxHeight="124.0" maxWidth="102.0" minHeight="124.0" minWidth="102.0" mnemonicParsing="false" onMouseClicked="#selectAvatarImage" prefHeight="124.0" prefWidth="102.0" styleClass="avatar-button" stylesheets="@../../resources/styles.css">
+                           <graphic>
+                              <ImageView fx:id="userAvatar" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" styleClass="avatar-img">
+                                 <image>
+                                    <Image url="@../../resources/avatars/default.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button mnemonicParsing="false" onMouseClicked="#selectAvatarImage" styleClass="large-button" text="Cambiar Avatar" />
+                     </children>
                      <HBox.margin>
-                        <Insets left="40.0" top="20.0" />
+                        <Insets left="20.0" top="20.0" />
                      </HBox.margin>
-                  </Button>
+                  </VBox>
                   <VBox prefHeight="312.0" prefWidth="497.0" spacing="20.0">
                      <children>
                         <TextField fx:id="userName" onAction="#registrarUsuario" promptText="Nombre de Usuario" styleClass="text-fields" stylesheets="@../../resources/styles.css">
